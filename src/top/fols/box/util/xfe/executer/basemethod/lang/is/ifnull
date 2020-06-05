@@ -1,0 +1,23 @@
+package top.fols.box.util.xfeexecute.xbasemethod.xfe.lang;
+
+import top.fols.box.util.xfeexecute.XFEFinalValue;
+import top.fols.box.util.xfeexecute.execute.XFEExecuter;
+import top.fols.box.util.xfeexecute.lang.XFEClassFunctionLineCodeInfo;
+import top.fols.box.util.xfeexecute.lang.variable.XFEVariable;
+import top.fols.box.util.xfeexecute.xbasemethod.XFEBaseMethodAbstract;
+
+public class XXBM_ifnull extends XFEBaseMethodAbstract {
+	@Override
+	public String getName() {
+		return XFEFinalValue.BaseMethod.Lang.ifnull_;
+	}
+	@Override
+	public Object invoke(XFEExecuter exec, String methodName, XFEVariable[] var, Object[] array, XFEClassFunctionLineCodeInfo nowExecCodeIndex) throws Exception {
+		for (Object obj: array) {
+			if (obj == null) {
+				return XFEFinalValue.Btrue;
+			}
+		}
+		return XFEFinalValue.Bfalse;
+	}
+}

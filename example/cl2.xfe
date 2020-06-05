@@ -1,0 +1,20 @@
+
+
+
+
+
+
+
+fun test(cl1Cls, cl1)
+    cl1ClsImport = import(cl1Cls);
+    cl1ClsInstance = cl1ClsImport.new();
+    println(cl1ClsInstance);
+    println()
+end
+
+
+
+
+
+
+

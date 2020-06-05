@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+
+
+fun init()
+    println(this);
+end
+
+
+
+

@@ -1,0 +1,66 @@
+--------
+@method init
+
+--------
+--------
+@method b
+return(args0)
+
+--------
+--------
+@method hscz
+a=final.string25
+string=final.string26.toString().toString().toString().toString().charAt(final.int0)
+i=final.int0
+while(calc(i,final.string27,final.int1000000))
+i=calc(i,final.string28,final.int1)
+endl
+
+--------
+--------
+@method test
+println(import(loadcode(final.string4,final.string5)).new().动态测试())
+while(final.false)
+println(final.string6)
+endl
+try(a)
+importjava(final.string7)
+println(final.string8)
+endl
+println(a)
+if(final.string10.getClass(),getclass(importjava(final.string11)))
+println(final.string12)
+endl
+if(final.true)
+println(final.string13)
+endl
+if(final.false)
+println(final.string14)
+endl
+a=y
+returnThis().hh=final.string15
+string=b(a=b(final.string16),a2=b(final.string17),a3=b(final.string18),a4=b(final.string19)).charAt(final.int0)
+string=final.string20.toString().toString().toString().toString().charAt(final.int0)
+println(importjava(final.string21).new(final.string22).length())
+this.a=final.string23
+a=this.a
+this.b=map()
+this.b.k=final.string24
+b=this.b()
+
+--------
+--------
+@method whiletest
+if()
+endl
+while()
+endl
+try()
+endl
+
+--------
+--------
+@method returnThis
+return(this)
+
+--------

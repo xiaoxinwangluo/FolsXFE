@@ -1,0 +1,46 @@
+
+
+//-------------
+
+当前
+if(final.true)
+endl
+
+while()
+    break()
+    continue()
+endl
+
+try(e, reason, jti)
+endl
+
+
+
+
+
+
+
+
+希望篡改版(包含原来的)
+if(k, final.true)
+else
+    if(k, final.true)
+        if(k, final.true)
+        else
+        endl
+    else
+        println("执行了不该执行的代码,")
+    endl
+endl
+
+
+while()
+    break()
+    continue()
+endl
+
+
+try(e, reason, jti)
+endl
+//--------------
+

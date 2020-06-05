@@ -1,0 +1,26 @@
+package top.fols.box.util.xfeexecute.xbasemethod.xfe.util;
+
+import top.fols.box.io.base.XHexStreams;
+import top.fols.box.util.xfeexecute.XFEFinalValue;
+import top.fols.box.util.xfeexecute.execute.XFEExecuter;
+import top.fols.box.util.xfeexecute.lang.XFEClassFunctionLineCodeInfo;
+import top.fols.box.util.xfeexecute.lang.variable.XFEVariable;
+import top.fols.box.util.xfeexecute.xbasemethod.XFEBaseMethodAbstract;
+
+public class XXBM_bytes2hexstr extends XFEBaseMethodAbstract {
+	@Override
+	public String getName() {
+		return XFEFinalValue.BaseMethod.Util.bytes2hexstr_;
+	}
+	@Override
+	public Object invoke(XFEExecuter exec, String methodName, XFEVariable[] var, Object[] array, XFEClassFunctionLineCodeInfo nowExecCodeIndex) throws Exception {
+		final int length = array.length;
+		switch (length) {
+			case 1:
+				if (array[0] instanceof byte[]) {
+					return XHexStreams.encode2String((byte[])array[0]);
+				}
+		}
+		return NotExecute;
+	}
+}

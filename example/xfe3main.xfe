@@ -1,0 +1,140 @@
+
+
+fun 获取北京时间()
+    url = importjava("java.net.URL").new("http://www.baidu.com");
+    uc = url.openConnection();//生成连接对象
+    uc.connect();
+    ld = uc.getDate();//取得网站日期时间
+    date = importjava("java.util.Date").new(ld);
+    return(string(date.getHours(), "时", date.getMinutes(), "分", date.getSeconds(), "秒"));
+end
+
+
+fun init(a)
+	
+	time	(	a	,	
+	b	);
+	
+    //this.a;
+    //b();
+    //b = t;
+    //a = b();
+    //l = "我丢";
+    //l = this.b();
+    //l = this.a.b;
+    //l = this.a.b();
+    //l = this.a.b.k();
+    
+    //a.a = "";
+    //a.a.a = "";
+    //a.a().c = "";
+end
+
+fun b(args0)
+    return(args0);
+end
+
+fun returnThis()
+    return(this);
+end
+
+
+fun test(f)
+    
+    println(获取北京时间());
+    println(this.time());
+    
+    
+    println(import(loadcode("动态加载.xfe","
+        fun init()
+            println(\"动态加载 init\");
+        end
+        fun 动态测试()
+            println(\"动态加载 动态测试\");
+        end
+    ")).new().动态测试());
+    
+    
+    
+    while(final.false)
+        println("while error");
+    endl
+    
+    
+    
+    
+    try(a)
+        importjava("java.");
+        println("try error");
+    endl
+    println(a);
+    
+    
+    
+    
+    if("".getClass(), getclass(importjava("java.lang.String")))
+        println("if true");
+    endl
+    if(final.true)
+        println("if true");
+    endl
+    if(final.false)
+        println("if error");
+    endl
+    
+    
+    
+    
+    a = y;
+    
+    this.returnThis().hh = "this.hh";
+    println(this.hh);
+    
+    string = b(
+        a = b("1"), 
+        a2 = b("2"), 
+        a3 = b("3"), 
+        a4 = b("4")
+    ).charAt(int:0);
+    
+    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+    println(importjava("java.io.File").new("/sdcard/6a1a5ffafd175d109c3a93b3c868d099.png").length());
+    
+    this.a = "this.a";
+    a = this.a;
+    
+    this.b = map();
+    this.b.k = "丢丢丢丢";
+    b = this.b();
+end
+
+
+fun whiletest()
+    if()endl
+    while()endl
+    try()endl
+end
+
+
+fun time() 
+    System = 
+        importjava("java.lang.System");
+    return(System.currentTimeMillis());
+end
+
+ 
+fun hscz()
+    
+    a = "";
+    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+	
+    i = int:0;
+    while(calc(i, "<", int:1000000))
+        i = calc(i, "+", int:1);
+    endl
+	
+    a = "";
+    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+end
+
