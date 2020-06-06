@@ -7,7 +7,7 @@ import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEMethod;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
 
 public class XFEClassStaticPoint extends XFEAbstractVariablePoint implements XFEInterfaceGetXFEClass {
@@ -52,7 +52,7 @@ public class XFEClassStaticPoint extends XFEAbstractVariablePoint implements XFE
 			XFEClassInstance instance = this.getStaticInstance(stack);
 			XFEMethod method = instance.getMethod(name);
 			if (null == method) {
-				stack.setThrow(XFEStackTool.notFoundXfeClassMethod(instance.getName(), name));
+				stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(instance.getName(), name));
 				return null;
 			}
 			return instance.executeMethod(stack, method, name, value, 0, value.length);

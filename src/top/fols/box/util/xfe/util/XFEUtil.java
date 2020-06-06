@@ -11,7 +11,20 @@ import top.fols.box.util.XRandom;
  * tool
  */
 public class XFEUtil {
-
+	
+	
+	public static String ftoString(Object value){
+		if(null==value){
+			return "null";
+		}
+		return value.toString();
+	}
+	
+	
+	
+	
+	
+	
 	public static Class<?> forName(ClassLoader cl, String name) throws ClassNotFoundException {
 		String absClassName = XClass.toAbsClassName(name);
 		Class<?> cls = XClass.primitiveClassForName(absClassName);

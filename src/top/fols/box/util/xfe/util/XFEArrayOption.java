@@ -1,6 +1,6 @@
 package top.fols.box.util.xfe.util;
 import top.fols.box.util.xfe.executer.XFEStack;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class XFEArrayOption {
 	//*****
@@ -54,10 +54,10 @@ public class XFEArrayOption {
 				} else if (methodName.equals(SET)) { switch (paramlength) { case 2: int index = (Integer)param[0]; arr[index] = (Object)param[1]; return param[1]; }
 				} else if (methodName.equals(LENGTH)) {switch (paramlength) { case 0:  return arr.length; } }
 			} 
-			stack.setThrow(XFEStackTool.notFoundObjectMethod(instance, methodName, param));
+			stack.setThrow(XFEStackThrowMessageTool.notFoundObjectMethod(instance, methodName, param));
 			return null;
 		} catch (Throwable e) {
-			stack.setJavaThrow(XFEStackTool.getJavaStackString(e),e);
+			stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e),e);
 			return null;
 		}
 	}

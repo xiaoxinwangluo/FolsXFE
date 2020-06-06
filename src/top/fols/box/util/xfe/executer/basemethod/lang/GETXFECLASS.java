@@ -5,24 +5,25 @@ import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class GETXFECLASS extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
 		XFEStack stack = xfeexecute.getStack();
-		if (args.length >= 1) {
+		if (args.length == 1) {
 			Object object = args[0];
 			if (null != object) {
 				XFEClass xfec = XFEKeyWords.getXFEClassInterfaceGetClass(object);
 				if (null == xfec) {
-					stack.setThrow(XFEStackTool.cannotFromObjectGetXfeClass(object));
+					stack.setThrow(XFEStackThrowMessageTool.cannotFromObjectGetXfeClass(object));
 					return null;
 				}
 				return xfec;
 			}
 		}
+		super.throwNotFoundMethod(stack, args);
 		return null;
 	}
 }

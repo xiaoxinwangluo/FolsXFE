@@ -16,10 +16,11 @@ import top.fols.box.util.xfe.lang.XFEMethodCode;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEArrayOption;
 import top.fols.box.util.xfe.util.XFEJavaReflectManager;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
+import top.fols.box.util.xfe.lang.XFEClassLoader;
 
 public class XFEExecute {
     private XFEStack stack;
@@ -68,8 +69,13 @@ public class XFEExecute {
         XDoubleLinked.VarLinked<XFEStack.StackElement> current = this.stack.addStackElement(currentMessage);
 		this.current = current;
 
-        this.baseMethodManager = xfeclass.getClassLoader().getBaseMethodManager();
-        this.javaReflectMatcher = xfeclass.getClassLoader().getJavaReflectManager();
+		XFEClassLoader xfeclassloader = xfeclass.getClassLoader();
+		if (null == xfeclassloader) {
+			this.stack.setThrow(XFEStackThrowMessageTool.noXFEClassLoader(xfeclass));
+			return;
+		}
+        this.baseMethodManager = xfeclassloader.getBaseMethodManager();
+        this.javaReflectMatcher = xfeclassloader.getJavaReflectManager();
 		// System.out.println("{" + this.stack + "}");
 	}
 
@@ -119,7 +125,7 @@ public class XFEExecute {
 		Object result = null;
 		if (null == object) {
 			// from object can found name
-			this.stack.setThrow(XFEStackTool.notFoundObjectFieled(object, name));
+			this.stack.setThrow(XFEStackThrowMessageTool.notFoundObjectFieled(object, name));
 			return null;
 		}
 		if (object instanceof XFEClassInstance) {
@@ -135,7 +141,7 @@ public class XFEExecute {
 				Field field = this.javaReflectMatcher.getField(cls, name);
 				result = field.get(javaInstance);
 			} catch (Throwable e) {
-				this.stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+				this.stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 				return null;
 			}
 		}
@@ -158,14 +164,14 @@ public class XFEExecute {
         } else {
             try {
                 if (null == instance) {
-                    stack.setThrow(XFEStackTool.notFoundObjectFieled(instance, name));
+                    stack.setThrow(XFEStackThrowMessageTool.notFoundObjectFieled(instance, name));
                     return null;
                 }
                 Class cls = instance.getClass();
                 Field field = this.javaReflectMatcher.getField(cls, name);
                 field.set(instance, value);
             } catch (Throwable e) {
-                this.stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+                this.stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
                 return null;
             }
         }
@@ -173,7 +179,7 @@ public class XFEExecute {
 	}
 	public Object setVariableValue(String name, Object value) {
 		if (XFEKeyWords.isFinalVariable(name)) {
-			this.stack.setThrow(XFEStackTool.cannotSetVariable(name));
+			this.stack.setThrow(XFEStackThrowMessageTool.cannotSetVariable(name));
 			return null;
 		}
 		this.variable.put(name, value);
@@ -188,13 +194,13 @@ public class XFEExecute {
             return null;
         }
         if (instance == null) {
-            stack.setThrow(XFEStackTool.notFoundObjectMethod(instance, name, param));
+            stack.setThrow(XFEStackThrowMessageTool.notFoundObjectMethod(instance, name, param));
             return null;
         } else if (instance instanceof XFEClassInstance) {
             XFEClassInstance cls = (XFEClassInstance) instance;
             XFEMethod method = cls.getMethod(name);
             if (null == method) {
-                stack.setThrow(XFEStackTool.notFoundXfeClassMethod(this.clsInstance.getName(), name));
+                stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(this.clsInstance.getName(), name));
                 return null;
             }
             XFEExecute execute = new XFEExecute(cls, method, this.stack).setParam(param);
@@ -213,7 +219,7 @@ public class XFEExecute {
                 Method method = this.javaReflectMatcher.getMethod(javaClass, name, param);
                 return method.invoke(instance, param);
             } catch (Throwable e) {
-                this.stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+                this.stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
                 return null;
             }
         }
@@ -229,7 +235,7 @@ public class XFEExecute {
             XFEClassInstance cls = this.clsInstance;
             XFEMethod method = cls.getMethod(name);
             if (null == method) {
-                stack.setThrow(XFEStackTool.notFoundXfeClassBaseMethodOrMethod(this.clsInstance.getName(), name));
+                stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassBaseMethodOrMethod(this.clsInstance.getName(), name));
                 return null;
             }
             XFEExecute execute = new XFEExecute(cls, method, this.stack).setParam(param);
@@ -271,7 +277,7 @@ public class XFEExecute {
             this.setVariableValue(local3, e);
 			return;
 		} else {
-			this.stack.setThrow(XFEStackTool.notFoundXfeClassBaseMethod(XFEKeyWords.TRY, len));
+			this.stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassBaseMethod(XFEKeyWords.TRY, len));
 			return;
 		}
 	}
@@ -286,7 +292,7 @@ public class XFEExecute {
 			Object obj2 = this.getParamValue(execStatus, fun.getParamRoot().getNext().getNext());
 			return XFEUtil.equals(obj, obj2);
 		}
-		this.stack.setThrow(XFEStackTool.notFoundXfeClassBaseMethod(XFEKeyWords.IF, fun.getParamCount()));
+		this.stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassBaseMethod(XFEKeyWords.IF, fun.getParamCount()));
 		return false;
 	}
 
@@ -334,7 +340,7 @@ public class XFEExecute {
             return null == now ? null : now.getNext();
         }
     }
-    
+
     private Object executeVars0(ExecuteStatus execStatus, VarLinkedReader rootVars) {
         Object result = null;
         boolean setResult = false;
@@ -359,14 +365,14 @@ public class XFEExecute {
                 if (null == result) {
                     if (setResult) {
                         // 无法从空结果获取字段
-                        stack.setThrow(XFEStackTool.notFoundObjectFieled(null, nowVar.getName()));
+                        stack.setThrow(XFEStackThrowMessageTool.notFoundObjectFieled(null, nowVar.getName()));
                         return null;
                     }
                     XFECodeLoader.ContentLinked<Var> next = VarLinkedReader.next(now);
                     if (null != next && isAssignment(next.content())) {
                         // x = ...
                         result = this.setVariableValue(nowVar.getName(),
-                                this.executeVars0(execStatus, linkedReader.setRoot(next)));
+							this.executeVars0(execStatus, linkedReader.setRoot(next)));
                         setResult = true;
                         return result;
                     } else {
@@ -386,7 +392,7 @@ public class XFEExecute {
                         if (isAssignment(next.content())) {
                             // x.x = ...
                             result = this.setPointVariableValue0(execStatus, result, nowVar.getName(),
-                                    this.executeVars0(execStatus, linkedReader.setRoot(next)));
+								this.executeVars0(execStatus, linkedReader.setRoot(next)));
                             setResult = true;
                         } else if (isPoint(next.content())) {
                             // x.x.?
@@ -404,7 +410,7 @@ public class XFEExecute {
                 if (null == result) {
                     if (setResult) {
                         // 无法从空结果获取方法
-                        stack.setThrow(XFEStackTool.notFoundObjectMethod(null, nowVar.getName(), null));
+                        stack.setThrow(XFEStackThrowMessageTool.notFoundObjectMethod(null, nowVar.getName(), null));
                         return null;
                     }
                     // x();
@@ -481,11 +487,11 @@ public class XFEExecute {
 
 
 	public static Object execute(XFEClassInstance xfeclassinstance, XFEStack stack, XFEMethod method, String methodName,
-            Object[] args, int off, int len) {
+								 Object[] args, int off, int len) {
         return XFEExecute.execute0(xfeclassinstance, stack, method, methodName, args, off, len);
     }
     private static Object execute0(XFEClassInstance xfeclassinstance, XFEStack stack, XFEMethod method,
-            String methodName, Object[] args, int off, int len) {
+								   String methodName, Object[] args, int off, int len) {
         if (stack.isThrow()) {
             return null;
         }
@@ -496,7 +502,7 @@ public class XFEExecute {
             Object result = executer.execute();
             return result;
         }
-        stack.setThrow(XFEStackTool.notFoundXfeClassMethod(xfeclassinstance.getName(), methodName));
+        stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(xfeclassinstance.getName(), methodName));
         return null;
     }
 
@@ -517,7 +523,7 @@ public class XFEExecute {
 			return result;
 		}
 	}
-	
+
     private void executeProcess(ExecuteStatus execStatus, XFEMethodCode[] codes, int startIndex, int endIndex) {
         while (true) {
             if (this.stack.isThrow()) {
@@ -547,7 +553,7 @@ public class XFEExecute {
                         break;
                     }
                     this.executeProcess(execStatus, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index
-                                                                                               // +1, CodeBlock tail -1
+					// +1, CodeBlock tail -1
                     if (this.stack.isThrow()) {
                         return;
                     } else if (execStatus.isReturn) {
@@ -565,7 +571,7 @@ public class XFEExecute {
                 continue;
             } else if (cbo == XFEKeyWords.TRY) {
                 this.executeProcess(execStatus, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index +1,
-                                                                                           // CodeBlock tail -1
+				// CodeBlock tail -1
                 boolean isthrow = false;
                 if (this.stack.isThrow()) {
                     // run exception

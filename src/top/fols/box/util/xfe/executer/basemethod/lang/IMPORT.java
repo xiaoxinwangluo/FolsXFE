@@ -6,7 +6,7 @@ import top.fols.box.util.xfe.executer.variablepoint.XFEClassStaticPoint;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class IMPORT extends XFEBaseMethod {
 
@@ -64,6 +64,7 @@ public class IMPORT extends XFEBaseMethod {
 				xfeexecute.setVariableValue(set, jcp);
 			}
 		}
+		super.throwNotFoundMethod(stack, args);
 		return null;
 	}
 }

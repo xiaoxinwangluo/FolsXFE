@@ -22,9 +22,9 @@ import top.fols.box.util.xfe.executer.basemethod.lang.NOTEQUALS;
 import top.fols.box.util.xfe.executer.basemethod.lang.RETURN;
 import top.fols.box.util.xfe.executer.basemethod.lang.SLEEP;
 import top.fols.box.util.xfe.executer.basemethod.lang.STACK;
+import top.fols.box.util.xfe.executer.basemethod.lang.STRF;
 import top.fols.box.util.xfe.executer.basemethod.lang.THREAD;
 import top.fols.box.util.xfe.executer.basemethod.lang.THROW;
-import top.fols.box.util.xfe.executer.basemethod.lang.VALUES;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.ARRAY;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.ARRAYCAST;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.BOOLEANARRAY;
@@ -138,9 +138,9 @@ public class XFEKeyWords {
 			return null == cache ?keywords: cache;
 		}
 	}
-    
-    
-    
+
+
+
 
 
 
@@ -152,11 +152,11 @@ public class XFEKeyWords {
 	public static boolean isNewMethodName(String name) {
 		return CODE_XFEVARIABLEPOINT_METHOD_NAME_NEW == name;
 	}
-    
-    
-    
-    
-    
+
+
+
+
+
 	/**
 	 * @XFECodeLoader dealStringVar/dealCharVar/dealBaseVar > XFEFinalVariableManager.java
 	 *
@@ -195,10 +195,10 @@ public class XFEKeyWords {
 	public static final String BASE_VARIABLE_TYPE_STRING = "string";
 	//public static final String BASE_VARIABLE_TYPE_BOOLEAN = "boolean";
 	//public static final String BASE_VARIABLE_TYPE_OBJECT = "object";
-    
-    
-    
-    
+
+
+
+
 	public static final Map<String, Object> getFinalBaseFieldValues() {
 		HashMap<String, Object> kf = new HashMap<>();
 		kf.put(XFEKeyWords.TRUE, 	true);
@@ -219,9 +219,7 @@ public class XFEKeyWords {
 		new NOTEQUAL(),
 
 		new SLEEP(),
-
-		new VALUES(),
-
+		
 		new NEW(), 			
 
 		new CALC(),			
@@ -234,6 +232,9 @@ public class XFEKeyWords {
 
 		new THREAD(),		
 
+		
+		new STRF(),
+		
 		new BYTE(),				new INT(),				new LONG(),				new DOUBLE(),
 		new FLOAT(),			new SHORT(),			new CHAR(),				new BOOLEAN(),
 		new STRING(),			//new OBJECT(),
@@ -289,15 +290,67 @@ public class XFEKeyWords {
 	public static void initExecuteParam(XFEStack stack, Map<String, Object> map, XFEExecute execute) {
 		XFEClassInstance xfeclassinstance = execute.getXFEClassInstance();
 		//setBaseData ***** 
-		map.put(XFEKeyWords.FINAL, 			xfeclassinstance.getClassLoader().getFinalVariableManager().getXFEFinalVariablePoint());
+		map.put(XFEKeyWords.FINAL, 			xfeclassinstance.getFinalVariablePoint());
 		map.put(XFEKeyWords.THIS, 			xfeclassinstance);
 		map.put(XFEKeyWords.STATIC, 		xfeclassinstance.getStaticInstance(stack));
 	}
-    
-    
-    
-    
-    
+
+
+    public static boolean isStandardVariableName(String str) {
+		int strlen = str.length();
+		if (strlen == 0) {
+			return false;
+		}
+		int i = 0;
+		char first = str.charAt(i++);
+		if (Character.isDigit(first)) {
+			return false;
+		} else {
+			for (;i < strlen;i++) {
+				if (!isStandardVariableNameChar(str.charAt(i))) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	public static boolean isStandardVariableNameChar(char ch) {
+		return 
+			Character.isDigit(ch) || 
+			Character.isLowerCase(ch) ||
+			Character.isUpperCase(ch) ||
+			ch == '_';
+	}
+
+
+	
+
+
+
+
+	public static class XFEBaseMethodResource {
+		public static class STRF{
+			public static char ANNOTATION_START = '{';
+			public static char ANNOTATION_END = '}';
+		}
+	}
+	
+	
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
 	public static Class getJavaClassInterfaceGetClass(Object object) {
 		Class cls = null;
 		if (object instanceof XFEInterfaceGetJavaClass) {
@@ -324,7 +377,7 @@ public class XFEKeyWords {
 
 
 	public static final long XFE_VERSION = 202006011627L; //XFE版本号
-	
+
 	public static final long XFE_CODE_LOADER_VERSION = 3L; //代码加载器版本号
 	public static final long XFE_EXECUTER_VERSION = 3L; //代码执行器版本号
 }

@@ -7,21 +7,23 @@ import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 
 public final class XFEClassInstance extends XFEClass {
-	
+
 	protected XFEClassInstance(XFEClass cls) {
 		//System.out.println("创建: " + cls);
-		super.fileName = cls.fileName;
-		super.classLoader = cls.classLoader;
-		super.name = cls.name;
-		super.methods = cls.methods;
-		super.variable = new HashMap<>();
-		super.isInstance = true;
-		super.isStaticInstance = cls.isStaticInstance;
-		super.staticInstance = cls.staticInstance;
+//		super.fileName = cls.fileName;
+//		super.classLoader = cls.classLoader;
+//		super.name = cls.name;
+//		super.methods = cls.methods;
+//		super.variable = new HashMap<>();
+//		super.isInstance = true;
+//		super.isStaticInstance = cls.isStaticInstance;
+//		super.staticInstance = cls.staticInstance;
+//		super.finalVariable = cls.finalVariable;
+		super(cls);
 	}
-	
-	
-	
+
+
+
 	protected XFEClassInstance executeStaticMethod(XFEStack stack) {
 		XFEMethod method = this.getStaticMethod();
 		if (null != method) {
@@ -50,7 +52,7 @@ public final class XFEClassInstance extends XFEClass {
 	public Object executeMethod(XFEStack stack, XFEMethod method, String methodName, Object[] args, int off, int len) {
 		return XFEExecute.execute(this, stack, method, methodName, args, off, len);
 	}
-	
+
 	public Map<String, Object> cloneParam() {
 		return new HashMap<String, Object>(this.variable);
 	}

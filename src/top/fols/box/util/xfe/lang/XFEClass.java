@@ -4,21 +4,42 @@ import java.util.Map;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
+import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
+import top.fols.box.util.xfe.executer.XFEExecute;
 
 public class XFEClass implements XFEInterfaceGetXFEClass {
+	protected String fileName;//class filename
 
-	protected String fileName;
-	protected Map<String, XFEMethod> methods;
-	protected XFEClassLoader classLoader;
-	protected String name;
-	protected boolean isInstance;
-	protected boolean isStaticInstance;
-	protected Map<String, Object> variable;
-	protected XFEClassInstance staticInstance;
+	protected Map<String, XFEMethod> methods;//methods
+	protected XFEClassLoader classLoader;//class loader
+	protected String name;//class name
+	protected boolean isInstance;//is instance
+	protected boolean isStaticInstance;//is static instance
+	protected Map<String, Object> variable;//variable
+	protected XFEClassInstance staticInstance;//static instance
+	protected XFEFinalVariableManager finalVariable;//String char and base type data
+
+	//instance
+	protected XFEClass(XFEClass cls) {
+		this.fileName = cls.fileName;
+		this.classLoader = cls.classLoader;
+		this.name = cls.name;
+		this.methods = cls.methods;
+		this.variable = new HashMap<>();
+		this.isInstance = true;
+		this.isStaticInstance = cls.isStaticInstance;
+		this.staticInstance = cls.staticInstance;
+		this.finalVariable = cls.finalVariable;
+	}
+
+
+
+
 
 	public XFEClassInstance getStaticInstance(XFEStack stack) {
 		if (null == this.staticInstance) {
-			XFEClassInstance instance = new XFEClassInstance(this); this.staticInstance = instance;
+			XFEClassInstance instance = new XFEClassInstance(this); 
+			this.staticInstance = instance;
 			instance.staticInstance = instance;
 			instance.isStaticInstance = true;
 			instance.executeStaticMethod(stack);
@@ -27,15 +48,12 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	}
 
 
-	protected XFEClass() {
-	}
 
+	private XFEClass() {
+	}
 	public XFEClass(XFEClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
-
-
-
 
 
 	@Override
@@ -82,25 +100,41 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	}
 
 
-	private Map<String, XFEMethod> getMethodMap() {
-		if (null == this.methods) {
-			this.methods = new HashMap<>();
-		}
-		return this.methods;
+
+	private Map<String, XFEMethod> getMethodMap0() {
+		return null == this.methods ?this.methods = new HashMap<>(): this.methods;
 	}
 	public void putMethod(String name, XFEMethod m) {
-		this.getMethodMap().put(name, m);
+		this.getMethodMap0().put(name, m);
 	}
 	public void putMethod(XFEMethod m) {
 		this.putMethod(null == m ?null: m.getName(), m);
 	}
 	public XFEMethod getMethod(String name) {
-		return this.getMethodMap().get(name);
+		return this.getMethodMap0().get(name);
 	}
 
 	public String[] listMethodName() {
-		return this.getMethodMap().keySet().toArray(new String[this.getMethodMap().size()]);
+		return this.getMethodMap0().keySet().toArray(new String[this.getMethodMap0().size()]);
 	}
+
+
+	XFEFinalVariableManager getFinalVariableManager0() {
+		return null == this.finalVariable ?this.finalVariable = XFEFinalVariableManager.newInstance(): this.finalVariable;
+	}
+	void releaseFinalVariableManagerCache0() {
+		if (null != this.finalVariable) {
+			this.finalVariable.releaseCache();
+		}
+	}
+	public XFEAbstractVariablePoint getFinalVariablePoint() {
+		return this.getFinalVariableManager0().getXFEFinalVariablePoint();
+	}
+
+
+
+
+
 
 	@Override
 	public String toString() {
@@ -116,11 +150,11 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 
 	protected XFEMethod getInitMethod() {
-		XFEMethod method = this.getMethodMap().get(XFEKeyWords.INIT);
+		XFEMethod method = this.getMethodMap0().get(XFEKeyWords.INIT);
 		return method;
 	}
 	protected XFEMethod getStaticMethod() {
-		XFEMethod method = this.getMethodMap().get(XFEKeyWords.STATIC);
+		XFEMethod method = this.getMethodMap0().get(XFEKeyWords.STATIC);
 		return method;
 	}
 
@@ -149,8 +183,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	public static String getClassFileExtensionName() {
 		return XFEKeyWords.CODE_FILE_EXTENSION_NAME;
 	}
-
-	public static String getClassFileName(String className) {
+	public static String getStandardFormatFileName(String className) {
 		return new StringBuilder(null == className ?"null": className).append(XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR).append(XFEClass.getClassFileExtensionName()).toString();
 	}
 }

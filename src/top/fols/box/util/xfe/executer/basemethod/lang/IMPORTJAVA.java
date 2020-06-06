@@ -7,7 +7,7 @@ import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.executer.variablepoint.XFEJavaClassStaticPoint;
 import top.fols.box.util.xfe.lang.XFEClass;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 
 public class IMPORTJAVA extends XFEBaseMethod {
@@ -68,9 +68,10 @@ public class IMPORTJAVA extends XFEBaseMethod {
 			} else {
 				xfeexecute.setVariableValue(set, jcp);
 			}
-
 		}
 		
+		XFEStack stack = xfeexecute.getStack();
+		super.throwNotFoundMethod(stack, args);
 		return null;
 	}
 

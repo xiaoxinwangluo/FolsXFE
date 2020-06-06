@@ -8,6 +8,7 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFECodeContent;
 import top.fols.box.util.xfe.util.XFEConsole;
 import top.fols.box.util.xfe.util.XFEJavaReflectManager;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class XFEClassLoader {
 	private static long instanceMod = 0;
@@ -29,8 +30,6 @@ public class XFEClassLoader {
 		this.xfeClassMap = new HashMap<>();
 		this.xfeAutoCodeLoaderManager = new XFEAutoCodeLoaderManager();
 
-		this.xfeFinalVariableManager = XFEFinalVariableManager.newInstance(); //not recommended to modify
-
 		this.xfeConsole = XFEConsole.DEFAULT_JAVA_SYSTEM_OUT; //not recommended to modify
 		this.xfeBaseMethodManager = XFEKeyWords.DEFAULT_BASEMETHOD_MANAGER; //not recommended to modify
 
@@ -44,12 +43,8 @@ public class XFEClassLoader {
 	public void releaseClassLoader() {
 		this.xfeClassMap.clear();
 		this.xfeAutoCodeLoaderManager.clearLoader();
-
-		this.xfeFinalVariableManager.releaseFinalValue(); //not recommended to modif
-		
         //this.xfeConsole = XFEConsole.DEFAULT_JAVA_SYSTEM_OUT; //not recommended to modify
 		//this.xfeBaseMethodManager = XFEKeyWords.DEFAULT_BASEMETHOD_MANAGER; //not recommended to modif
-        
         this.javaReflectManager.releaseCache();
 	}
 
@@ -87,26 +82,27 @@ public class XFEClassLoader {
 		}
 		return c;
 	}
-
-    /**
-     * not recommended
-     */
 	public void removeClass(String name) {
         XFEClass c = this.xfeClassMap.get(name);
         if (null != c) {
+			c.classLoader = null;
             this.xfeClassMap.remove(name);
             c = null;
         }
     }
-    
 	public int getClassCount() {
         return this.xfeClassMap.size();
     }
-
-
-
+	
+	
+	
+	
+	
 	public static XFEClass getRootClass(XFEClass cls)  throws RuntimeException {
 		XFEClassLoader classLoader = cls.getClassLoader();
+		if (null == classLoader) {
+			throw new RuntimeException(XFEStackThrowMessageTool.noXFEClassLoader(cls));
+		}
 		return classLoader.forName(cls.getName());
 	}
 
@@ -135,14 +131,6 @@ public class XFEClassLoader {
 	}
 
 
-
-	private XFEFinalVariableManager xfeFinalVariableManager;
-	public void setFinalVariableManager(XFEFinalVariableManager systemVariable) {
-		this.xfeFinalVariableManager = systemVariable;
-	}
-	public XFEFinalVariableManager getFinalVariableManager() {
-		return this.xfeFinalVariableManager;
-	}
 
 
 

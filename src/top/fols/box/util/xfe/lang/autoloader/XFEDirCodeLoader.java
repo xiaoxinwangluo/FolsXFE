@@ -29,7 +29,7 @@ public class XFEDirCodeLoader extends XFEAutoCodeLoaderAbstract {
 	@Override
 	public XFEClass loadCode(XFEClassLoader clsLoader, String clsName0) throws IOException, OutOfMemoryError, RuntimeException {
 		// TODO: Implement this method
-		String noCompilerFileName = XFEClass.getClassFileName(clsName0);
+		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName0);
 		if (this.exists(noCompilerFileName)) {
 			XFECodeContent content = XFECodeContent.wrapFile(new File(this.getFile(), noCompilerFileName), XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
 			XFEClass xfeclass = clsLoader.loadCode(content);

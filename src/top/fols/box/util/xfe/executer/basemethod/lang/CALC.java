@@ -12,14 +12,20 @@ public class CALC extends XFEBaseMethod {
 
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args)
-			throws Throwable {
+	throws Throwable {
 		// TODO: Implement this method
-		try {
-			return XFECalc.calc(args[0], args[1], args[2]);
-		} catch (Throwable e) {
-			XFEStack stack = xfeexecute.getStack();
-			stack.setJavaThrow("cannot calc " + Arrays.toString(args), e);
-			return null;
+		if (args.length == 3) {
+			try {
+				return XFECalc.calc(args[0], args[1], args[2]);
+			} catch (Throwable e) {
+				XFEStack stack = xfeexecute.getStack();
+				stack.setJavaThrow("cannot calc " + Arrays.toString(args), e);
+				return null;
+			}
 		}
+		XFEStack stack = xfeexecute.getStack();
+		super.throwNotFoundMethod(stack, args);
+		return null;
+
 	}
 }

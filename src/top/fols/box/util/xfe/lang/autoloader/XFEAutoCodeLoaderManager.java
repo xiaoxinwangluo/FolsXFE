@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 /*
  * 自动加载 
@@ -80,11 +80,11 @@ public class XFEAutoCodeLoaderManager {
 		synchronized (loaderList) {
 			XFEAutoCodeLoaderAbstract loader = this.classNameCorrespondsToLoaderMap.get(clsName);
 			if (loader == null) {
-				throw new RuntimeException(XFEStackTool.notFoundXfeClass(clsName));
+				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
 			}
 			XFEClass bs = loader.loadCode(clsLoader, clsName);
 			if (bs == null) {
-				throw new RuntimeException(XFEStackTool.notFoundXfeClass(clsName));
+				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
 			}
 			return bs;
 		}

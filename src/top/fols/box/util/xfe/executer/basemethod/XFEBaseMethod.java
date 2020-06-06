@@ -2,7 +2,7 @@ package top.fols.box.util.xfe.executer.basemethod;
 
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public abstract class XFEBaseMethod {
 	private String name;
@@ -25,7 +25,7 @@ public abstract class XFEBaseMethod {
 		try {
 			return this.executeProcess(execStatus, xfeexecute, args);
 		} catch (Throwable e) {
-			stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 	}
@@ -34,6 +34,6 @@ public abstract class XFEBaseMethod {
 
 			
 	public void throwNotFoundMethod(XFEStack stack, Object[] args) {
-		stack.setThrow(XFEStackTool.notFoundXfeClassBaseMethod(this.getName(), args));
+		stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassBaseMethod(this.getName(), args));
 	}
 }

@@ -89,7 +89,7 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	@Override
 	public synchronized XFEClass loadCode(XFEClassLoader clsLoader, String clsName0) throws IOException, OutOfMemoryError, RuntimeException  {
 		// TODO: Implement this method
-		String noCompilerFileName = XFEClass.getClassFileName(clsName0);
+		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName0);
 		if (this.exists(noCompilerFileName)) {
 			XFECodeContent content = XFECodeContent.wrapZipFile(this.file, this.getZipFile(), noCompilerFileName, XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
 			XFEClass xfeclass = clsLoader.loadCode(content);

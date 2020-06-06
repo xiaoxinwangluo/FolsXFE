@@ -5,7 +5,7 @@ import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.lang.XFEClass;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 
@@ -35,7 +35,7 @@ public class NEWARRAY extends XFEBaseMethod {
 		}
 		XFEClassInstance xfeclass = xfeexecute.getXFEClassInstance();
 		XFEStack stack = xfeexecute.getStack();
-		stack.setThrow(XFEStackTool.notFoundXfeClassMethod(xfeclass.getName(), this.getName(), args));
+		stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(xfeclass.getName(), this.getName(), args));
 		return null;
 	}
 }

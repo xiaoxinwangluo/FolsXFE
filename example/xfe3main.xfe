@@ -8,7 +8,9 @@ fun 获取北京时间()
     date = importjava("java.util.Date").new(ld);
     return(string(date.getHours(), "时", date.getMinutes(), "分", date.getSeconds(), "秒"));
 end
-
+fun static()
+    println("----static----");
+end
 
 fun init(a)
 	
@@ -41,9 +43,15 @@ end
 
 fun test(f)
     
+    
+    time = this.time();
+    println(strf("现在时间是: {time}"));
+    
+    
+    
+    
     println(获取北京时间());
     println(this.time());
-    
     
     println(import(loadcode("动态加载.xfe","
         fun init()

@@ -3,11 +3,12 @@ package top.fols.box.util.xfe.util;
 import java.io.PrintWriter;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XStringJoiner;
+import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 //*****
-public class XFEStackTool {
-	public static String joinParamJavaClassName(Object[] objs) {
+public class XFEStackThrowMessageTool {
+	private static String joinParamJavaClassName(Object[] objs) {
 		XStringJoiner sb = new XStringJoiner(", ", "(", ")");
 		if (null != objs) {
 			for (Object oi : objs) {
@@ -16,7 +17,7 @@ public class XFEStackTool {
 		}
 		return sb.toString();
 	}
-	public static String joinParamJavaClassName(Class<?>[] objs) {
+	private static String joinParamJavaClassName(Class<?>[] objs) {
 		XStringJoiner sb = new XStringJoiner(", ", "(", ")");
 		if (null != objs) {
 			for (Class<?> oi : objs) {
@@ -25,17 +26,27 @@ public class XFEStackTool {
 		}
 		return sb.toString();
 	}
-
+	public static String getXFEJavaClassName(XFEClass cls) {
+		return null == cls ?null: cls.getName();
+	}
 	public static String getJavaClassName(Class<?> cls) {
 		return null == cls ?null: cls.getCanonicalName();
 	}
 	public static String getJavaClassName(Object cls) {
 		return null == cls ?null: cls.getClass().getCanonicalName();
 	}
-
-
-
-
+		
+	
+	
+	
+	public static String noXFEClassLoader(XFEClass xfeclass){
+		StringBuilder sb = new StringBuilder();
+		sb.append("this xfeclass no set xfeclassloader: ").append(getXFEJavaClassName(xfeclass));
+		return sb.toString();
+	}
+		
+		
+		
 	public static String notFoundJavaClassStaticField(Class<?> cls, String name) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("not found javaStaticField: ").append(getJavaClassName(cls)).append(".").append(name);

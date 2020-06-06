@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetJavaClass;
 
 public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements XFEInterfaceGetJavaClass {
@@ -31,12 +31,12 @@ public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements
 		try {
 			Field field = xfeexecute.getJavaReflectManager().getField(this.cls, name);
 			if (null == field || !Modifier.isStatic(field.getModifiers())) {
-				stack.setThrow(XFEStackTool.notFoundJavaClassStaticField(this.cls, name));
+				stack.setThrow(XFEStackThrowMessageTool.notFoundJavaClassStaticField(this.cls, name));
 				return null;
 			}
 			return field.get(null);
 		} catch (Throwable e) {
-			stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 	}
@@ -49,12 +49,12 @@ public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements
 		try {
 			Field field = xfeexecute.getJavaReflectManager().getField(this.cls, name);
 			if (null == field || !Modifier.isStatic(field.getModifiers())) {
-				stack.setThrow(XFEStackTool.notFoundJavaClassStaticField(this.cls, name));
+				stack.setThrow(XFEStackThrowMessageTool.notFoundJavaClassStaticField(this.cls, name));
 				return null;
 			}
 			field.set(null, value);
 		} catch (Throwable e) {
-			stack.setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			stack.setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 		return value;
@@ -71,7 +71,7 @@ public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements
 		} else {
 			Method method = xfeexecute.getJavaReflectManager().getMethod(this.cls, name, value);
 			if (!Modifier.isStatic(method.getModifiers())) {
-				stack.setThrow(XFEStackTool.notFoundJavaClassStaticMethod(this.cls, name, value));
+				stack.setThrow(XFEStackThrowMessageTool.notFoundJavaClassStaticMethod(this.cls, name, value));
 				return null;
 			}
 			return method.invoke(null, value);

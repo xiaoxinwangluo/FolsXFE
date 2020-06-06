@@ -413,7 +413,7 @@ public class XFECodeLoader {
                 this.readCodesToMethod(nowCodeLinkedReader, xfeclass, xfemethod);
 				xfeclass.putMethod(xfemethod);
 				joinFun = false;
-				
+
 //				int dex = 0;
 //              for (XFEMethodCode c: xfemethod.getCodes()) {
 //                System.out.println("code: " + c.formatCode());
@@ -429,16 +429,20 @@ public class XFECodeLoader {
         nowCodeLinkedReader = null;
         xfemethod = null;
         lineCodeReader.releaseBuffer();
+		
+		//添加到xfeclassloader
         loader.addClass(xfeclass);
+		//释放缓存
+		xfeclass.releaseFinalVariableManagerCache0();
         return xfeclass;
     }
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	private void readCodesToMethod(ContentLinkedReader nowCodeLinkedReader,
 								   XFEClass xfeclass,
 								   XFEMethod xfemethod) {
@@ -683,7 +687,7 @@ public class XFECodeLoader {
                     String element = out.toString();
                     // System.out.println("@" + element + "@" + joinStringLineCount + "@");
                     // System.out.println("------");
-                    String name = xfeclass.getClassLoader().getFinalVariableManager().putStringFinalValue(xfeclass,
+                    String name = xfeclass.getFinalVariableManager0().putStringFinalValue(xfeclass,
 						element);
                     String replStr = new StringBuilder(XFEKeyWords.FINAL).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)
 						.append(name).toString();
@@ -814,7 +818,7 @@ public class XFECodeLoader {
                     char elementChar = element.charAt(0);
                     // System.out.println("@" + element + "@" + joinStringLineCount + "@");
                     // System.out.println("------");
-                    String name = xfeclass.getClassLoader().getFinalVariableManager().putCharFinalValue(xfeclass,
+                    String name = xfeclass.getFinalVariableManager0().putCharFinalValue(xfeclass,
 						elementChar);
                     String replStr = new StringBuilder(XFEKeyWords.FINAL).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)
 						.append(name).toString();
@@ -935,7 +939,7 @@ public class XFECodeLoader {
                             XExceptionTool.StackTraceToString(e)));
                 }
 
-                String name = cls.getClassLoader().getFinalVariableManager().putBaseDataFinalValue(cls, value);
+                String name = cls.getFinalVariableManager0().putBaseDataFinalValue(cls, value);
                 String replStr = new StringBuilder(XFEKeyWords.FINAL).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL).append(name).toString();
 
                 // System.out.println("* " + name);

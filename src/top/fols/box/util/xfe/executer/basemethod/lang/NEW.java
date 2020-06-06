@@ -2,11 +2,9 @@ package top.fols.box.util.xfe.executer.basemethod.lang;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
-import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
-import java.io.IOException;
 
 public class NEW extends XFEBaseMethod {
 
@@ -34,6 +32,8 @@ public class NEW extends XFEBaseMethod {
 				className = (String) args[0];
 				argsOff++;
 			}
+		} else {
+			className = xfeexecute.getXFEClassInstance().getName();
 		}
 		cls = cl.forName(className);
 		XFEClassInstance instance = cls.newInstance(stack, args, argsOff, args.length - argsOff);

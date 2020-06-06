@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.lang.XFEMethodCode;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEUtil;
 import top.fols.box.util.xfe.util.interfacelist.XFEStackInterface;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class XFEStack implements XFEStackInterface {
 
@@ -239,6 +239,6 @@ public class XFEStack implements XFEStackInterface {
 	}
 
 	public static String getJavaStackTraceString(Throwable e) {
-		return XFEStackTool.getJavaStackString(e);
+		return XFEStackThrowMessageTool.getJavaStackString(e);
 	}
 }

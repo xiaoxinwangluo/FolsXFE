@@ -8,9 +8,14 @@ public class THROW extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
-		String reason = (args.length > 0 && null != args[0]) ?args[0].toString(): null;
+		if (args.length == 1) {
+			String reason = args[0].toString();
+			XFEStack stack = xfeexecute.getStack();
+			stack.setThrow(reason);
+			return null;
+		}
 		XFEStack stack = xfeexecute.getStack();
-		stack.setThrow(reason);
+		super.throwNotFoundMethod(stack, args);
 		return null;
 	}
 }

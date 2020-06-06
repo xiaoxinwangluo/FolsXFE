@@ -1,7 +1,7 @@
 package top.fols.box.util.xfe.executer.variablepoint.abstractlist;
 
 import top.fols.box.util.xfe.executer.XFEExecute;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public abstract class XFEAbstractVariablePoint {
 
@@ -18,7 +18,7 @@ public abstract class XFEAbstractVariablePoint {
 		try {
 			return this.getVariableProcess(execStatus, xfeexecute, name);
 		} catch (Throwable e) {
-			xfeexecute.getStack().setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			xfeexecute.getStack().setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 	}
@@ -27,7 +27,7 @@ public abstract class XFEAbstractVariablePoint {
 		try {
 			return this.setVariableProcess(execStatus, xfeexecute, name, value);
 		} catch (Throwable e) {
-			xfeexecute.getStack().setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			xfeexecute.getStack().setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 	}
@@ -36,7 +36,7 @@ public abstract class XFEAbstractVariablePoint {
 		try {
 			return this.executeMethodProcess(execStatus, xfeexecute, name, args);
 		} catch (Throwable e) {
-			xfeexecute.getStack().setJavaThrow(XFEStackTool.getJavaStackString(e), e);
+			xfeexecute.getStack().setJavaThrow(XFEStackThrowMessageTool.getJavaStackString(e), e);
 			return null;
 		}
 	}

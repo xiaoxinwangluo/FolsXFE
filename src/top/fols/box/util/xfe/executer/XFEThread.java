@@ -2,7 +2,7 @@ package top.fols.box.util.xfe.executer;
 
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEMethod;
-import top.fols.box.util.xfe.util.XFEStackTool;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public class XFEThread extends Thread {
 	protected XFEStack stack;
@@ -41,7 +41,7 @@ public class XFEThread extends Thread {
 	public static XFEThread newInstance(XFEStack stack, XFEClassInstance instance, String name, Object[] args) {
 		XFEMethod method = instance.getMethod(name);
 		if (null == method) {
-			stack.setThrow(XFEStackTool.notFoundXfeClassMethod(instance.getName(), name));
+			stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(instance.getName(), name));
 			return null;
 		}
 		XFEStack newStack = XFEStack.newXFEThreadStack(stack.now());
