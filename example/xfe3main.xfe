@@ -14,7 +14,7 @@ end
 
 fun init(a)
 	
-	time	(	a	);
+	this.time	(	a	);
 	
     //this.a;
     //returnArgs0();
@@ -97,7 +97,7 @@ fun test(f)
     endl
     println(a);
     
-    if("".getClass(), getclass(importjava("java.lang.String")))
+    if("".getClass(), getjavaclass(importjava("java.lang.String")))
         println("if true");
     endl
     if(final.true)

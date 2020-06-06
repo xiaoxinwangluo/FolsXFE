@@ -10,6 +10,11 @@ public class FLOAT extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
-		return XFEUtil.tofloat(args[0]);
+		if (args.length == 1) {
+			return XFEUtil.tofloat(args[0]);
+		}
+		XFEStack stack = xfeexecute.getStack();
+		super.throwNotFoundMethod(stack, args);
+		return null;
 	}
 }

@@ -12,7 +12,7 @@ import top.fols.box.util.xfe.executer.basemethod.lang.CONTINUE;
 import top.fols.box.util.xfe.executer.basemethod.lang.EQUAL;
 import top.fols.box.util.xfe.executer.basemethod.lang.EQUALS;
 import top.fols.box.util.xfe.executer.basemethod.lang.GETCLASS;
-import top.fols.box.util.xfe.executer.basemethod.lang.GETXFECLASS;
+import top.fols.box.util.xfe.executer.basemethod.lang.GETJAVACLASS;
 import top.fols.box.util.xfe.executer.basemethod.lang.IMPORT;
 import top.fols.box.util.xfe.executer.basemethod.lang.IMPORTJAVA;
 import top.fols.box.util.xfe.executer.basemethod.lang.LOADCODE;
@@ -27,27 +27,27 @@ import top.fols.box.util.xfe.executer.basemethod.lang.THREAD;
 import top.fols.box.util.xfe.executer.basemethod.lang.THROW;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.ARRAY;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.ARRAYCAST;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.BOOLEANARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.BYTEARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.CHARARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.DOUBLEARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.FLOATARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.INTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.LONGARRAY;
 import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWBOOLEANARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWBYTEARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWCHARARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWDOUBLEARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWFLOATARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWINTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWLONGARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWOBJECTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWSHORTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.NEWSTRINGARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.OBJECTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.SHORTARRAY;
-import top.fols.box.util.xfe.executer.basemethod.lang.array.STRINGARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.BOOLEANARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.BYTEARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.CHARARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.DOUBLEARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.FLOATARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.INTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.LONGARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWBOOLEANARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWBYTEARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWCHARARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWDOUBLEARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWFLOATARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWINTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWLONGARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWOBJECTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWSHORTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.NEWSTRINGARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.OBJECTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.SHORTARRAY;
+import top.fols.box.util.xfe.executer.basemethod.lang.array.base_array.STRINGARRAY;
 import top.fols.box.util.xfe.executer.basemethod.lang.base.BOOLEAN;
 import top.fols.box.util.xfe.executer.basemethod.lang.base.BYTE;
 import top.fols.box.util.xfe.executer.basemethod.lang.base.CHAR;
@@ -219,12 +219,12 @@ public class XFEKeyWords {
 		new NOTEQUAL(),
 
 		new SLEEP(),
-		
+
 		new NEW(), 			
 
 		new CALC(),			
 
-		new GETCLASS(),			new GETXFECLASS(),	
+		new GETJAVACLASS(),			new GETCLASS(),	
 
 		new LOADCODE(),
 
@@ -232,9 +232,9 @@ public class XFEKeyWords {
 
 		new THREAD(),		
 
-		
+
 		new STRF(),
-		
+
 		new BYTE(),				new INT(),				new LONG(),				new DOUBLE(),
 		new FLOAT(),			new SHORT(),			new CHAR(),				new BOOLEAN(),
 		new STRING(),			//new OBJECT(),
@@ -323,19 +323,24 @@ public class XFEKeyWords {
 	}
 
 
-	
+
 
 
 
 
 	public static class XFEBaseMethodResource {
-		public static class STRF{
-			public static char ANNOTATION_START = '{';
-			public static char ANNOTATION_END = '}';
+		public static class STRF {
+			public static final char ANNOTATION_START = '{';
+			public static final char ANNOTATION_END = '}';
 		}
 	}
-	
-	
+	public static class XFEUTILRESOURCE {
+	    public static class ArrayOption {
+			public static final String METHOD_GET = "get";
+			public static final String METHOD_SET = "set";
+			public static final String METHOD_LENGTH = "length";
+		}
+	}
 
 
 
@@ -346,11 +351,12 @@ public class XFEKeyWords {
 
 
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	public static Class getJavaClassInterfaceGetClass(Object object) {
 		Class cls = null;
 		if (object instanceof XFEInterfaceGetJavaClass) {

@@ -7,7 +7,7 @@ public class STACK extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
-		if (args.length == 1) {
+		if (args.length == 0) {
 			XFEStack stack = xfeexecute.getStack();
 			return stack;
 		}

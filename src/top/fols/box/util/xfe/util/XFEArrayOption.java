@@ -1,10 +1,13 @@
 package top.fols.box.util.xfe.util;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
+import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public class XFEArrayOption {
 	//*****
-	public static final String GET = "get", SET = "set", LENGTH = "length";
+	public static final String GET = XFEKeyWords.XFEUTILRESOURCE.ArrayOption.METHOD_GET;
+	public static final String SET = XFEKeyWords.XFEUTILRESOURCE.ArrayOption.METHOD_SET;
+	public static final String LENGTH = XFEKeyWords.XFEUTILRESOURCE.ArrayOption.METHOD_LENGTH;
 	public static Object option(XFEStack stack, Object instance, String methodName, Object[] param) {
 		try {
 			int paramlength = param.length;

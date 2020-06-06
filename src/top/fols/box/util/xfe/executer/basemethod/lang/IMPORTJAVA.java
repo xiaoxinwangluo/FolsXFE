@@ -18,7 +18,6 @@ public class IMPORTJAVA extends XFEBaseMethod {
 		// TODO: Implement this method
 		ClassLoader cl = null;
 		String className = null;
-		String set = null;
 		
 		/**
 		 *
@@ -32,11 +31,9 @@ public class IMPORTJAVA extends XFEBaseMethod {
 		if (args.length == 3) {
 			cl = args[0] instanceof ClassLoader ?(ClassLoader)args[0]: null;
 			className = null == args[1] ?null: args[1].toString();
-			set = null == args[2] ?null: args[2].toString();
 		} else if (args.length == 2) {
 			cl = args[0] instanceof ClassLoader ?(ClassLoader)args[0]: null;
 			className = null == args[0] ?null: args[0].toString();
-			set = null;
 		} else if (args.length == 1) {
 			if (args[0] instanceof Class) {
 				XFEJavaClassStaticPoint jcp = new XFEJavaClassStaticPoint((Class)args[0]);
@@ -44,7 +41,6 @@ public class IMPORTJAVA extends XFEBaseMethod {
 			}
 			cl = null;
 			className = null == args[0] ?null: args[0].toString();
-			set = null;
 		} 
 
 		if (null != className) {
@@ -63,11 +59,7 @@ public class IMPORTJAVA extends XFEBaseMethod {
 			}
 			
 			XFEJavaClassStaticPoint jcp = new XFEJavaClassStaticPoint(cls);
-			if (null == set) {
-				return jcp;
-			} else {
-				xfeexecute.setVariableValue(set, jcp);
-			}
+			return jcp;
 		}
 		
 		XFEStack stack = xfeexecute.getStack();

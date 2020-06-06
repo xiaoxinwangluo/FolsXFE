@@ -11,7 +11,7 @@ public class THREAD extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
-		if (args.length >= 1) {
+		if (args.length == 1) {
 			if (args[0] instanceof XFEClassInstance) {
 				XFEClassInstance classInstance = (XFEClassInstance) args[0];
 				XFEThreadPoint tp = new XFEThreadPoint(classInstance);
