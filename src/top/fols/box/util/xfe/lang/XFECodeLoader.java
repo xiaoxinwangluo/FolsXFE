@@ -400,7 +400,7 @@ public class XFECodeLoader {
                         xfemethod.setClassName(this.className);
                         Fun funv = (XFECodeLoader.Fun) next.content();
                         String funName = funv.name;
-                        xfemethod.setName(funName);
+						xfemethod.setName(funName);
                         String[] paramList = this.required_Local_FunParam(xfeclass, xfemethod, nowLine, funv);
                         xfemethod.setParamName(paramList);
                         joinFun = true;

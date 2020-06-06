@@ -9,6 +9,7 @@ import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
+import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.lang.XFECodeLoader;
 import top.fols.box.util.xfe.lang.XFECodeLoader.Var;
 import top.fols.box.util.xfe.lang.XFEMethod;
@@ -20,7 +21,6 @@ import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
-import top.fols.box.util.xfe.lang.XFEClassLoader;
 
 public class XFEExecute {
     private XFEStack stack;
