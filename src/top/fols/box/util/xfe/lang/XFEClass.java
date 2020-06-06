@@ -6,7 +6,7 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
 
 public class XFEClass implements XFEInterfaceGetXFEClass {
-    
+
 	protected String fileName;
 	protected Map<String, XFEMethod> methods;
 	protected XFEClassLoader classLoader;
@@ -15,7 +15,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	protected boolean isStaticInstance;
 	protected Map<String, Object> variable;
 	protected XFEClassInstance staticInstance;
-    
+
 	public XFEClassInstance getStaticInstance(XFEStack stack) {
 		if (null == this.staticInstance) {
 			XFEClassInstance instance = new XFEClassInstance(this); this.staticInstance = instance;
@@ -25,16 +25,16 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		}
 		return this.staticInstance;
 	}
-    
-    
+
+
 	protected XFEClass() {
 	}
 
 	public XFEClass(XFEClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
-    
-    
+
+
 
 
 
@@ -91,7 +91,9 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	public void putMethod(String name, XFEMethod m) {
 		this.getMethodMap().put(name, m);
 	}
-
+	public void putMethod(XFEMethod m) {
+		this.putMethod(null == m ?null: m.getName(), m);
+	}
 	public XFEMethod getMethod(String name) {
 		return this.getMethodMap().get(name);
 	}

@@ -136,5 +136,17 @@ fun hscz()
     a = "";
     string = "ohhh".toString().toString().toString().toString().charAt(int:0);
     string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+    
+    //存储于匿名Class
+    //存储于匿名ClassLoader
+    fun2 = interface("java.util.e", {
+        fun hasNext()
+            return(final.true);
+        end
+        fun next()
+            return("element");
+        end
+    });
+    addLineLimiter(fun2);
 end
 

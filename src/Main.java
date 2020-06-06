@@ -89,21 +89,28 @@ public class Main {
 		// System.out.println(XFEUtil.toAbsClassName("java.lang.String[]"));
 		// System.out.println(XFEUtil.toAbsClassName("[Ljava.lang.String;"));
         // System.out.println(Class.forName(XFEUtil.toAbsClassName("[B")));
-        
-
+       
+		
+		
+		
+		
+//		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
+//		if (true) {
+//			return;
+//		}
+//
         
         for (int i = 0;i < 2000;i++) { System.out.println(); }
         testThreadStack();
 
-        File rundir = new File(XFile.getRunningDir());
+        File rundir;
+		rundir = new File(XFile.getRunningDir());
+		rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
         File exampledir = new File(rundir, "example");
         System.out.println(exampledir);
 		
 		
-		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
-		if (true) {
-			return;
-		}
+		
 
 
 		
