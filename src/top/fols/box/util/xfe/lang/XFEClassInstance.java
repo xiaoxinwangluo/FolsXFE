@@ -5,8 +5,13 @@ import java.util.Map;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
+import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
+import top.fols.box.util.xfe.executer.XFEExecute.ExecuteStatus;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
-public final class XFEClassInstance extends XFEClass {
+public final class XFEClassInstance extends XFEClass implements XFEAbstractVariablePoint {
+
+
 
 	protected XFEClassInstance(XFEClass cls) {
 		//System.out.println("创建: " + cls);
@@ -53,7 +58,34 @@ public final class XFEClassInstance extends XFEClass {
 		return XFEExecute.execute(this, stack, method, methodName, args, off, len);
 	}
 
-	public Map<String, Object> cloneParam() {
-		return new HashMap<String, Object>(this.variable);
+
+	
+	
+	
+	
+	
+
+	@Override
+	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) throws Throwable {
+		return super.getVariable(name);
 	}
+	@Override
+	public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object value) throws Throwable {
+		return super.setVariable(name, value);
+	}
+	@Override
+	public Object executeMethodProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object[] value) throws Throwable {
+		XFEStack stack = xfeexecute.getStack();
+		XFEClassInstance cls = this;
+		XFEMethod method = cls.getMethod(name);
+		if (null == method) {
+			stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassMethod(this.getName(), name));
+			return null;
+		}
+		Object result = XFEExecute.execute(this, stack, method, name, value, 0, value.length);
+		return result;
+	}
+
+
+
 }

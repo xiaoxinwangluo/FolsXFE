@@ -11,7 +11,7 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetJavaClass;
 
-public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements XFEInterfaceGetJavaClass {
+public class XFEJavaClassStaticPoint implements XFEInterfaceGetJavaClass,XFEAbstractVariablePoint {
 	private Class<?> cls;
 
 	public XFEJavaClassStaticPoint(Class<?> cls) {
@@ -43,7 +43,7 @@ public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements
 
 	@Override
 	public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name,
-			Object value) {
+									 Object value) {
 		// TODO: Implement this method
 		XFEStack stack = xfeexecute.getStack();
 		try {
@@ -62,7 +62,7 @@ public class XFEJavaClassStaticPoint extends XFEAbstractVariablePoint implements
 
 	@Override
 	public Object executeMethodProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name,
-			Object[] value) throws Throwable {
+									   Object[] value) throws Throwable {
 		// TODO: Implement this method
 		XFEStack stack = xfeexecute.getStack();
 		if (XFEKeyWords.isNewMethodName(name)) {

@@ -287,7 +287,7 @@ public class XFEKeyWords {
 			XFEKeyWords.STATIC == name;
 	}
 
-	public static void initExecuteParam(XFEStack stack, Map<String, Object> map, XFEExecute execute) {
+	public static void initExecuterParam(XFEStack stack, Map<String, Object> map, XFEExecute execute) {
 		XFEClassInstance xfeclassinstance = execute.getXFEClassInstance();
 		//setBaseData ***** 
 		map.put(XFEKeyWords.FINAL, 			xfeclassinstance.getFinalVariablePoint());

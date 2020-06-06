@@ -14,15 +14,14 @@ end
 
 fun init(a)
 	
-	time	(	a	,	
-	b	);
+	time	(	a	);
 	
     //this.a;
-    //b();
+    //returnArgs0();
     //b = t;
-    //a = b();
+    //a = returnArgs0();
     //l = "我丢";
-    //l = this.b();
+    //l = this.returnArgs0();
     //l = this.a.b;
     //l = this.a.b();
     //l = this.a.b.k();
@@ -30,9 +29,12 @@ fun init(a)
     //a.a = "";
     //a.a.a = "";
     //a.a().c = "";
+    
+    //error;
+    //a.b() = "";
 end
 
-fun b(args0)
+fun returnArgs0(args0)
     return(args0);
 end
 
@@ -44,15 +46,32 @@ end
 fun test(f)
     
     
+    
+    
+    println("_________");
+    hookin = import("hook").new();
+    println(hookin);
+    hookin.a = "hookin.a";
+    println(hookin.a);    //hookin.a
+    
+    hookin2 = import("hook").new();
+    println(hookin2);
+    hookin2.a = "hookin2.a";
+    println(hookin.a);    //hookin.a
+    println(hookin2.a);   //hookin2.a
+    println("_________");
+    
+    
+    println("_________");
     time = this.time();
     println(strf("现在时间是: {time}"));
+    println(this.获取北京时间());
+    println("_________");
     
     
     
     
-    println(获取北京时间());
-    println(this.time());
-    
+    println("_________");
     println(import(loadcode("动态加载.xfe","
         fun init()
             println(\"动态加载 init\");
@@ -61,24 +80,22 @@ fun test(f)
             println(\"动态加载 动态测试\");
         end
     ")).new().动态测试());
+    println("_________");
     
     
     
+    
+    
+    println("_________");
     while(final.false)
         println("while error");
     endl
-    
-    
-    
     
     try(a)
         importjava("java.");
         println("try error");
     endl
     println(a);
-    
-    
-    
     
     if("".getClass(), getclass(importjava("java.lang.String")))
         println("if true");
@@ -89,61 +106,94 @@ fun test(f)
     if(final.false)
         println("if error");
     endl
+    if(final.null&)
+        println("if error");
+    endl
+    println("_________");
+    
+    
+    
+    println("_________");
+    println(f);
+    f = y;
+    println(f);
+    println("_________");
     
     
     
     
-    a = y;
-    
+    println("_________");
     this.returnThis().hh = "this.hh";
     println(this.hh);
+    println("_________");
     
-    string = b(
-        a = b("1"), 
-        a2 = b("2"), 
-        a3 = b("3"), 
-        a4 = b("4")
+    
+    println("_________");
+    string = returnArgs0(
+        a = returnArgs0("1"), 
+        a2 = returnArgs0("2"), 
+        a3 = returnArgs0("3"), 
+        a4 = returnArgs0("4")
     ).charAt(int:0);
+    println(string,a,a2,a3,a4);
+    println("_________");
     
+    
+    println("_________");
     string = "ohhh".toString().toString().toString().toString().charAt(int:0);
-    println(importjava("java.io.File").new("/sdcard/6a1a5ffafd175d109c3a93b3c868d099.png").length());
+    println(string("firstChar: ", string));
+    println(string("fileLength: ", importjava("java.io.File").new("/sdcard/6a1a5ffafd175d109c3a93b3c868d099.png").length()));
+    println("_________");
     
+    
+    println("_________");
     this.a = "this.a";
     a = this.a;
+    println(this.a, a);
+    println("_________");
     
+    
+    
+    
+    println("_________");
     this.b = map();
     this.b.k = "丢丢丢丢";
-    b = this.b();
+    b = this.returnArgs0();
+    println(this.b, b);
+    println("_________");
+    
+    
 end
 
 
 fun whiletest()
-    if()endl
-    while()endl
-    try()endl
+    if(final.false) endl
+    if(final.false, final.true) endl
+    
+    while(final.false) endl
+    while(final.false, final.true) endl
+    
+    try() endl
+    try(a) endl
+    try(a, b, c) endl
 end
 
 
 fun time() 
     System = 
-        importjava("java.lang.System");
+        importjava(
+        "java.lang.System"
+        );
     return(System.currentTimeMillis());
 end
 
  
 fun hscz()
     
-    a = "";
-    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
-	
     i = int:0;
     while(calc(i, "<", int:1000000))
         i = calc(i, "+", int:1);
     endl
-	
-    a = "";
-    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
-    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
     
     //存储于匿名Class
     //存储于匿名ClassLoader

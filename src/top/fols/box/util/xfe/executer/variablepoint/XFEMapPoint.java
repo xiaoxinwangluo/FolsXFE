@@ -10,7 +10,7 @@ import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVari
 import java.util.function.Function;
 import java.util.function.BiFunction;
 
-public class XFEMapPoint extends XFEAbstractVariablePoint implements Map {
+public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 
 
 	private Class mapClass = Map.class;

@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
 
-public class XFEThreadPoint extends XFEAbstractVariablePoint implements XFEInterfaceGetXFEClass {
+public class XFEThreadPoint implements XFEInterfaceGetXFEClass, XFEAbstractVariablePoint {
 
 	private XFEClassInstance xfeclassinstance;
 	private boolean executed = false;

@@ -10,7 +10,7 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
 
-public class XFEClassStaticPoint extends XFEAbstractVariablePoint implements XFEInterfaceGetXFEClass {
+public class XFEClassStaticPoint implements XFEInterfaceGetXFEClass, XFEAbstractVariablePoint {
 	private XFEClass cls;
 	private XFEClassInstance getStaticInstance(XFEStack stack) {
 		return this.cls.getStaticInstance(stack);

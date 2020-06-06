@@ -106,7 +106,7 @@ final class XFEFinalVariableManager {
 		return this.pointCache;
 	}
 
-	protected final static class XFEFinalVariablePoint extends XFEAbstractVariablePoint {
+	protected final static class XFEFinalVariablePoint implements XFEAbstractVariablePoint {
 		private XFEFinalVariableManager fvm;
 		public XFEFinalVariablePoint(XFEFinalVariableManager variable) {
 			this.fvm = variable;
