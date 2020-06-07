@@ -10,6 +10,7 @@ import java.util.Map;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
+import top.fols.box.util.xfe.util.XFECodeContent;
 
 /*
  * 自动加载 
@@ -89,8 +90,19 @@ public class XFEAutoCodeLoaderManager {
 			return bs;
 		}
 	}
-	
-	
+	public XFECodeContent getCodeContent(String clsName) throws IOException, RuntimeException {
+		synchronized (loaderList) {
+			XFEAutoCodeLoaderAbstract loader = this.classNameCorrespondsToLoaderMap.get(clsName);
+			if (loader == null) {
+				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
+			}
+			XFECodeContent bs = loader.getCode(clsName);
+			if (bs == null) {
+				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
+			}
+			return bs;
+		}
+	}
 	
 	//加载所有自动代码加载器的类文件到ClassLoader
 	public static XFEClass[] loadCodeAndAddAllXClass(XFEClassLoader clsLoader,
@@ -108,9 +120,14 @@ public class XFEAutoCodeLoaderManager {
 		}
 		return clss.toArray(new XFEClass[clss.size()]);
 	}
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 	// 命令所有AutoLoader重新载入文件列表
 	public void reLoadXClassNameList() {
 		synchronized (this.loaderList) {
@@ -156,8 +173,4 @@ public class XFEAutoCodeLoaderManager {
 		}
 		throw new RuntimeException("cannot find the corresponding loader: " + file.getAbsolutePath());
 	}
-
-
-
-
 }

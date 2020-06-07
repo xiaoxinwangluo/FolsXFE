@@ -22,6 +22,8 @@ import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePointTool;
+import top.fols.box.statics.XStaticFixedValue;
+import top.fols.box.statics.XStaticBaseType;
 
 public class XFEExecute {
     private XFEStack stack;
@@ -262,7 +264,7 @@ public class XFEExecute {
 		int len = fun.getParamCount();
 		if (len == 1) {
 			Object obj = this.getParamValue(execStatus, fun.getParamRoot().getNext());
-			return XFEUtil.equals(obj, true);
+			return XFEUtil.equals(obj, XStaticBaseType.Boolean_TRUE);
 		} else if (len == 2) {
             Object obj = this.getParamValue(execStatus, fun.getParamRoot().getNext());
 			Object obj2 = this.getParamValue(execStatus, fun.getParamRoot().getNext().getNext());
@@ -273,17 +275,18 @@ public class XFEExecute {
 	}
 
 
-
+	
+//	private VarLinkedReader paramVarLinkedReader = new VarLinkedReader();
     private Object[] getParamValues(ExecuteStatus execStatus, XFECodeLoader.Fun funv) {
         int paramIndex = 0;
         Object[] paramList = new Object[funv.getParamCount()];
-        //检查参数名称 
         XFECodeLoader.ContentLinked<Code> nowParam = funv.getParamRoot();
         while (null != (nowParam = nowParam.getNext())) {
             paramList[paramIndex++] = this.executeVars0(execStatus, new VarLinkedReader().setRoot(nowParam.content().getCodeRoot()));
         }
         return paramList;
     }
+//	private VarLinkedReader paramVarLinkedReader2 = new VarLinkedReader();
     private Object getParamValue(ExecuteStatus execStatus, XFECodeLoader.ContentLinked<Code> nowParam) {
         return this.executeVars0(execStatus, new VarLinkedReader().setRoot(nowParam.content().getCodeRoot()));
     }
@@ -297,23 +300,19 @@ public class XFEExecute {
 
         public VarLinkedReader() {
         }
-
         public XFECodeLoader.ContentLinked<Var> next() {
             XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : this.now.getNext();
             this.now = next;
             return next;
         }
-
         public XFECodeLoader.ContentLinked<Var> getNext() {
             XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : this.now.getNext();
             return next;
         }
-
         public VarLinkedReader setRoot(XFECodeLoader.ContentLinked<Var> now) {
             this.now = now;
             return this;
         }
-
         public static XFECodeLoader.ContentLinked<Var> next(XFECodeLoader.ContentLinked<Var> now) {
             return null == now ? null : now.getNext();
         }
@@ -510,7 +509,7 @@ public class XFEExecute {
                 return;
             }
             if (startIndex > endIndex) {
-                break;
+                return;
             }
             XFEMethodCode code = codes[startIndex];
             this.current.content().setLine(code.lineNumber);
@@ -582,8 +581,6 @@ public class XFEExecute {
             }
             startIndex++;// next line
         }
-        // System.out.println(this.variable);
-        return;
     }
 
 

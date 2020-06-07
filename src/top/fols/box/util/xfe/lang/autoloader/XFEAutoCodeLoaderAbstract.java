@@ -8,6 +8,7 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XKeyMap;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
+import top.fols.box.util.xfe.util.XFECodeContent;
 
 /*
  * 自动加载 
@@ -58,5 +59,6 @@ public abstract class XFEAutoCodeLoaderAbstract {
 
 	public abstract void reLoad();
 	public abstract String[] listClsName();
+	public abstract XFECodeContent getCode(String clsName) throws IOException;
 	public abstract XFEClass loadCode(XFEClassLoader clsLoader, String clsName) throws IOException;
 }

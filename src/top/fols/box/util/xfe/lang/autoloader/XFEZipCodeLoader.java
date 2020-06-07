@@ -18,7 +18,10 @@ import top.fols.box.util.xfe.util.XFECodeContent;
  * 其次加载未编译代码(UTF-8)
  */
 public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
-	
+
+
+
+
 	@Override
 	public void reLoad() {
 		// TODO: Implement this methodublic
@@ -55,9 +58,9 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 			return XStaticFixedValue.nullStringArray;
 		}
 	}
-	
-	
-	
+
+
+
 	public static final char 		UNIX_FILE_SEPARATOR = '/';
 	public static final String 		UNIX_FILE_SEPARATOR_STRING = String.valueOf(UNIX_FILE_SEPARATOR);
 
@@ -79,7 +82,7 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 		return false;
 	}
 
-	
+
 
 
 
@@ -89,17 +92,26 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	@Override
 	public synchronized XFEClass loadCode(XFEClassLoader clsLoader, String clsName0) throws IOException, OutOfMemoryError, RuntimeException  {
 		// TODO: Implement this method
-		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName0);
-		if (this.exists(noCompilerFileName)) {
-			XFECodeContent content = XFECodeContent.wrapZipFile(this.file, this.getZipFile(), noCompilerFileName, XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
+		XFECodeContent content = this.getCode(clsName0);
+		if (null != content) {
 			XFEClass xfeclass = clsLoader.loadCode(content);
 			content.releaseBuffer();
 			return xfeclass;
 		}
 		return null;
 	}
-	
-	
+	@Override
+	public XFECodeContent getCode(String clsName) throws IOException {
+		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName);
+		if (this.exists(noCompilerFileName)) {
+			XFECodeContent content = XFECodeContent.wrapZipFile(this.file, this.getZipFile(), noCompilerFileName, XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
+			return content;
+		}
+		return null;
+	}
+
+
+
 	private boolean exists(String name) {
 		try {
 			return null != XFECodeContent.getZipEntryInputStream(this.getZipFile(), this.getZipFile().getEntry(name));
@@ -110,7 +122,7 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	private ZipFile getZipFile() throws IOException {
 		return null == this.zipfile ?this.zipfile = new ZipFile(this.getFile()): this.zipfile;
 	}
-	
+
 
 	public static boolean isZipFile(File file) {
 		try {
@@ -136,6 +148,6 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 			throw new RuntimeException("this is not is a zip file: " + getFile());
 		}
 	}
-	
-	
+
+
 }

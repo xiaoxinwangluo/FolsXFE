@@ -178,7 +178,7 @@ public class XFECodeLoader {
             }
             nextCode = new String(cCharArr);
             if ((nextCode = nextCode.trim()).length() == 0) {
-                continue;
+				continue;
             }
             nextCode = XFEKeyWords.searchRootKeyWords(nextCode);
 
@@ -360,16 +360,16 @@ public class XFECodeLoader {
         xfeclass = new XFEClass(loader);
         xfeclass.setName(this.className);
         xfeclass.setFileName(this.fileName);
-
-        char[] content;
+		
+	    char[] content;
         content = this.content.getContent();
         content = this.dealStringVariable(xfeclass, content);
         content = this.dealCharVariable(xfeclass, content);
-        content = this.dealAnnotation(content);
+        content = this.dealNote(content);
 		content = this.dealBaseVariable(xfeclass, content);
-
-//      System.out.println("处理代码: [" + content + "]");
-//      System.out.println("--------");
+		
+//		System.out.println("处理代码: [" + new String(content) + "]");
+//		System.out.println("--------");
 
         XFEMethod xfemethod = null;
         //是否进入方法
@@ -429,7 +429,7 @@ public class XFECodeLoader {
         nowCodeLinkedReader = null;
         xfemethod = null;
         lineCodeReader.releaseBuffer();
-		
+
 		//添加到xfeclassloader
         loader.addClass(xfeclass);
 		//释放缓存
@@ -449,7 +449,7 @@ public class XFECodeLoader {
 		//单个XFEMethodCode缓存
         ContentLinked<Var> bufCodeRoot = new ContentLinked<Var>(null);
         ContentLinked<Var> bufCodeTop = bufCodeRoot;
-		List<XFEMethodCode> xfemethodcodes = new ArrayList<>();
+		List<XFEMethodCode> xfemethodcodes = new ArrayList<>(0);
 		int nowLine = 0;
 		while (null != nowCodeLinkedReader.next()) {
 			Var nowCodeVar = nowCodeLinkedReader.content();
@@ -534,7 +534,7 @@ public class XFECodeLoader {
 
     private void dealBlackOptionGotoIndex(XFEMethod method) {
         XFEMethodCode[] codes = method.getCodes();
-        List<XFEMethodCode> localList = new ArrayList<>();
+        List<XFEMethodCode> localList = new ArrayList<>(0);
         for (int i = 0;i < codes.length;i++) {
             XFEMethodCode code = codes[i];
 
@@ -591,8 +591,8 @@ public class XFECodeLoader {
         final char STRING_ANNOTATION_CHAR = '"';
         final char LINE_SEPARATOR_CHAR = XFEKeyWords.CODE_LINE_SEPARATOR_CHAR;
 
-        XCharArrayWriter s = new XCharArrayWriter();
-        XCharArrayWriter out = new XCharArrayWriter();
+        XCharArrayWriter s = new XCharArrayWriter(0);
+        XCharArrayWriter out = new XCharArrayWriter(0);
 
         int line = 1;
 
@@ -717,8 +717,8 @@ public class XFECodeLoader {
         final char STRING_ANNOTATION_CHAR = '\'';
         final char LINE_SEPARATOR_CHAR = XFEKeyWords.CODE_LINE_SEPARATOR_CHAR;
 
-        XCharArrayWriter s = new XCharArrayWriter();
-        XCharArrayWriter out = new XCharArrayWriter();
+        XCharArrayWriter s = new XCharArrayWriter(0);
+        XCharArrayWriter out = new XCharArrayWriter(0);
 
         int line = 1;
 
@@ -843,20 +843,20 @@ public class XFECodeLoader {
         out.close();
         return result;
     }
-    private static char[] dealAnnotation(char[] str) {
+    private static char[] dealNote(char[] str) {
         final String annotation = XFEKeyWords.CODE_NOTE_LINE_START;
         final char annotationChar0 = annotation.charAt(0);
 
         final char LINE_SEPARATOR_CHAR = XFEKeyWords.CODE_LINE_SEPARATOR_CHAR;
-        XCharArrayWriter s = new XCharArrayWriter();
+        XCharArrayWriter s = new XCharArrayWriter(0);
         int sz = str.length;
         for (int i = 0; i < sz; i++) {
             char ch = str[i];
             if (ch == annotationChar0) {
-                if (XArrays.CharSequenceUtil.equalsRange(str, i, annotation, 0, annotation.length())) {
-                    i = indexOfChar(str, LINE_SEPARATOR_CHAR, i) - 1;
-                    continue;
-                }
+				if (XArrays.CharSequenceUtil.equalsRange(str, i, annotation, 0, annotation.length())) {
+					i = indexOfChar(str, LINE_SEPARATOR_CHAR, i) - 1;
+					continue;
+				}
             }
             s.append(ch);
         }
@@ -869,7 +869,7 @@ public class XFECodeLoader {
     public static char[] dealBaseVariable(XFEClass cls, char[] codeChars) {
         char BASE_VARIABLE_TYPE_STATEMENT = XFEKeyWords.BASE_VARIABLE_TYPE_STATEMENT;
 
-        XCharArrayWriter s = new XCharArrayWriter();
+        XCharArrayWriter s = new XCharArrayWriter(0);
         int len = codeChars.length;
         for (int i = 0;i < len;i++) {
             char ch = codeChars[i];
@@ -939,7 +939,7 @@ public class XFECodeLoader {
                             XExceptionTool.StackTraceToString(e)));
                 }
 
-                String name = cls.getFinalVariableManager0().putBaseDataFinalValue(cls, value);
+                String name = cls.getFinalVariableManager0().putBaseTypeFinalValue(cls, value);
                 String replStr = new StringBuilder(XFEKeyWords.FINAL).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL).append(name).toString();
 
                 // System.out.println("* " + name);

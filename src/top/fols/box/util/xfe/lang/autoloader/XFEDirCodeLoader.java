@@ -13,6 +13,7 @@ import top.fols.box.util.xfe.util.XFECodeContent;
  * 其次加载未编译代码
  */
 public class XFEDirCodeLoader extends XFEAutoCodeLoaderAbstract {
+
 	@Override
 	public void reLoad() {
 		// TODO: Implement this method
@@ -29,16 +30,23 @@ public class XFEDirCodeLoader extends XFEAutoCodeLoaderAbstract {
 	@Override
 	public XFEClass loadCode(XFEClassLoader clsLoader, String clsName0) throws IOException, OutOfMemoryError, RuntimeException {
 		// TODO: Implement this method
-		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName0);
-		if (this.exists(noCompilerFileName)) {
-			XFECodeContent content = XFECodeContent.wrapFile(new File(this.getFile(), noCompilerFileName), XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
+		XFECodeContent content = this.getCode(clsName0);
+		if (null != content) {
 			XFEClass xfeclass = clsLoader.loadCode(content);
 			content.releaseBuffer();
 			return xfeclass;
 		}
 		return null;
 	}
-
+	@Override
+	public XFECodeContent getCode(String clsName) {
+		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName);
+		if (this.exists(noCompilerFileName)) {
+			XFECodeContent content = XFECodeContent.wrapFile(new File(this.getFile(), noCompilerFileName), XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
+			return content;
+		}
+		return null;
+	}
 
 
 	private boolean exists(String name) {

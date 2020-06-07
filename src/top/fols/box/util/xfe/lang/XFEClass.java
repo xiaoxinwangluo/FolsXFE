@@ -2,10 +2,9 @@ package top.fols.box.util.xfe.lang;
 import java.util.HashMap;
 import java.util.Map;
 import top.fols.box.util.xfe.executer.XFEStack;
+import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
-import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
-import top.fols.box.util.xfe.executer.XFEExecute;
 
 public class XFEClass implements XFEInterfaceGetXFEClass {
 	protected String fileName;//class filename
@@ -13,8 +12,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	protected Map<String, XFEMethod> methods;//methods
 	protected XFEClassLoader classLoader;//class loader
 	protected String name;//class name
-	protected boolean isInstance;//is instance
-	protected boolean isStaticInstance;//is static instance
+	protected int RUNNING_MOD = 0;//instance/staticinstance
 	protected Map<String, Object> variable;//variable
 	protected XFEClassInstance staticInstance;//static instance
 	protected XFEFinalVariableManager finalVariable;//String char and base type data
@@ -26,11 +24,51 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		this.name = cls.name;
 		this.methods = cls.methods;
 		this.variable = new HashMap<>();
-		this.isInstance = true;
-		this.isStaticInstance = cls.isStaticInstance;
+		this.RUNNING_MOD = cls.RUNNING_MOD;
 		this.staticInstance = cls.staticInstance;
 		this.finalVariable = cls.finalVariable;
 	}
+	protected XFEClass(XFEClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+	private XFEClass() {
+		super();
+	}
+
+
+
+
+	private static class RunningModifier {
+		private static final int INSTANCE = 0x00000001;
+		private static final int STATIC_INSTANCE = 0x00000002;
+
+		public static boolean is(int mod, int m) {
+			return (mod & m) != 0;
+		}
+		public static int add(int mod, int m) {
+			return mod | m;
+		}
+		public static int less(int mod, int m) {
+			return is(mod, m) ? mod - m: mod;
+		}
+	}
+	protected void setStaticInstance(boolean b) {
+		RUNNING_MOD = b
+			? RunningModifier.add(RUNNING_MOD, RunningModifier.STATIC_INSTANCE)
+			: RunningModifier.less(RUNNING_MOD, RunningModifier.STATIC_INSTANCE);
+	}
+    public boolean isStaticInstance() {
+		return RunningModifier.is(RUNNING_MOD, RunningModifier.STATIC_INSTANCE);
+	}
+	protected void setInstance(boolean b) {
+		RUNNING_MOD = b
+			? RunningModifier.add(RUNNING_MOD, RunningModifier.INSTANCE)
+			: RunningModifier.less(RUNNING_MOD, RunningModifier.INSTANCE);
+	}
+	public boolean isInstance() {
+		return RunningModifier.is(RUNNING_MOD, RunningModifier.INSTANCE);
+	}
+
 
 
 
@@ -41,7 +79,8 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 			XFEClassInstance instance = new XFEClassInstance(this); 
 			this.staticInstance = instance;
 			instance.staticInstance = instance;
-			instance.isStaticInstance = true;
+			instance.setInstance(true);
+			instance.setStaticInstance(true);
 			instance.executeStaticMethod(stack);
 		}
 		return this.staticInstance;
@@ -49,11 +88,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 
 
-	private XFEClass() {
-	}
-	public XFEClass(XFEClassLoader classLoader) {
-		this.classLoader = classLoader;
-	}
+
 
 
 	@Override
@@ -66,13 +101,6 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		return this.classLoader;
 	}
 
-	public boolean isInstance() {
-		return this.isInstance;
-	}
-
-	public boolean isStaticInstance() {
-		return this.isStaticInstance;
-	}
 
 	public Object setVariable(String name, Object newValue) {
 		this.variable.put(name, newValue);
@@ -140,10 +168,10 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	public String toString() {
 		// TODO: Implement this method
 		StringBuilder sb = new StringBuilder("xfeclass").append(' ').append(this.name);
-		if (this.isStaticInstance) {
+		if (this.isStaticInstance()) {
 			sb.append('@').append(XFEKeyWords.STATIC);
-		} else if (this.isInstance) {
-			sb.append('@').append(this.hashCode());
+		} else if (this.isInstance()) {
+			sb.append('@').append(super.hashCode());
 		}
 		return sb.toString();
 	}
@@ -166,7 +194,8 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		XFEClassInstance instance;
 		instance = new XFEClassInstance(this);
 		instance.staticInstance = this.getStaticInstance(stack);
-		instance.isStaticInstance = false;
+		instance.setInstance(true);
+		instance.setStaticInstance(false);
 		instance.executeInitMethod(stack, args, off, len);
 		return instance;
 	}
@@ -176,7 +205,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 
 
-
+	
 	public static String getClassFileExtensionNameSeparator() {
 		return XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR;
 	}

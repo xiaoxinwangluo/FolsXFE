@@ -199,8 +199,7 @@ public class XFEKeyWords {
 
 
 
-	public static final Map<String, Object> getFinalBaseFieldValues() {
-		HashMap<String, Object> kf = new HashMap<>();
+	public static final Map<String, Object> initFinalVariableValues(HashMap<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
 		kf.put(XFEKeyWords.NULL, 	null);

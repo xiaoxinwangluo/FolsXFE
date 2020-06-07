@@ -9,8 +9,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
 import top.fols.box.io.os.XFile;
-import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.XByteEncode;
+import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 	public static final String separator = File.separator;
@@ -134,7 +134,7 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 	 *
 	 * @param charset isnull use CODE_DEFAULT_CHARSET
 	 */
-	public static char[] bytesToChars(byte[] bytes, Charset charset) {
+	private static char[] bytesToChars(byte[] bytes, Charset charset) {
         if (null == charset) { charset = XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8; }
         char[] chars = XByteEncode.bytesToChars(bytes, 0, bytes.length, charset);
         return chars;
@@ -145,9 +145,9 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 
 
 
-	public static XFECodeContent wrapZipFile(final File zipfile, ZipFile zipfile2, 
+	public static XFECodeContent wrapZipFile(final File zipfile, ZipFile zipfileobject, 
 											 final String path, final Charset charset) {
-		return new XFEZipFileContent(zipfile, zipfile2, 
+		return new XFEZipFileContent(zipfile, zipfileobject, 
 			path, charset);
 	}
 	public static class XFEZipFileContent extends XFECodeContent {
@@ -212,7 +212,39 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 			}
 		};
 	}
-    public static XFECodeContent wrapString(final String filePath, final String fileContent) {
+	public static XFECodeContent wrapBytes(final String filePath, final byte[] fileContent, final Charset charset) {
+		return new XFECodeContent(filePath, charset) {
+			private byte[] bytes = fileContent;
+			private char[] content = null;
+
+			@Override
+			public void releaseBuffer() {
+				// TODO: Implement this method
+				if (super.isRelease) {
+					return;
+				}
+				super.isRelease = true;
+				this.content = null;
+				this.bytes = null;
+			}
+
+			@Override
+			public char[] getContent() {
+				if (super.isRelease) {
+					throw new RuntimeException("already release");
+				}
+				if (null == this.content) {
+					if (null != this.bytes) {
+						this.content = bytesToChars(this.bytes, this.getCharset());
+						this.bytes = null;
+					}
+				}
+				return this.content;
+			}
+		};
+	}
+	
+	public static XFECodeContent wrapString(final String filePath, final String fileContent) {
         return new XFECodeContent(filePath, Charset.defaultCharset()){
             private char[] content = fileContent.toCharArray();
 
@@ -258,39 +290,10 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 			}
 		};
 	}
-
-	public static XFECodeContent wrapBytes(final String filePath, final byte[] fileContent, final Charset charset) {
-		return new XFECodeContent(filePath, charset) {
-			private byte[] bytes = fileContent;
-			private char[] content = null;
-
-			@Override
-			public void releaseBuffer() {
-				// TODO: Implement this method
-				if (super.isRelease) {
-					return;
-				}
-				super.isRelease = true;
-				this.content = null;
-				this.bytes = null;
-			}
-
-			@Override
-			public char[] getContent() {
-				if (super.isRelease) {
-					throw new RuntimeException("already release");
-				}
-				if (null == this.content) {
-					if (null != this.bytes) {
-						this.content = bytesToChars(this.bytes, this.getCharset());
-						this.bytes = null;
-					}
-				}
-				return this.content;
-			}
-		};
-	}
-
+	
+	
+	
+	
 
 
 

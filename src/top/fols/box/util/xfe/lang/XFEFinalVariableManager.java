@@ -2,16 +2,13 @@ package top.fols.box.util.xfe.lang;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 final class XFEFinalVariableManager {
-	Map<String, Object> finalVariable = new HashMap<String,Object>(){{
-			this.putAll(XFEKeyWords.getFinalBaseFieldValues());
-		}};
+	private Map<String, Object> finalVariable = XFEKeyWords.initFinalVariableValues(new HashMap<String,Object>());
 	private XFEFinalVariableManager() {
 		super();
 	}
@@ -37,7 +34,7 @@ final class XFEFinalVariableManager {
         String type = XFEKeyWords.BASE_VARIABLE_TYPE_STRING;
         String id = String.valueOf(this.finalVariable.size());
         String name =  type + id;
-       	this.putFinalValue(cls, name, value);
+       	this.put(cls, name, value);
 		return name;
     }
 	//返回变量名
@@ -45,11 +42,11 @@ final class XFEFinalVariableManager {
         String type = XFEKeyWords.BASE_VARIABLE_TYPE_CHAR;
         String id = String.valueOf((int)value);
 		String name = type + id;
-		this.putFinalValue(cls, name, value);
+		this.put(cls, name, value);
 		return name;
     }
 	//返回变量名
-	protected String putBaseDataFinalValue(XFEClass cls, Object value) {
+	protected String putBaseTypeFinalValue(XFEClass cls, Object value) {
 		String type = null;
         if (value instanceof Integer) {
 			type = XFEKeyWords.BASE_VARIABLE_TYPE_INT;
@@ -66,15 +63,16 @@ final class XFEFinalVariableManager {
 		} 
         String id = String.valueOf(value).replace(".", "_");//format name
         String name = type + id;
-		this.putFinalValue(cls, name, value);
+		this.put(cls, name, value);
 		return name;
     }
+	
+	
+	
 	protected void releaseCache() {
 		this.stringVariableCacheMap0 = null;
 	}
-
-
-	protected void releaseFinalValue() {
+	protected void releaseVariable() {
 		if (null != this.finalVariable) {
 			this.finalVariable.clear(); 
 			this.finalVariable = null;
@@ -86,14 +84,14 @@ final class XFEFinalVariableManager {
 		}
 	}
 
-	protected void putFinalValue(XFEClass cls, String name, Object value) {
+	protected void put(XFEClass cls, String name, Object value) {
 		this.finalVariable.put(name, value);
 		//cls.addSystemVariableName(name);
     }
-	protected boolean hasFinalValue(String name) {
+	protected boolean has(String name) {
 		return this.finalVariable.containsKey(name);
     }
-	protected Object getFinalValue(String name) {
+	protected Object get(String name) {
         return this.finalVariable.get(name);
     }
 
@@ -114,7 +112,7 @@ final class XFEFinalVariableManager {
 		@Override
 		public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 			// TODO: Implement this method
-            return this.fvm.getFinalValue(name);
+            return this.fvm.get(name);
 		}
 		@Override
 		public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object value) {

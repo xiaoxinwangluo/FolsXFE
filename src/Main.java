@@ -11,6 +11,8 @@ import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.lang.XFEMethod;
 import top.fols.box.util.xfe.lang.XFEMethodCode;
 import top.fols.box.util.xfe.lang.autoloader.XFEDirCodeLoader;
+import top.fols.box.util.xfe.util.XFECodeContent;
+import top.fols.box.io.base.XCharArrayWriter;
 
 public class Main {
 
@@ -88,17 +90,17 @@ public class Main {
 		// System.out.println(XFEUtil.toAbsClassName("java.lang.String[]"));
 		// System.out.println(XFEUtil.toAbsClassName("[Ljava.lang.String;"));
         // System.out.println(Class.forName(XFEUtil.toAbsClassName("[B")));
-       
-		
-		
-		
-		
+
+
+
+
+
 //		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
 //		if (true) {
 //			return;
 //		}
-//
-        
+
+
         for (int i = 0;i < 2000;i++) { System.out.println(); }
         testThreadStack();
 
@@ -107,18 +109,19 @@ public class Main {
 		rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
         File exampledir = new File(rundir, "example");
         System.out.println(exampledir);
-
-		
+		XTiming xtimingLoad;
         File codeDir = exampledir;
-
+		
+		
+		
         XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
         xfeclassloader1.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
-
-        XTiming xtimingLoad = XTiming.newAndStart();
-        XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
-        System.out.println("加载耗时: " + xtimingLoad.endAndGetEndLessStart());
 		
-        String[] methodNames = xfeclass.listMethodName();
+        xtimingLoad = XTiming.newAndStart();
+        XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
+        System.out.println("加载耗时: "+"xfeclass: " +xfeclass+" "+ xtimingLoad.endAndGetEndLessStart());
+
+	    String[] methodNames = xfeclass.listMethodName();
         for (int i = 0; i < methodNames.length; i++) {
             XFEMethod xfemethod = xfeclass.getMethod(methodNames[i]);
             System.out.println("--------");
@@ -126,9 +129,9 @@ public class Main {
             System.out.println("" + XFEMethodCode.formatCode(xfemethod) + "");
             System.out.println("--------");
         }
-		
-		
-		
+
+
+
         XFEStack stack;
         XFEClassInstance xfeclassInstance;
         Object result = null;
@@ -138,7 +141,7 @@ public class Main {
         System.out.println("_________________________");
         xfeclassInstance = xfeclass.newInstance(stack, new Object[] { "大傻逼" , "大傻逼2"});
         result = xfeclassInstance.executeMethod(stack, "test", new Object[] { "大傻逼" , "大傻逼2"});
-		
+
         System.out.println("_________________________");
         System.out.println("结果: " + result);
         System.out.println();
@@ -152,18 +155,18 @@ public class Main {
         // xfeclassloader1.releaseClassLoader();
 
         System.out.println("_________________________");
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
         XTiming timing = XTiming.newAndStart();
         result = xfeclassInstance.executeMethod(stack, "hscz", new Object[] { "大傻逼" , "大傻逼2"});
         System.out.println("耗时: " + timing.endAndGetEndLessStart());
-		
-		
+
+
         System.out.println("_________________________");
 
 
