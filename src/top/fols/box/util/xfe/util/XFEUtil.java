@@ -11,20 +11,20 @@ import top.fols.box.util.XRandom;
  * tool
  */
 public class XFEUtil {
-	
-	
-	public static String ftoString(Object value){
-		if(null==value){
+
+
+	public static String objectString(Object value) {
+		if (null == value) {
 			return "null";
 		}
 		return value.toString();
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	public static Class<?> forName(ClassLoader cl, String name) throws ClassNotFoundException {
 		String absClassName = XClass.toAbsClassName(name);
 		Class<?> cls = XClass.primitiveClassForName(absClassName);
@@ -72,7 +72,7 @@ public class XFEUtil {
 
 
 
-	
+
 	public static boolean equals(Object obj, Object obj2) {
 		if (obj == null) {
 			if (obj2 == null) {
@@ -198,7 +198,7 @@ public class XFEUtil {
 		return parseFloat(objArr.toString().trim());
 	}
 
-	
+
 
 
 
@@ -375,7 +375,7 @@ public class XFEUtil {
 		for (int i = off; i < off + len; i++) {
 			ch = str.charAt(i);
 			if (ch == '+' || ch == '-' || (ch >= '0' && ch <= '9') || ch == 'N' || ch == 'I' || ch == 'x' || ch == 'X'
-					|| ch == '.' || ch == 'e' || ch == 'E' || ch == 'f' || ch == 'F' || ch == 'd' || ch == 'D') {
+				|| ch == '.' || ch == 'e' || ch == 'E' || ch == 'f' || ch == 'F' || ch == 'd' || ch == 'D') {
 
 				int minCapacity = bufindex + 1;
 				if (minCapacity - buf.length > 0) {

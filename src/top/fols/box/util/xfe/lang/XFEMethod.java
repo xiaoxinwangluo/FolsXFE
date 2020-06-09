@@ -5,11 +5,20 @@ public final class XFEMethod {
 	private String name;
 	private String[] paramName;
 	private XFEMethodCode[] codes;
+	private String fileName;
 
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	
+	
+	
 	public void setClassName(String className) {
 		this.className = className;
 	}
-
 	public String getClassName() {
 		return className;
 	}
@@ -17,7 +26,6 @@ public final class XFEMethod {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -25,7 +33,6 @@ public final class XFEMethod {
 	public void setParamName(String[] paramName) {
 		this.paramName = paramName;
 	}
-
 	public String[] getParamName() {
 		return this.paramName;
 	}
@@ -33,7 +40,6 @@ public final class XFEMethod {
 	public void setCode(XFEMethodCode[] code) {
 		this.codes = code;
 	}
-
 	public XFEMethodCode[] getCodes() {
 		return this.codes;
 	}

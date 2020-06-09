@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVari
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 final class XFEFinalVariableManager {
-	private Map<String, Object> finalVariable = XFEKeyWords.initFinalVariableValues(new HashMap<String,Object>());
+	private Map<String, Object> finalVariable = XFEKeyWords.initFinalVariableManagerValues(new HashMap<String,Object>());
 	private XFEFinalVariableManager() {
 		super();
 	}

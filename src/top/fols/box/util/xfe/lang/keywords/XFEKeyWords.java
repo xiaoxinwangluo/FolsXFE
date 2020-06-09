@@ -97,22 +97,20 @@ public class XFEKeyWords {
 	 * XFE KeyWord
 	 */
 	public static final String 
-	RETURN = "return",  	FUN = "fun", 				END 	= "end",
-	ENDL = "endl", 			FINAL = "final",			THIS 	= "this",
-	INIT = "init", 			TRUE = "true", 				FALSE 	= "false",
-	NULL = "null",			IF = "if",					WHILE 	= "while",
-	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",
-    TRY = "try",
-
+	RETURN = "return",  	FUN = "fun", 				END 	= "end",		ENDL = "endl", 			
+	FINAL = "final",		THIS 	= "this",			INIT = "init", 			TRUE = "true",
+	FALSE 	= "false",		NULL = "null",				IF = "if",				WHILE 	= "while",
+	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",		TRY = "try",			
+	ELSE = "else",
+	
 	NEW = "new"//XFEClassStaticPoint / XFEJavaClassStaticPoint, create instance method name extension		
 	;
 	private static Map<String, String> KEYWORDS = putKeyWords(new String[] {
-			RETURN, 	FUN, 		END,
-			ENDL, 		FINAL, 		THIS,
-			INIT,		TRUE,		FALSE,
-			NULL,		IF,			WHILE,
-			BREAK, 		CONTINUE,	STATIC,
-			TRY,
+			RETURN, 	FUN, 		END,		ENDL, 		
+			FINAL, 		THIS,		INIT,		TRUE,		
+			FALSE,		NULL,		IF,			WHILE,
+			BREAK, 		CONTINUE,	STATIC,		TRY,		
+			ELSE,
 
             NEW
 		});
@@ -148,9 +146,9 @@ public class XFEKeyWords {
 	/**
 	 * XFEAbstractVariablePoint.java
 	 */
-	private static final String CODE_XFEVARIABLEPOINT_METHOD_NAME_NEW = XFEKeyWords.NEW;
+	private static final String CODE_XFEVARIABLEPOINT_NEW_INSTANCE_METHOD_NAME = XFEKeyWords.NEW;
 	public static boolean isNewMethodName(String name) {
-		return CODE_XFEVARIABLEPOINT_METHOD_NAME_NEW == name;
+		return CODE_XFEVARIABLEPOINT_NEW_INSTANCE_METHOD_NAME == name;
 	}
 
 
@@ -199,7 +197,7 @@ public class XFEKeyWords {
 
 
 
-	public static final Map<String, Object> initFinalVariableValues(HashMap<String, Object> kf) {
+	public static final Map<String, Object> initFinalVariableManagerValues(HashMap<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
 		kf.put(XFEKeyWords.NULL, 	null);
@@ -263,38 +261,50 @@ public class XFEKeyWords {
 
 		new TIME()
 	);
-
-
+	
+	
+	
+	
+	
 	public static boolean isCodeBlockHeader(String option) {
 		return 
 			option == XFEKeyWords.IF || 
 			option == XFEKeyWords.WHILE || 
 			option == XFEKeyWords.TRY;
 	}
+	public static boolean isCodeBlockElse(String option) {
+		return 
+			option == XFEKeyWords.ELSE;
+	}
 	public static boolean isCodeBlockTail(String option) {
 		return 
 			option == XFEKeyWords.ENDL;
 	}
-
-
-
+	
+	
+	
+	
+	
+	
+	
 	//prohibit set variable
-	public static boolean isFinalVariable(String name) {
+	public static boolean isExecuterFinalVariable(String name) {
 		return 
 			XFEKeyWords.FINAL == name || 
 			XFEKeyWords.THIS == name || 
 			XFEKeyWords.STATIC == name;
 	}
-
-	public static void initExecuterParam(XFEStack stack, Map<String, Object> map, XFEExecute execute) {
+	public static void initExecuterFinalVariable(XFEStack stack, Map<String, Object> map, XFEExecute execute) {
 		XFEClassInstance xfeclassinstance = execute.getXFEClassInstance();
 		//setBaseData ***** 
 		map.put(XFEKeyWords.FINAL, 			xfeclassinstance.getFinalVariablePoint());
 		map.put(XFEKeyWords.THIS, 			xfeclassinstance);
 		map.put(XFEKeyWords.STATIC, 		xfeclassinstance.getStaticInstance(stack));
 	}
-
-
+	
+	
+	
+	
     public static boolean isStandardVariableName(String str) {
 		int strlen = str.length();
 		if (strlen == 0) {

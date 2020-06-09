@@ -28,7 +28,6 @@ public class XFEStack implements XFEStackInterface {
 		public void setFileName(String fileName) {
 			this.fileName = fileName;
 		}
-
 		public String getFileName() {
 			return fileName;
 		}
@@ -36,7 +35,6 @@ public class XFEStack implements XFEStackInterface {
 		public void setClassName(String className) {
 			this.className = className;
 		}
-
 		public String getClassName() {
 			return className;
 		}
@@ -44,7 +42,6 @@ public class XFEStack implements XFEStackInterface {
 		public void setMethodName(String methodName) {
 			this.methodName = methodName;
 		}
-
 		public String getMethodName() {
 			return methodName;
 		}
@@ -52,7 +49,6 @@ public class XFEStack implements XFEStackInterface {
 		public void setLine(int line) {
 			this.line = line;
 		}
-
 		public int getLine() {
 			return line;
 		}
@@ -124,7 +120,6 @@ public class XFEStack implements XFEStackInterface {
 	public void setThrowReason(String reason) {
 		this.throwReason = reason;
 	}
-
 	public String getThrowReason() {
 		return this.throwReason;
 	}
@@ -132,7 +127,6 @@ public class XFEStack implements XFEStackInterface {
 	public void setThrowJavaThrowableInstance(Throwable throwable) {
 		this.throwJavaThrowableInstance = throwable;
 	}
-
 	public Throwable getThrowJavaThrowableInstance() {
 		return this.throwJavaThrowableInstance;
 	}
@@ -140,7 +134,6 @@ public class XFEStack implements XFEStackInterface {
 	public boolean isThrow() {
 		return this.isThrow;
 	}
-
 	public boolean isNoThrow() {
 		return !this.isThrow;
 	}

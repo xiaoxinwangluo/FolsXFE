@@ -47,7 +47,7 @@ public class STRF extends XFEBaseMethod {
 						String name = text.substring(st_index + 1, i);
 						Object value = varm.getVariableValue(name);
 //						writer.append("|" + name + "|");
-						writer.append(XFEUtil.ftoString(value));
+						writer.append(XFEUtil.objectString(value));
 						st_index = i + 1;
 					}
 				} else {

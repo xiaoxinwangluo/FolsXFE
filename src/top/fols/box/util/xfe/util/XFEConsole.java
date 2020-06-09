@@ -27,12 +27,12 @@ public class XFEConsole {
 	}
 
 	public void print(Object content) {
-		this.out.print(XFEUtil.ftoString(content));
+		this.out.print(XFEUtil.objectString(content));
 	}
 	public void println() {
 		this.out.println();
 	}
 	public void println(Object content) {
-		this.out.println(XFEUtil.ftoString(content));
+		this.out.println(XFEUtil.objectString(content));
 	}
 }

@@ -10,31 +10,20 @@ import top.fols.box.util.xfe.lang.XFECodeLoader.Var;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public final class XFEMethodCode {
-	protected String fileName; // final
-    protected String className; //final
-    protected String methodName; //final
-
-    public int lineNumber;
-
+	
+	public int lineNumber;
     public XFECodeLoader.ContentLinked<Var> rootCode;//Code;
-
-
     public String codeBlocOptionName = null;//CodeBlockHeader(if or try or while)....
-
-    //public int crashIndex;// if else Index
-    public int gotoIndex;//codeBlockHeader fail so ==> gotoIndex
-
-
-
-	@Override
-	public String toString() {
-		// TODO: Implement this method
-		return XFEMethodCode.lineAddresString(this).toString();
-	}
-
+    public int crashIndex = -1;// if else Index
+    public int gotoIndex = -1;//codeBlockHeader fail so ==> gotoIndex
+	
+	
+	
+	
 	public static CharSequence lineAddresString(String fileName, String className, String methodName, int line) {
 		return new StringBuilder()
-			.append(className).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL).append(methodName)
+			.append(className).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)
+			.append(methodName)
 			.append('(').append(fileName).append(':').append(line).append(')');
 	}
 	public static CharSequence lineAddresString(XFEStack.StackElement se) {
@@ -43,21 +32,20 @@ public final class XFEMethodCode {
 		}
 		return lineAddresString(se.getFileName(), se.getClassName(), se.getMethodName(), se.getLine());
 	}
-	public static CharSequence lineAddresString(XFEMethodCode se) {
+	public static CharSequence lineAddresString(XFEMethod method, XFEMethodCode se) {
 		if (null == se) {
 			return "null";
 		}
-		return lineAddresString(se.fileName, se.className, se.methodName, se.lineNumber);
+		return lineAddresString(method.getFileName(), method.getClassName(), method.getName(), se.lineNumber);
 	}
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
     private static String formatCodeFromRoot(XFECodeLoader.ContentLinked<Var> firstVar, boolean interrupt) {
         StringBuilder sb = new StringBuilder();
 

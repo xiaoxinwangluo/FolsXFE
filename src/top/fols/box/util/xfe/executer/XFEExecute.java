@@ -4,10 +4,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import top.fols.box.statics.XStaticBaseType;
 import top.fols.box.util.XDoubleLinked;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
+import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePointTool;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.lang.XFECodeLoader;
@@ -21,9 +23,6 @@ import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
-import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePointTool;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.statics.XStaticBaseType;
 
 public class XFEExecute {
     private XFEStack stack;
@@ -36,7 +35,7 @@ public class XFEExecute {
 
 	private XFEBaseMethodManager baseMethodManager;
 	private XFEJavaReflectManager javaReflectMatcher;
-	
+
 	public XFEStack getStack() {
 		return this.stack;
 	}
@@ -105,7 +104,7 @@ public class XFEExecute {
 		return this;
 	}
 	private void initExecuterParam() {
-		XFEKeyWords.initExecuterParam(this.stack, this.variable, this);
+		XFEKeyWords.initExecuterFinalVariable(this.stack, this.variable, this);
 	}
 
 
@@ -166,7 +165,7 @@ public class XFEExecute {
         return value;
 	}
 	public Object setVariableValue(String name, Object value) {
-		if (XFEKeyWords.isFinalVariable(name)) {
+		if (XFEKeyWords.isExecuterFinalVariable(name)) {
 			this.stack.setThrow(XFEStackThrowMessageTool.cannotSetVariable(name));
 			return null;
 		}
@@ -275,7 +274,7 @@ public class XFEExecute {
 	}
 
 
-	
+
 //	private VarLinkedReader paramVarLinkedReader = new VarLinkedReader();
     private Object[] getParamValues(ExecuteStatus execStatus, XFECodeLoader.Fun funv) {
         int paramIndex = 0;
@@ -468,8 +467,8 @@ public class XFEExecute {
         return XFEExecute.execute(xfeclassinstance, stack, method, methodName, args, off, len, null);
     }
     public static Object execute(XFEClassInstance xfeclassinstance, XFEStack stack, XFEMethod method,
-								   String methodName, Object[] args, int off, int len,
-								   XFEExecute inherit) {
+								 String methodName, Object[] args, int off, int len,
+								 XFEExecute inherit) {
         if (stack.isThrow()) {
             return null;
         }
@@ -517,10 +516,28 @@ public class XFEExecute {
             String cbo = code.codeBlocOptionName;
             if (cbo == XFEKeyWords.IF) {
                 boolean ifResult = this.ifParamResult(status, rootVars);
-                if (ifResult) {
-                    this.executeProcess(status, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index
-                }
-				startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
+			    int absIndex, absTail;
+				if (code.crashIndex > -1) {//存在else
+					if (ifResult) {
+						absIndex = startIndex + 1;
+						absTail = code.crashIndex - 1;
+					} else {
+						absIndex = code.crashIndex + 1;
+						absTail = code.gotoIndex - 1;
+					}
+				} else {
+					if (ifResult) {
+						absIndex = startIndex + 1;
+						absTail = code.gotoIndex - 1;
+					} else {
+						absIndex = 0;
+						absTail = 0;
+					}
+				}
+				if (absTail - absIndex > 0) {
+					this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index
+				}
+                startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
                 continue;
             } else if (cbo == XFEKeyWords.WHILE) {
                 while (true) {
@@ -547,20 +564,34 @@ public class XFEExecute {
                 startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
                 continue;
             } else if (cbo == XFEKeyWords.TRY) {
-                this.executeProcess(status, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index +1,
+				int absIndex, absTail;
+				if (code.crashIndex > -1) {
+					absIndex = startIndex + 1;
+					absTail = code.crashIndex - 1;
+				} else {
+					absIndex = startIndex + 1;
+					absTail = code.gotoIndex - 1;
+				}
+				this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index +1,
 				// CodeBlock tail -1
-                boolean isthrow = false;
-                if (this.stack.isThrow()) {
-                    // run exception
-                    status.clear();
-                    this.stack.clearThrow();
-                    isthrow = true;
-                } else if (status.isReturn) {
-                    // return
-                    return;
-                }
-                this.tryParamSet(status, rootVars, isthrow);// set try method param
-
+				boolean isthrow = false;
+				if (this.stack.isThrow()) {
+					// run exception
+					status.clear();
+					this.stack.clearThrow();
+					isthrow = true;
+				} else if (status.isReturn) {
+					// return
+					return;
+				}
+				this.tryParamSet(status, rootVars, isthrow);// set try method param
+				if (isthrow) {
+					if (code.crashIndex > -1) {
+						absIndex = code.crashIndex + 1;
+						absTail = code.gotoIndex - 1;
+						this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index +1,
+					}
+				}
                 startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
                 continue;
             } else {
