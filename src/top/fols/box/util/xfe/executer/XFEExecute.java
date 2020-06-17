@@ -515,27 +515,27 @@ public class XFEExecute {
             XFECodeLoader.ContentLinked<Var> rootVars = code.rootCode;
             String cbo = code.codeBlocOptionName;
             if (cbo == XFEKeyWords.IF) {
-                boolean ifResult = this.ifParamResult(status, rootVars);
-			    int absIndex, absTail;
-				if (code.crashIndex > -1) {//存在else
-					if (ifResult) {
-						absIndex = startIndex + 1;
-						absTail = code.crashIndex - 1;
+				while (true) {
+					boolean ifResult = this.ifParamResult(status, rootVars);
+					int absIndex, absTail; 
+					if (code.crashIndex > -1) {//存在else
+						if (ifResult) {
+							absIndex = startIndex + 1;
+							absTail = code.crashIndex - 1;
+						} else {
+							absIndex = code.crashIndex + 1;
+							absTail = code.gotoIndex - 1;
+						}
 					} else {
-						absIndex = code.crashIndex + 1;
-						absTail = code.gotoIndex - 1;
+						if (ifResult) {
+							absIndex = startIndex + 1;
+							absTail = code.gotoIndex - 1;
+						} else {
+							break;
+						}
 					}
-				} else {
-					if (ifResult) {
-						absIndex = startIndex + 1;
-						absTail = code.gotoIndex - 1;
-					} else {
-						absIndex = 0;
-						absTail = 0;
-					}
-				}
-				if (absTail - absIndex > 0) {
 					this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index
+					break;
 				}
                 startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
                 continue;
@@ -547,7 +547,6 @@ public class XFEExecute {
                         break;
                     }
                     this.executeProcess(status, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index
-					// +1, CodeBlock tail -1
                     if (this.stack.isThrow()) {
                         return;
                     } else if (status.isReturn) {
@@ -573,7 +572,6 @@ public class XFEExecute {
 					absTail = code.gotoIndex - 1;
 				}
 				this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index +1,
-				// CodeBlock tail -1
 				boolean isthrow = false;
 				if (this.stack.isThrow()) {
 					// run exception

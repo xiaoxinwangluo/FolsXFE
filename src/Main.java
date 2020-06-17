@@ -121,15 +121,15 @@ public class Main {
         XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
         System.out.println("加载耗时: "+"xfeclass: " +xfeclass+" "+ xtimingLoad.endAndGetEndLessStart());
 
-	    String[] methodNames = xfeclass.listMethodName();
-        for (int i = 0; i < methodNames.length; i++) {
-            XFEMethod xfemethod = xfeclass.getMethod(methodNames[i]);
-            System.out.println("--------");
-            System.out.println("@method " + methodNames[i]);
-            System.out.println("" + XFEMethodCode.formatCode(xfemethod) + "");
-            System.out.println("--------");
-        }
-
+//	    String[] methodNames = xfeclass.listMethodName();
+//        for (int i = 0; i < methodNames.length; i++) {
+//            XFEMethod xfemethod = xfeclass.getMethod(methodNames[i]);
+//            System.out.println("--------");
+//            System.out.println("@method " + methodNames[i]);
+//            System.out.println("" + XFEMethodCode.formatCode(xfemethod) + "");
+//            System.out.println("--------");
+//        }
+//
 
 
         XFEStack stack;

@@ -65,9 +65,17 @@ public class XFECodeLoader {
         public String getName() {
             return this.name;
         }
+		Var setName(String name){
+			this.name = name;
+			return this;
+		}
         public int getLine() {
             return this.line;
         }
+	    Var setLine(int line){
+			this.line = line;
+			return this;
+		}
     }
     private static final NEXT_CODE DEFAULT_NEXT_CODE = new NEXT_CODE();
     public static class NEXT_CODE extends Var {
@@ -278,8 +286,18 @@ public class XFECodeLoader {
         }
         return c;
     }
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     //local param 单纯一个参数名 非点语法
     public static String getLocal_FunParam_Name(ContentLinked<Code> nowParam) {
         return nowParam.content().getCodeRoot().getNext().content().getName();
@@ -383,7 +401,7 @@ public class XFECodeLoader {
         lineCodeReader.setBuffer(content);
         lineCodeReader.setSeparator(separate);
         //一次性读取所有Code
-        Code code = readCode0(lineTracker, lineCodeReader);
+        Code code = this.readCode0(lineTracker, lineCodeReader);
         ContentLinkedReader nowCodeLinkedReader = new ContentLinkedReader(code.getCodeRoot());
         while (null != nowCodeLinkedReader.next()) {
             Var nowCodeVar = nowCodeLinkedReader.content();
