@@ -1,3 +1,5 @@
+package top.fols.box.util;
+
 /*
  * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -291,22 +293,24 @@ implements Map<K,V>, Cloneable, Serializable {
      */
 	
     static class Node<K,V> implements Map.Entry<K,V> {
+
+
 		/*
 		 * *****
 		 */
-		@Override
+		//@Override
 		public static <K extends Comparable<? super K>, V extends Object> Comparator<Map.Entry<K, V>> comparingByKey() {
 			return Map.Entry.comparingByKey();
 		}
-		@Override
+		//@Override
 		public static <K extends Object, V extends Comparable<? super V>> Comparator<Map.Entry<K, V>> comparingByValue() {
 			return Map.Entry.comparingByValue();
 		}
-		@Override
+		//@Override
 		public static <K extends Object, V extends Object> Comparator<Map.Entry<K, V>> comparingByKey(Comparator<? super K> cmp) {
 			return Map.Entry.comparingByKey(cmp);
 		}
-		@Override
+		//@Override
 		public static <K extends Object, V extends Object> Comparator<Map.Entry<K, V>> comparingByValue(Comparator<? super V> cmp) {
 			return Map.Entry.comparingByValue(cmp);
 		}
