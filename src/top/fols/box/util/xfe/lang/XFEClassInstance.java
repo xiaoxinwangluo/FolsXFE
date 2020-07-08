@@ -4,12 +4,11 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
+import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
-public final class XFEClassInstance extends XFEClass implements XFEAbstractVariablePoint {
-
-
-
+public class XFEClassInstance extends XFEClass implements XFEAbstractVariablePoint {
+	
 	protected XFEClassInstance(XFEClass cls) {
 		//System.out.println("创建: " + cls);
 //		super.fileName = cls.fileName;
@@ -23,8 +22,6 @@ public final class XFEClassInstance extends XFEClass implements XFEAbstractVaria
 //		super.finalVariable = cls.finalVariable;
 		super(cls);
 	}
-
-
 
 	protected XFEClassInstance executeStaticMethod(XFEStack stack) {
 		XFEMethod method = this.getStaticMethod();

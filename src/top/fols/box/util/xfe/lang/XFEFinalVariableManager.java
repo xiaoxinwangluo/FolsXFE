@@ -7,6 +7,7 @@ import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.XCHashMap;
+import top.fols.box.lang.XString;
 
 final class XFEFinalVariableManager {
 	private XCHashMap<String, Object> finalVariable = (XCHashMap<String, Object>)XFEKeyWords.initFinalVariableManagerValues(new XCHashMap<String,Object>());
@@ -16,19 +17,20 @@ final class XFEFinalVariableManager {
 	public static XFEFinalVariableManager newInstance() {
 		return new XFEFinalVariableManager();
 	}
-
-
+	
+	
+	
 	//*****
-	private XCHashMap<String, String> stringVariableCacheMap0;
-	private XCHashMap<String, String> stringVariableCacheMap() {
-		return null == this.stringVariableCacheMap0 ?this.stringVariableCacheMap0 = new XCHashMap<String, String>(): this.stringVariableCacheMap0;
+	private XCHashMap<String, String> TEMP_STRING_CACHE_MAP0;
+	private XCHashMap<String, String> TEMP_STRING_CACHE_MAP0() {
+		return null == this.TEMP_STRING_CACHE_MAP0 ?this.TEMP_STRING_CACHE_MAP0 = new XCHashMap<String, String>(): this.TEMP_STRING_CACHE_MAP0;
 	}
     //返回变量名
 	protected String putStringFinalValue(XFEClass cls, String value) {
 		//string cache
-        String cacheValue = this.stringVariableCacheMap().get(value);
+        String cacheValue = this.TEMP_STRING_CACHE_MAP0().get(value);
         if (null == cacheValue) {
-            this.stringVariableCacheMap().put(value, value);
+            this.TEMP_STRING_CACHE_MAP0().put(value, value);
             cacheValue = value;
         }
         value = cacheValue; 
@@ -71,7 +73,7 @@ final class XFEFinalVariableManager {
 
 
 	protected void releaseCache() {
-		this.stringVariableCacheMap0 = null;
+		this.TEMP_STRING_CACHE_MAP0 = null;
 	}
 	protected void releaseVariable() {
 		if (null != this.finalVariable) {
@@ -79,9 +81,9 @@ final class XFEFinalVariableManager {
 			this.finalVariable = null;
 		}
 
-		if (null != this.stringVariableCacheMap0) {
-			this.stringVariableCacheMap0.clear(); 
-			this.stringVariableCacheMap0 = null;
+		if (null != this.TEMP_STRING_CACHE_MAP0) {
+			this.TEMP_STRING_CACHE_MAP0.clear(); 
+			this.TEMP_STRING_CACHE_MAP0 = null;
 		}
 	}
 
@@ -113,7 +115,7 @@ final class XFEFinalVariableManager {
 		@Override
 		public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 			// TODO: Implement this method
-			return XFEKeyWords.getVariable(xfeexecute.getStack(), this.fvm.finalVariable, name);
+			return XFEKeyWords.getVariable(xfeexecute.getStack(), this.fvm.finalVariable, "final", name);
 		}
 		@Override
 		public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object value) {

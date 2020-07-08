@@ -224,7 +224,9 @@ fun whiletest()
 end
 
 
-fun time() 
+fun time()
+    
+    
     System = 
         importjava(
         "java.lang.System"

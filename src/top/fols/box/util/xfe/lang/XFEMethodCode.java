@@ -10,16 +10,16 @@ import top.fols.box.util.xfe.lang.XFECodeLoader.Var;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public final class XFEMethodCode {
-	
+
 	public int lineNumber;
     public XFECodeLoader.ContentLinked<Var> rootCode;//Code;
     public String codeBlocOptionName = null;//CodeBlockHeader(if or try or while)....
     public int crashIndex = -1;// if else Index
     public int gotoIndex = -1;//codeBlockHeader fail so ==> gotoIndex
-	
-	
-	
-	
+
+
+
+
 	public static CharSequence lineAddresString(String fileName, String className, String methodName, int line) {
 		return new StringBuilder()
 			.append(className).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)
@@ -38,14 +38,14 @@ public final class XFEMethodCode {
 		}
 		return lineAddresString(method.getFileName(), method.getClassName(), method.getName(), se.lineNumber);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
     private static String formatCodeFromRoot(XFECodeLoader.ContentLinked<Var> firstVar, boolean interrupt) {
         StringBuilder sb = new StringBuilder();
 
@@ -88,7 +88,7 @@ public final class XFEMethodCode {
 	public String formatCode() {
 		return XFEMethodCode.formatCodeFromRoot(this.rootCode, false).toString();
 	}
-    
+
     public static String formatCode(XFEMethod method) {
         StringBuilder code = new StringBuilder();
         XFEMethodCode[] mc = method.getCodes();
@@ -97,12 +97,12 @@ public final class XFEMethodCode {
         }
         return code.toString();
 	}
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     //方便开发
     protected static String strAddPrefixAndSuffix(String str) {
         //return "`" + str + "`";

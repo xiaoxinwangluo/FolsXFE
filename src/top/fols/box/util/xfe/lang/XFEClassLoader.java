@@ -184,7 +184,7 @@ public class XFEClassLoader {
 
 	public XFEClass loadCode(XFECodeContent content) throws IOException, RuntimeException {
 		XFECodeLoader xfecodeloader = new XFECodeLoader();
-		XFEClass cls = xfecodeloader.setCode(content).loadTo(this);
+		XFEClass cls = xfecodeloader.setCode(content).loadToXFEClassLoader(this);
 		xfecodeloader.clearCode();
 		return cls;
 	}

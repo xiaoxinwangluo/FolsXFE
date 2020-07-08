@@ -25,7 +25,7 @@ public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 	@Override
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 		// TODO: Implement this method
-		return XFEKeyWords.getVariable(xfeexecute.getStack(), this.variables, name);
+		return XFEKeyWords.getVariable(xfeexecute.getStack(), this.variables, "map", name);
 	}
 
 	@Override

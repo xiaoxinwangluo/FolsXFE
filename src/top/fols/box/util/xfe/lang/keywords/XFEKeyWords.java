@@ -93,14 +93,18 @@ public class XFEKeyWords {
     public static final String      CODE_PARAM_END_SYMBOL = ")";
 
 
+	
+
+
+
 	//*****
 	/**
 	 * XFE KeyWord
 	 */
 	public static final String 
-	RETURN = "return",  	FUN = "fun", 				END 	= "end",		ENDL = "endl", 			
-	FINAL = "final",		THIS 	= "this",			INIT = "init", 			TRUE = "true",
-	FALSE 	= "false",		NULL = "null",				IF = "if",				WHILE 	= "while",
+	RETURN = "return",  	FUN = "fun", 				END = "end",		    ENDL = "endl", 			
+	FINAL = "final",		THIS = "this",			    INIT = "init", 			TRUE = "true",
+	FALSE = "false",		NULL = "null",				IF = "if",				WHILE = "while",
 	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",		TRY = "try",			
 	ELSE = "else",
 
@@ -195,9 +199,7 @@ public class XFEKeyWords {
 	//public static final String BASE_VARIABLE_TYPE_BOOLEAN = "boolean";
 	//public static final String BASE_VARIABLE_TYPE_OBJECT = "object";
 
-
-
-
+	
 	public static final Map<String, Object> initFinalVariableManagerValues(Map<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
@@ -348,12 +350,12 @@ public class XFEKeyWords {
 	}
 
 
-	public static Object getVariable(XFEStack stack, XCHashMap<String, Object> variables, String name) {
+	public static Object getVariable(XFEStack stack, XCHashMap<String, Object> variables, String type, String name) {
 		XCHashMap.Node<String, Object> variable = variables.getNote(name);
 		if (variable != null) {
 			return variable.getValue();
 		}
-		stack.setThrow("not found variable: " + name);
+		stack.setThrow("not found " + type + " variable: " + name);
 		return null;
 	}
 

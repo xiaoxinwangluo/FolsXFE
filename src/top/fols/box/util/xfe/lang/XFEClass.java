@@ -77,7 +77,12 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 	public XFEClassInstance getStaticInstance(XFEStack stack) {
 		if (null == this.staticInstance) {
-			XFEClassInstance instance = new XFEClassInstance(this); 
+			XFEClassInstance instance = new XFEClassInstance(this){
+				@Override
+				public Object getVariable(XFEStack stack, String name) {
+					return XFEKeyWords.getVariable(stack, this.variable, "static", name);
+				}
+			}; 
 			this.staticInstance = instance;
 			instance.staticInstance = instance;
 			instance.setInstance(true);
@@ -101,7 +106,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	public XFEClassLoader getClassLoader() {
 		return this.classLoader;
 	}
-
+	
 
 	public Object setVariable(String name, Object newValue) {
 		this.variable.put(name, newValue);
@@ -109,10 +114,10 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	}
 
 	public Object getVariable(XFEStack stack, String name) {
-		return XFEKeyWords.getVariable(stack, this.variable, name);
+		return XFEKeyWords.getVariable(stack, this.variable, "global", name);
 	}
 
-	
+
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}

@@ -150,7 +150,7 @@ public class XFEExecute implements XStringFormat.VarManager {
 		return result;
 	}
 	public Object getVariableValue(String name) {
-		return XFEKeyWords.getVariable(this.stack, this.variable, name);
+		return XFEKeyWords.getVariable(this.stack, this.variable, "local", name);
 	}
 
 	private Object setPointVariableValue0(XFEExecute.ExecuteStatus execStatus, Object instance, String name, Object value) {
