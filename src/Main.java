@@ -103,60 +103,63 @@ public class Main {
 
         for (int i = 0;i < 2000;i++) { System.out.println(); }
         testThreadStack();
+		
+		{
+			File rundir;
+			rundir = new File(XFile.getRunningDir());
+			rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
+			File exampledir = new File(rundir, "example");
+			System.out.println(exampledir);
+			XTiming xtimingLoad;
+			File codeDir = exampledir;
 
-        File rundir;
-		rundir = new File(XFile.getRunningDir());
-		rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
-        File exampledir = new File(rundir, "example");
-        System.out.println(exampledir);
-		XTiming xtimingLoad;
-        File codeDir = exampledir;
-		
-		
-		
-        XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
-        xfeclassloader1.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
-		
-        xtimingLoad = XTiming.newAndStart();
-        XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
-        System.out.println("加载耗时: "+"xfeclass: " +xfeclass+" "+ xtimingLoad.endAndGetEndLessStart());
 
-	    String[] methodNames = xfeclass.listMethodName();
-        for (int i = 0; i < methodNames.length; i++) {
-            XFEMethod xfemethod = xfeclass.getMethod(methodNames[i]);
+
+			XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
+			xfeclassloader1.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
+			xfeclassloader1.forName("hook");
+			
+			
+			xtimingLoad = XTiming.newAndStart();
+			XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
+			System.out.println("加载耗时: " + "xfeclass: " + xfeclass + " " + xtimingLoad.endAndGetEndLessStart());
+
+//	    String[] methodNames = xfeclass.listMethodName();
+//        for (int i = 0; i < methodNames.length; i++) {
+//            XFEMethod xfemethod = xfeclass.getMethod(methodNames[i]);
+//			System.out.println();
+//            System.out.println("----------------");
+//            System.out.println("@method " + methodNames[i]);
+//            System.out.println("" + XFEMethodCode.formatCode(xfemethod) + "");
+//            System.out.println("----------------");
+//			System.out.println();
+//        }
+//
+
+
+			XFEStack stack;
+			XFEClassInstance xfeclassInstance;
+			Object result = null;
+
+			stack = XFEStack.newStack();
+			//xfeclass = xfeclassloader1.forName(xfeclass.getName());
+			System.out.println("_________________________");
+			xfeclassInstance = xfeclass.newInstance(stack, new Object[] { "大傻逼" , "大傻逼2"});
+			result = xfeclassInstance.executeMethod(stack, "test", new Object[] { "大傻逼" , "大傻逼2"});
+
+			System.out.println("_________________________");
+			System.out.println("结果: " + result);
 			System.out.println();
-            System.out.println("----------------");
-            System.out.println("@method " + methodNames[i]);
-            System.out.println("" + XFEMethodCode.formatCode(xfemethod) + "");
-            System.out.println("----------------");
+			System.out.println("----stack:----");
+			System.out.println("classloader=" + xfeclassloader1.toString());
+			System.out.println("exception=" + stack.isThrow());
 			System.out.println();
-        }
+			System.out.println(stack.stringall());
+			System.out.println("----");
+			System.out.println();
+			// xfeclassloader1.releaseClassLoader();
 
-
-
-        XFEStack stack;
-        XFEClassInstance xfeclassInstance;
-        Object result = null;
-
-        stack = XFEStack.newStack();
-        //xfeclass = xfeclassloader1.forName(xfeclass.getName());
-        System.out.println("_________________________");
-        xfeclassInstance = xfeclass.newInstance(stack, new Object[] { "大傻逼" , "大傻逼2"});
-        result = xfeclassInstance.executeMethod(stack, "test", new Object[] { "大傻逼" , "大傻逼2"});
-
-        System.out.println("_________________________");
-        System.out.println("结果: " + result);
-        System.out.println();
-        System.out.println("----stack:----");
-        System.out.println("classloader=" + xfeclassloader1.toString());
-        System.out.println("exception=" + stack.isThrow());
-        System.out.println();
-        System.out.println(stack.stringall());
-        System.out.println("----");
-        System.out.println();
-        // xfeclassloader1.releaseClassLoader();
-
-        System.out.println("_________________________");
+			System.out.println("_________________________");
 
 
 
@@ -164,39 +167,43 @@ public class Main {
 
 
 
-        XTiming timing = XTiming.newAndStart();
-        result = xfeclassInstance.executeMethod(stack, "hscz", new Object[] { "大傻逼" , "大傻逼2"});
-        System.out.println("耗时: " + timing.endAndGetEndLessStart());
+			XTiming timing = XTiming.newAndStart();
+			result = xfeclassInstance.executeMethod(stack, "hscz", new Object[] { "大傻逼" , "大傻逼2"});
+			System.out.println("耗时: " + timing.endAndGetEndLessStart());
 
 
-        System.out.println("_________________________");
+			System.out.println("_________________________");
 
 
-        {
-            //multi classloader
+			{
+				//multi classloader
 
-            XFEClassLoader xfeclassloader2 = XFEClassLoader.newInstance();
-            xfeclassloader2.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
+				XFEClassLoader xfeclassloader2 = XFEClassLoader.newInstance();
+				xfeclassloader2.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
 
-            stack = XFEStack.newStack();
-            xfeclass = xfeclassloader2.forName("cl2");
-            System.out.println("_________________________");
-            xfeclassInstance = xfeclass.newInstance(stack, new Object[] {});
-            result = xfeclassInstance.executeMethod(stack, "test",
-                new Object[] { xfeclassloader1.forName("cl1"), xfeclassloader1 });
-            System.out.println("_________________________");
-            System.out.println("结果: " + result);
-            System.out.println();
-            System.out.println("----stack:----");
-            System.out.println("classloader=" + xfeclassloader2.toString());
-            System.out.println("exception=" + stack.isThrow());
-            System.out.println();
-            System.out.println(stack.stringall());
-            System.out.println("----");
-            System.out.println();
+				stack = XFEStack.newStack();
+				xfeclass = xfeclassloader2.forName("cl2");
+				System.out.println("_________________________");
+				xfeclassInstance = xfeclass.newInstance(stack, new Object[] {});
+				result = xfeclassInstance.executeMethod(stack, "test",
+					new Object[] { xfeclassloader1.forName("cl1"), xfeclassloader1 });
+				System.out.println("_________________________");
+				System.out.println("结果: " + result);
+				System.out.println();
+				System.out.println("----stack:----");
+				System.out.println("classloader=" + xfeclassloader2.toString());
+				System.out.println("exception=" + stack.isThrow());
+				System.out.println();
+				System.out.println(stack.stringall());
+				System.out.println("----");
+				System.out.println();
 
-            System.out.println("_________________________");
-        }
+				System.out.println("_________________________");
+			}
+
+		}
+
+
 
 	}
 

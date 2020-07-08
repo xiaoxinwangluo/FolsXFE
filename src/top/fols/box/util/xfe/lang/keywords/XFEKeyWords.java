@@ -93,7 +93,9 @@ public class XFEKeyWords {
     public static final String      CODE_PARAM_SEPARATOR = ",";
     public static final String      CODE_PARAM_END_SYMBOL = ")";
 
-
+	public static final String      CODE_BLOCK_JOIN_SYMBOL = "{";
+    public static final String      CODE_BLOCK_END_SYMBOL = "}";
+	
 
 
 
@@ -103,7 +105,7 @@ public class XFEKeyWords {
 	 * XFE KeyWord
 	 */
 	public static final String 
-	RETURN = "return",  	FUN = "fun", 				END = "end",		    ENDL = "endl", 			
+	RETURN = "return",  	FUN = "fun", 	    	    END = "end", 			
 	FINAL = "final",		THIS = "this",			    INIT = "init", 			TRUE = "true",
 	FALSE = "false",		NULL = "null",				IF = "if",				WHILE = "while",
 	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",		TRY = "try",			
@@ -112,7 +114,7 @@ public class XFEKeyWords {
 	NEW = "new"//XFEClassStaticPoint / XFEJavaClassStaticPoint, create instance method name extension		
 	;
 	private static Map<String, String> KEYWORDS = putKeyWords(new String[] {
-			RETURN, 	FUN, 		END,		ENDL, 		
+			RETURN, 	FUN, 		END, 		
 			FINAL, 		THIS,		INIT,		TRUE,		
 			FALSE,		NULL,		IF,			WHILE,
 			BREAK, 		CONTINUE,	STATIC,		TRY,		
@@ -200,7 +202,9 @@ public class XFEKeyWords {
 	//public static final String BASE_VARIABLE_TYPE_BOOLEAN = "boolean";
 	//public static final String BASE_VARIABLE_TYPE_OBJECT = "object";
 
-
+	public static final String BASE_VARIABLE_TYPE_CLASS = "class";
+	
+	
 	public static final Map<String, Object> initFinalVariableManagerValues(Map<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
@@ -289,7 +293,7 @@ public class XFEKeyWords {
 	}
 	public static boolean isCodeBlockTail(String option) {
 		return 
-			option == XFEKeyWords.ENDL;
+			option == XFEKeyWords.END;
 	}
 
 

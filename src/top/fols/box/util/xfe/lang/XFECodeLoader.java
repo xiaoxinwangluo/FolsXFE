@@ -29,6 +29,9 @@ public class XFECodeLoader {
         XFEKeyWords.CODE_VARIABLE_ASSIGNMENT_SYMBOL.toCharArray(),   // =
         XFEKeyWords.CODE_LINE_MULTI_CODE_SEPARATOR.toCharArray(),    // ;
 
+		XFEKeyWords.CODE_BLOCK_JOIN_SYMBOL.toCharArray(),            //{
+		XFEKeyWords.CODE_BLOCK_END_SYMBOL.toCharArray(),             //}
+
         lineSeparatorChars                                           // \n
     };
 
@@ -50,6 +53,9 @@ public class XFECodeLoader {
     }
     public static boolean isPoint(Var object) {
         return object instanceof Point;
+    }
+	public static boolean isBlock(Var object) {
+        return object instanceof Block;
     }
     public static boolean isCode(Var object) {
         return object instanceof Code;
@@ -120,6 +126,14 @@ public class XFECodeLoader {
             super.line = -1;
         }
     }
+	public static class Block extends Var {
+		//栈底，真正的元素从第二个开始
+        private Code code;
+	}
+
+
+
+
     public static class Code extends Var {
         //栈底，真正的元素从第二个开始
         private ContentLinked<Var> codeRoot = new ContentLinked<Var>(null);
@@ -174,6 +188,71 @@ public class XFECodeLoader {
         }
         return null;
     }
+	private void readBlock0(LineTracker lineTracker, Code c, CodeReader lineCodeReader) throws RuntimeException {
+        final char[] lineSeparator = XFECodeLoader.lineSeparatorChars;
+
+        String nextCode;
+        char[] cCharArr;  
+        while (null != (cCharArr = nextNullableAndNoMatchKeyWord(lineCodeReader))) {
+            if (Arrays.equals(cCharArr, lineSeparator)) {
+                lineTracker.nextLine();
+                continue;
+            }
+            nextCode = new String(cCharArr);
+            if ((nextCode = nextCode.trim()).length() == 0) {
+                continue;
+            }
+            nextCode = XFEKeyWords.keyIntern(nextCode);
+
+            if (nextCode.equals(XFEKeyWords.CODE_VARIABLE_ASSIGNMENT_SYMBOL)) {//=
+                c.addCodeToTop(DEFAULT_ASSIGNMENT);
+            } else if (nextCode.equals(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)) {//.
+                c.addCodeToTop(DEFAULT_POINT);
+            } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_JOIN_SYMBOL)) {//(
+                ContentLinked<Var> last = c.getCodeTop();
+                Var lastContent = null == last.content() ?null: last.content();
+				Fun f = new Fun();
+			    if (isVar(lastContent)) {
+					f.name = lastContent.name;
+					c.removeCode(last);
+                } else {
+					if (null == lastContent || null == lastContent.name || isAssignment(lastContent)) {//a = (b);
+						f.name = "";
+					} else {
+						throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+					}
+				}
+                f.setLine(lineTracker.getLine());
+//                System.out.println("@" + f.name);
+                c.addCodeToTop(f);
+                readFunParam0(lineTracker, f, null , lineCodeReader);//add param
+            } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_END_SYMBOL)) {//)
+				throw new RuntimeException("Grammatical errors: " + "[" + nextCode + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_JOIN_SYMBOL)) {//{
+                Block b = new Block();
+                b.line = lineTracker.getLine();
+				Code code = (Code) new Code()
+					.setName(null)
+					.setLine(lineTracker.getLine());
+				b.code = code;
+//                System.out.println("@" + f.name);
+                c.addCodeToTop(b);
+                readBlock0(lineTracker, code , lineCodeReader);//add param
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_END_SYMBOL)) {//}
+                break;
+            } else if (nextCode.equals(XFEKeyWords.CODE_LINE_MULTI_CODE_SEPARATOR)) {//;
+                c.addCodeToTop(DEFAULT_NEXT_CODE);
+            } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_SEPARATOR)) {//,
+                throw new RuntimeException("Grammatical errors: " + "[" + nextCode + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+            } else {
+                Var v = new Var();
+                v.name = nextCode;
+                v.line = lineTracker.getLine();
+                c.addCodeToTop(v);
+            }
+//          System.out.println(nextCode + "<" + cline.line + ">");
+        }
+    }
     private void readFunParam0(LineTracker lineTracker, Fun fun, Code c, CodeReader lineCodeReader) throws RuntimeException {
         final char[] lineSeparator = XFECodeLoader.lineSeparatorChars;
 
@@ -210,13 +289,26 @@ public class XFECodeLoader {
 						throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
 					}
 				}
-                f.line = lineTracker.getLine();
+                f.setLine(lineTracker.getLine());
 //                System.out.println("@" + f.name);
                 if (null == c) { fun.addParamToTop(c = new Code().setLine(lineTracker.getLine())); }
                 c.addCodeToTop(f);
                 readFunParam0(lineTracker, f, null , lineCodeReader);//add param
             } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_END_SYMBOL)) {//)
                 break;
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_JOIN_SYMBOL)) {//{
+                Block b = new Block();
+                b.line = lineTracker.getLine();
+				Code code = (Code) new Code()
+					.setName(null)
+					.setLine(lineTracker.getLine());
+				b.code = code;
+//                System.out.println("@" + f.name);
+				if (null == c) { fun.addParamToTop(c = new Code().setLine(lineTracker.getLine())); }
+                c.addCodeToTop(b);
+                readBlock0(lineTracker, code , lineCodeReader);//add param
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_END_SYMBOL)) {//}
+				throw new RuntimeException("Grammatical errors: " + "[" + nextCode + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
             } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_SEPARATOR)) {//,
                 c = null;
                 continue;
@@ -265,12 +357,23 @@ public class XFECodeLoader {
 						throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
 					}
 				}
-                f.line = lineTracker.getLine();
+                f.setLine(lineTracker.getLine());
 //                System.out.println("@" + f.name);
                 c.addCodeToTop(f);
                 readFunParam0(lineTracker, f, null , lineCodeReader);//add param
             } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_END_SYMBOL)) {//)
-//                break;
+				throw new RuntimeException("Grammatical errors: " + "[" + nextCode + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_JOIN_SYMBOL)) {//{
+                Block b = new Block();
+                b.line = lineTracker.getLine();
+				Code code = (Code) new Code()
+					.setName(null)
+					.setLine(lineTracker.getLine());
+				b.code = code;
+//                System.out.println("@" + f.name);
+                c.addCodeToTop(b);
+                readBlock0(lineTracker, code , lineCodeReader);//add param
+            } else if (nextCode.equals(XFEKeyWords.CODE_BLOCK_END_SYMBOL)) {//}
 				throw new RuntimeException("Grammatical errors: " + "[" + nextCode + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
             } else if (nextCode.equals(XFEKeyWords.CODE_LINE_MULTI_CODE_SEPARATOR)) {//;
                 c.addCodeToTop(DEFAULT_NEXT_CODE);
@@ -316,7 +419,7 @@ public class XFECodeLoader {
         ContentLinked<Code> nowParam = f.getParamRoot();
         while (null != (nowParam = nowParam.getNext())) {
             if (!isLocal_FunParam(nowParam)) {
-                throw new RuntimeException("param statement error: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), xfemethod.getName(), nowLine));
+                throw new RuntimeException("param statement error: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null == xfemethod ? null: xfemethod.getName(), nowLine));
             }
             params[i++] = this.getLocal_FunParam_Name(nowParam);
         }
@@ -409,20 +512,42 @@ public class XFECodeLoader {
         //一次性读取所有Code
         Code code = 
 			this.readCode0(lineTracker, lineCodeReader);
-        this.loadMethodsToXFEClass(xfeclass, code);
+        this.loadMethodsToXFEClass(xfeclass, code, true);
 
         content = null;
         code = null;
         lineCodeReader.releaseBuffer();
-
 		//释放缓存
 		xfeclass.releaseFinalVariableManagerCache0();
+
         return xfeclass;
 	}
-	private void loadMethodsToXFEClass(XFEClass xfeclass, Code code) {
+	
+	private XFEClass loadBlockCastToXFEClass(XFEClassLoader loader, XFEClass superClass, Block block) {
+		XFEClass xfeclass;
+        xfeclass = new XFEClass(loader);
+        xfeclass.setName(null);
+        xfeclass.setFileName(this.fileName);
+		xfeclass.setFinalVariableManager(superClass.getFinalVariableManager0());
+		
+		Code code = new Code();
+		code.setName(block.getName());
+		code.setLine(block.getLine());
+		code.addCodeToTop(block);
+
+        this.loadMethodsToXFEClass(xfeclass, code, false);
+		return xfeclass;
+	}
+	
+	private void loadMethodsToXFEClass(XFEClass xfeclass, Code code, boolean checkJoinClass) {
+		if (null == code) {
+			return;
+		}
 		XFEMethod xfemethod = null;
 		//是否进入方法
         boolean joinFun = false;
+		//是否进入类
+		boolean joinClass = false;
 		//当前行
         int nowLine = 0;
 		ContentLinkedReader nowCodeLinkedReader = new ContentLinkedReader(code.getCodeRoot());
@@ -431,73 +556,93 @@ public class XFECodeLoader {
             if (nowCodeVar.line != -1 && nowCodeVar.line != nowLine) {
                 nowLine = nowCodeVar.line;
             }
-            if (!joinFun) {
-                if (isVar(nowCodeVar) && nowCodeVar.name == XFEKeyWords.FUN) {
-                    ContentLinked<Var> next = nowCodeLinkedReader.getNext();
-                    if (null == next || !isFun(next.content())) {
-                        throw new RuntimeException("Grammatical errors: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
-                    } else {
-                        xfemethod = new XFEMethod();
-                        xfemethod.setClassName(className);
-						xfemethod.setFileName(fileName);
-                        Fun funv = (XFECodeLoader.Fun) next.content();
-                        String funName = funv.name;
-						xfemethod.setName(funName);
-                        String[] paramList = this.required_Local_FunParam(xfeclass, xfemethod, nowLine, funv);
-                        xfemethod.setParamName(paramList);
-                        joinFun = true;
-//                      System.out.println("+method: " + funName + XString.join(paramList, "(", ",", ")"));
-                    }
-                    continue;
-                }
-                throw new RuntimeException("no join fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
-            } else {
-                this.readCodesToMethod(nowCodeLinkedReader, xfeclass, xfemethod);
-				xfeclass.putMethod(xfemethod);
-				joinFun = false;
+			if (!joinClass) {
+				if (isBlock(nowCodeVar)) {
+					joinClass = true;
 
-//				int dex = 0;
-//				for (XFEMethodCode c: xfemethod.getCodes()) {
-//					System.out.println("code: " + c.formatCode());
-//					System.out.println("index: " + dex);
-//					System.out.println("goto: " + c.gotoIndex);
-//					System.out.println("else: " + c.crashIndex);
-//					System.out.println();
-//					dex++;
-//				}
-            }
+					nowCodeLinkedReader = new ContentLinkedReader(((Block)nowCodeVar).code.getCodeRoot());
+					while (null != nowCodeLinkedReader.next()) {
+						nowCodeVar = nowCodeLinkedReader.content();
+						if (nowCodeVar.line != -1 && nowCodeVar.line != nowLine) {
+							nowLine = nowCodeVar.line;
+						}
+						if (!joinFun) {
+							if (isVar(nowCodeVar) && nowCodeVar.name == XFEKeyWords.FUN) {
+								ContentLinked<Var> next = nowCodeLinkedReader.getNext();
+								if (null == next || !isFun(next.content())) {
+									throw new RuntimeException("Grammatical errors: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+								} else {
+									Fun funv = (XFECodeLoader.Fun) next.content();
+									String funName = ((XFECodeLoader.Fun) next.content()).name;
+									nowCodeLinkedReader.next();// to fun() after
+
+									nowCodeLinkedReader.next(); // to block
+									next = nowCodeLinkedReader.now();
+									if (!isBlock(next.content())) {
+										throw new RuntimeException("Grammatical errors: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+									}
+									Block codeblock = (XFECodeLoader.Block) next.content();
+
+									xfemethod = new XFEMethod();
+									xfemethod.setClassName(className);
+									xfemethod.setFileName(fileName);
+
+									xfemethod.setName(funName);
+									String[] paramList = this.required_Local_FunParam(xfeclass, xfemethod, nowLine, funv);
+									xfemethod.setParamName(paramList);
+									joinFun = true;
+//                      System.out.println("+method: " + funName + XString.join(paramList, "(", ",", ")"));
+
+									xfemethod.setCode(this.readXFEMethodCodes(xfeclass, codeblock));
+
+									xfeclass.putMethod(xfemethod);
+									joinFun = false;
+
+//				        int dex = 0;
+//				        for (XFEMethodCode c: xfemethod.getCodes()) {
+//					        System.out.println("code: " + c.formatCode());
+//					        System.out.println("index: " + dex);
+//					        System.out.println("goto: " + c.gotoIndex);
+//					        System.out.println("else: " + c.crashIndex);
+//					        System.out.println();
+//					    dex++;
+//				        }
+								}
+								continue;
+							}
+							throw new RuntimeException("no join fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+						}
+					}
+				} else {
+					throw new RuntimeException("no join Class: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+				}
+			} else {
+				throw new RuntimeException("already joi nClass: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+			}
         }
 	}
 
 
 
 
-
-	private void readCodesToMethod(ContentLinkedReader nowCodeLinkedReader,
-								   XFEClass xfeclass,
-								   XFEMethod xfemethod) throws RuntimeException {
-		//单个XFEMethodCode缓存
+	private XFEMethodCode[] readXFEMethodCodes(XFEClass xfeclass,
+											   Block codeblock) throws RuntimeException {
+        //单个XFEMethodCode缓存
         ContentLinked<Var> bufCodeRoot = new ContentLinked<Var>(null);
         ContentLinked<Var> bufCodeTop = bufCodeRoot;
 		List<XFEMethodCode> xfemethodcodes = new ArrayList<>(0);
 		int nowLine = 0;
+		ContentLinkedReader nowCodeLinkedReader = new ContentLinkedReader(codeblock.code.getCodeRoot());
 		while (null != nowCodeLinkedReader.next()) {
 			Var nowCodeVar = nowCodeLinkedReader.content();
 			if (nowCodeVar.line != -1 && nowCodeVar.line != nowLine) {
 				nowLine = nowCodeVar.line;
 			}
-			boolean nextLineIsNewLine = false;//下一行是否新的代码块
+			boolean directlyNewLine = false;//下一行是否新的代码块
 			if (isVar(nowCodeVar)) {
 				if (nowCodeVar.name ==        XFEKeyWords.FUN) {
 					throw new RuntimeException("no exit fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
-				} else if (nowCodeVar.name == XFEKeyWords.END) {
-					//结束了 方法
-					xfemethod.setCode(xfemethodcodes.toArray(new XFEMethodCode[xfemethodcodes.size()]));
-					xfemethodcodes.clear();
-					//更新方法内while if try处理指针
-					this.dealBlackOptionGotoIndex(xfemethod);
-					return;
-				} else if (XFEKeyWords.isCodeBlockTail(nowCodeVar.name) || XFEKeyWords.isCodeBlockElse(nowCodeVar.name)) {
+				}  else if (XFEKeyWords.isCodeBlockTail(nowCodeVar.name) || XFEKeyWords.isCodeBlockElse(nowCodeVar.name)) {
 					//***** endl 单独一行 ***** 
 					if (!bufCodeRoot.isOrphan()) {
 						throw new RuntimeException("must be independent " + nowCodeVar.name + ": " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
@@ -505,28 +650,45 @@ public class XFECodeLoader {
 					ContentLinked<Var> element = new ContentLinked<Var>(nowCodeVar);
 					bufCodeTop.addNext(element);
 					bufCodeTop = element;
-					nextLineIsNewLine = true;
+					directlyNewLine = true;
 				}
+			} else if (isBlock(nowCodeVar)) {
+				Block block = (Block)nowCodeVar;
+				XFEClass newXFEClass = this.loadBlockCastToXFEClass(xfeclass.getClassLoader(), xfeclass, block);
+				String name = xfeclass.getFinalVariableManager0().putAnonymousClass(xfeclass, newXFEClass);
+
+				ContentLinked<Var> element;
+				element = new ContentLinked<Var>(new Var().setLine(nowLine).setName(XFEKeyWords.FINAL));
+				bufCodeTop.addNext(element);
+				bufCodeTop = element;
+
+				element = new ContentLinked<Var>(DEFAULT_POINT);
+				bufCodeTop.addNext(element);
+				bufCodeTop = element;
+
+				element = new ContentLinked<Var>(new Var().setLine(nowLine).setName(name));
+				bufCodeTop.addNext(element);
+				bufCodeTop = element;
+
+				directlyNewLine = true;
+			} else if (isFun(nowCodeVar) && XFEKeyWords.isCodeBlockHeader(nowCodeVar.name)) {
+				//检查参数规范 必须为局部变量
+				this.check_Local_FunParam_BlockOption(xfeclass, null, nowLine, (Fun)nowCodeVar);
+				//***** if while try 必须 单独一行 *****
+				if (!bufCodeRoot.isOrphan()) {
+					throw new RuntimeException("must be independent " + nowCodeVar.name + ": " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+				}
+				ContentLinked<Var> element = new ContentLinked<Var>(nowCodeVar);
+				bufCodeTop.addNext(element);
+				bufCodeTop = element;
+				directlyNewLine = true;
 			} else {
-				if (isFun(nowCodeVar) && XFEKeyWords.isCodeBlockHeader(nowCodeVar.name)) {
-					//检查参数规范 必须为局部变量
-					this.check_Local_FunParam_BlockOption(xfeclass, xfemethod, nowLine, (Fun)nowCodeVar);
-					//***** if while try 必须 单独一行 *****
-					if (!bufCodeRoot.isOrphan()) {
-						throw new RuntimeException("must be independent " + nowCodeVar.name + ": " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
-					}
-					ContentLinked<Var> element = new ContentLinked<Var>(nowCodeVar);
-					bufCodeTop.addNext(element);
-					bufCodeTop = element;
-					nextLineIsNewLine = true;
-				} else {
-					if (isNextCode(nowCodeVar)) {
-						//代码分割
-						nextLineIsNewLine = true;
-					} else if (null == nowCodeLinkedReader.getNext()) {
-						//代码末尾
-						nextLineIsNewLine = true;
-					}
+				if (isNextCode(nowCodeVar)) {
+					//代码分割
+					directlyNewLine = true;
+				} else if (null == nowCodeLinkedReader.getNext()) {
+					//代码末尾
+					directlyNewLine = true;
 				}
 			}
 
@@ -538,7 +700,7 @@ public class XFECodeLoader {
 //          System.out.println("格式化: " + nextLineIsNewLine + " " + "<" + nowLine + ">" + XFEMethodCode.formatCodeFromRoot(nowCodeLinkedReader.now(), true));
 //          System.out.println("========");
 //              
-			if (nextLineIsNewLine) {
+			if (directlyNewLine) {
 				if (bufCodeRoot != bufCodeTop) {
 					XFEMethodCode methodCode = new XFEMethodCode();
 					methodCode.lineNumber = nowLine;
@@ -554,13 +716,18 @@ public class XFECodeLoader {
 				bufCodeTop = element;
 			}
 		}
-		throw new RuntimeException("no exit fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
+		//结束了 方法
+		XFEMethodCode[] methodcodes = xfemethodcodes.toArray(new XFEMethodCode[xfemethodcodes.size()]);
+		xfemethodcodes.clear();
+		//更新方法内while if try处理指针
+		this.dealBlackOptionGotoIndex(fileName, className, null, methodcodes);
+		return methodcodes;
 	}
 
 
 
-    private void dealBlackOptionGotoIndex(XFEMethod method) {
-        XFEMethodCode[] codes = method.getCodes();
+
+    private void dealBlackOptionGotoIndex(String fileName, String className, String methodName, XFEMethodCode[] codes) {
         List<XFEMethodCode> localList = new ArrayList<>(0);
         for (int i = 0;i < codes.length;i++) {
             XFEMethodCode code = codes[i];
@@ -587,11 +754,11 @@ public class XFECodeLoader {
                             int last = localList.size() - 1;
 							XFEMethodCode lastCode = localList.get(last);
 							if (lastCode.crashIndex > -1) {
-								throw new RuntimeException("error local. " + XFEMethodCode.lineAddresString(method, code));
+								throw new RuntimeException("error local. " + XFEMethodCode.lineAddresString(fileName, className, null, code));
 							}
                             lastCode.crashIndex = i;
                         } else {
-							throw new RuntimeException("no start local. " + XFEMethodCode.lineAddresString(method, code));
+							throw new RuntimeException("no start local. " + XFEMethodCode.lineAddresString(fileName, className, null, code));
 						}
 					} else if (XFEKeyWords.isCodeBlockTail(option)) {
 						if (localList.size() > 0) {
@@ -600,7 +767,7 @@ public class XFECodeLoader {
 							lastCode.gotoIndex = i;
 							localList.remove(last);
 						} else {
-							throw new RuntimeException("no start local. " + XFEMethodCode.lineAddresString(method, code));
+							throw new RuntimeException("no start local. " + XFEMethodCode.lineAddresString(fileName, className, null, code));
 						}
 					}
                 }
@@ -608,7 +775,7 @@ public class XFECodeLoader {
         }
 		if (localList.size() > 0) {
 			XFEMethodCode first = localList.get(0);
-			throw new RuntimeException("no exit local. " + XFEMethodCode.lineAddresString(method, first));
+			throw new RuntimeException("no exit local. " + XFEMethodCode.lineAddresString(fileName, className, null, first));
 		}
     }
 
@@ -900,6 +1067,7 @@ public class XFECodeLoader {
 
 
     //*****
+	//(lowercase|uppercase)*:(\n|\-|\+|lowercase|uppercase)*
     public static char[] dealBaseVariable(XFEClass cls, char[] codeChars) {
         char BASE_VARIABLE_TYPE_STATEMENT = XFEKeyWords.BASE_VARIABLE_TYPE_STATEMENT;
 

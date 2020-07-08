@@ -18,7 +18,13 @@ final class XFEFinalVariableManager {
 		return new XFEFinalVariableManager();
 	}
 	
-	
+	protected String putAnonymousClass(XFEClass xfeclass, XFEClass subClass){
+		String type = XFEKeyWords.BASE_VARIABLE_TYPE_CLASS;
+        String id = String.valueOf(this.finalVariable.size());
+		String name = type + id;
+		this.put(xfeclass, name, subClass);
+		return name;
+	}
 	
 	//*****
 	private XCHashMap<String, String> TEMP_STRING_CACHE_MAP0;

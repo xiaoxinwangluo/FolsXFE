@@ -157,6 +157,10 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	XFEFinalVariableManager getFinalVariableManager0() {
 		return null == this.finalVariable ?this.finalVariable = XFEFinalVariableManager.newInstance(): this.finalVariable;
 	}
+	XFEFinalVariableManager setFinalVariableManager(XFEFinalVariableManager xfefinalvariablemanager){
+		this.finalVariable = xfefinalvariablemanager;
+		return xfefinalvariablemanager;
+	}
 	void releaseFinalVariableManagerCache0() {
 		if (null != this.finalVariable) {
 			this.finalVariable.releaseCache();

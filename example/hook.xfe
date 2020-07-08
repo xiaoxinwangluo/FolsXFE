@@ -4,18 +4,20 @@
 
 
 
-fun setvar() 
-    true = final.true;
-    false = final.false;
-    null = final.null;
-    System = importjava("java.lang.System");
-end
-
-fun hook()
-    inherit(this).setvar();
+{
+    fun setvar() {
+        true = final.true;
+        false = final.false;
+        null = final.null;
+        System = importjava("java.lang.System");
+    }
     
-    packageName = loadPackageParam.packageName;
-    if("com.coolapk.market".equals(packageName))
-    endl
-end
+    fun hook() {
+        inherit(this).setvar();
+        
+        packageName = loadPackageParam.packageName;
+        if("com.coolapk.market".equals(packageName))
+        end
+    }
+}
 

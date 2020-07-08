@@ -19,7 +19,6 @@ public final class XFEMethodCode {
 
 
 
-
 	public static CharSequence lineAddresString(String fileName, String className, String methodName, int line) {
 		return new StringBuilder()
 			.append(className).append(XFEKeyWords.CODE_OBJECT_POINT_SYMBOL)
@@ -38,6 +37,9 @@ public final class XFEMethodCode {
 		}
 		return lineAddresString(method.getFileName(), method.getClassName(), method.getName(), se.lineNumber);
 	}
+	public static CharSequence lineAddresString(String fileName, String className, String methodName, XFEMethodCode se) {
+		return lineAddresString(fileName, className, methodName, se.lineNumber);
+	}
 
 
 
@@ -45,8 +47,7 @@ public final class XFEMethodCode {
 
 
 
-
-    private static String formatCodeFromRoot(XFECodeLoader.ContentLinked<Var> firstVar, boolean interrupt) {
+    private static String formatCodeFromRoot(XFECodeLoader.ContentLinked<Var> firstVar, boolean interrupt) throws RuntimeException {
         StringBuilder sb = new StringBuilder();
 
         XFECodeLoader.ContentLinked<Var> now = firstVar;//root
@@ -89,11 +90,11 @@ public final class XFEMethodCode {
 		return XFEMethodCode.formatCodeFromRoot(this.rootCode, false).toString();
 	}
 
-    public static String formatCode(XFEMethod method) {
+    public static String formatCode(XFEMethod method) throws RuntimeException {
         StringBuilder code = new StringBuilder();
-        XFEMethodCode[] mc = method.getCodes();
+	    XFEMethodCode[] mc = method.getCodes();
         for (int i = 0;i < mc.length;i++) {
-            code.append(mc[i].formatCode()).append(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR);
+			code.append(mc[i].formatCode()).append(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR);
         }
         return code.toString();
 	}

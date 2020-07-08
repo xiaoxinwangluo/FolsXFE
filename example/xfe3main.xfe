@@ -1,247 +1,271 @@
-
-
-fun 获取北京时间()
-    url = importjava("java.net.URL").new("http://www.baidu.com");
-    uc = url.openConnection();//生成连接对象
-    uc.connect();
-    ld = uc.getDate();//取得网站日期时间
-    date = importjava("java.util.Date").new(ld);
-    return(string(date.getHours(), "时", date.getMinutes(), "分", date.getSeconds(), "秒"));
-end
-fun static()
-    println("----static----");
-end
-
-fun init(a)
-	
-	this.time	(	a	);
-	
-    //this.a;
-    //returnArgs0();
-    //b = t;
-    //a = returnArgs0();
-    //l = "我丢";
-    //l = this.returnArgs0();
-    //l = this.a.b;
-    //l = this.a.b();
-    //l = this.a.b.k();
+{
+    fun 获取北京时间() {
+        url = importjava("java.net.URL").new("http://www.baidu.com");
+        uc = url.openConnection();//生成连接对象
+        uc.connect();
+        ld = uc.getDate();//取得网站日期时间
+        date = importjava("java.util.Date").new(ld);
+        return(string(date.getHours(), "时", date.getMinutes(), "分", date.getSeconds(), "秒"));
+    }
     
-    //a.a = "";
-    //a.a.a = "";
-    //a.a().c = "";
+    fun static(){
+        println("----static----");
+    }
     
-    //error;
-    //a.b() = "";
-end
-
-fun returnArgs0(args0)
-    return(args0);
-end
-
-fun returnThis()
-    return(this);
-end
-
-fun throwtest()
-    throw("throw");
-end
-fun test(f)
-    
-    user = "784920843@qq.com";
-    println(strf("Hello, {user}!"));
-    
-    
-    k = final.false;
-    if(k, final.true)
-        println("ifelse error,<1>");
-    else
-        if(k, final.false)
-            if(k, final.true)
-                println("ifelse error,<2>");
-            else
-                println("if else complete!");
-            endl
-        else
-            println("ifelse error,<3>");
-        endl
-    endl
-    
-    
-    
-    
-    
-    
-    
-    
-    try(e)
-        importjava("java.lang.String");
-    else
-        println("try()<1>");
-        println(strf("error: {e}"));
-    endl
-    
-    try(e)
-        importjava("util");
-    else
-        println("try()<2>");
-        println(strf("error: {e}"));
-    endl
-    
-    
-    
-    println("_________");
-    hookin = import("hook").new();
-    println(hookin);
-    hookin.a = "hookin.a";
-    println(hookin.a);    //hookin.a
-    
-    hookin2 = import("hook").new();
-    println(hookin2);
-    hookin2.a = "hookin2.a";
-    println(hookin.a);    //hookin.a
-    println(hookin2.a);   //hookin2.a
-    println("_________");
-    
-    
-    println("_________");
-    time = this.time();
-    println(strf("现在时间是: {time}"));
-    println(this.获取北京时间());
-    println("_________");
-    
-    
-    
-    
-    println("_________");
-    println(import(loadcode("动态加载.xfe","
-        fun init()
-            println(\"动态加载 init\");
-        end
-        fun 动态测试()
-            println(\"动态加载 动态测试\");
-        end
-    ")).new().动态测试());
-    println("_________");
-    
-    
-    
-    
-    
-    println("_________");
-    while(final.false)
-        println("while error");
-    endl
-    
-    try(a)
-        importjava("java.");
-        println("try error");
-    endl
-    println(a);
-    
-    if("".getClass(), getjavaclass(importjava("java.lang.String")))
-        println("if true");
-    endl
-    if(final.true)
-        println("if true");
-    endl
-    if(final.false)
-        println("if error");
-    endl
-    if(final.null)
-        println("if error");
-    endl
-    println("_________");
-    
-    
-    
-    println("_________");
-    println(f);
-    y = final.null;
-    f = y;
-    println(f);
-    println("_________");
-    
-    
-    
-    
-    println("_________");
-    this.returnThis().hh = "this.hh";
-    println(this.hh);
-    println("_________");
-    
-    
-    println("_________");
-    string = returnArgs0(
-        a = returnArgs0("1"), 
-        a2 = returnArgs0("2"), 
-        a3 = returnArgs0("3"), 
-        a4 = returnArgs0("4")
-    ).charAt(int:0);
-    println(string,a,a2,a3,a4);
-    println("_________");
-    
-    
-    println("_________");
-    string = "ohhh".toString().toString().toString().toString().charAt(int:0);
-    println(string("firstChar: ", string));
-    println(string("fileLength: ", importjava("java.io.File").new("/sdcard/6a1a5ffafd175d109c3a93b3c868d099.png").length()));
-    println("_________");
-    
-    
-    println("_________");
-    this.a = "this.a";
-    a = this.a;
-    println(this.a, a);
-    println("_________");
-    
-    
-    
-    
-    println("_________");
-    this.b = map();
-    this.b.k = "丢丢丢丢";
-    b = this.returnArgs0("b");
-    println(this.b, b);
-    println("_________");
-    
-    
-    
-    //throwtest();
-    
-end
-
-
-fun whiletest()
-    if(final.false) else endl
-    if(final.false, final.true) else endl
-    
-    while(final.false) endl
-    while(final.false, final.true) endl
-    
-    try() else endl
-    try(a) else endl
-    try(a, b, c) else endl
-end
-
-
-fun time()
-    System = 
-        importjava(
-        "java.lang.System"
-        );
+    fun init(a){
+    	
+    	this.time	(	a	);
+    	
+        //this.a;
+        //returnArgs0();
+        //b = t;
+        //a = returnArgs0();
+        //l = "我丢";
+        //l = this.returnArgs0();
+        //l = this.a.b;
+        //l = this.a.b();
+        //l = this.a.b.k();
         
-    return(System.currentTimeMillis());
-end
-
- 
-fun hscz()
-    i = int:0;
-    while(math(i, "<", int:1000000))
-        i = math(i, "+", int:1);
-    endl
+        //a.a = "";
+        //a.a.a = "";
+        //a.a().c = "";
+        
+        //error;
+        //a.b() = "";
+    }
     
-    //i = int:0;
-    //while(i < int:1000000)
-    //    i = i + int:1;
-    //endl
-end
+    fun returnArgs0(args0){
+        return(args0);
+    }
+    
+    fun returnThis(){
+        return(this);
+    }
+    
+    fun throwtest(){
+        throw("throw");
+    }
+    
+    fun test(f){
+        
+        a = {   
+            fun init(arrays){
+                a = {
+                } 
+                this.arrays = arrays;
+                this.index = int:-1;
+            }
+            fun hasNext() {
+                if(math(this.index, ">=", this.arrays.length()))
+                    return(final.false);
+                end
+                return(final.true);
+            }
+            fun next() {
+                return(this.arrays.get(this.index = math(this.index, "+", int:1)));
+            }
+        }
+        println(a);
+        
+        user = "784920843@qq.com";
+        println(strf("Hello, {user}!"));
+        
+        
+        k = final.false;
+        if(k, final.true)
+            println("ifelse error,<1>");
+        else
+            if(k, final.false)
+                if(k, final.true)
+                    println("ifelse error,<2>");
+                else
+                    println("if else complete!");
+                end
+            else
+                println("ifelse error,<3>");
+            end
+        end
+        
+        
+        
+        
+        
+        
+        
+        
+        try(e)
+            importjava("java.lang.String");
+        else
+            println("try()<1>");
+            println(strf("error: {e}"));
+        end
+        
+        try(e)
+            importjava("util");
+        else
+            println("try()<2>");
+            println(strf("error: {e}"));
+        end
+        
+        
+        
+        println("_________");
+        hookin = import("hook").new();
+        println(hookin);
+        hookin.a = "hookin.a";
+        println(hookin.a);    //hookin.a
+        
+        hookin2 = import("hook").new();
+        println(hookin2);
+        hookin2.a = "hookin2.a";
+        println(hookin.a);    //hookin.a
+        println(hookin2.a);   //hookin2.a
+        println("_________");
+        
+        
+        println("_________");
+        time = this.time();
+        println(strf("现在时间是: {time}"));
+        println(this.获取北京时间());
+        println("_________");
+        
+        
+        
+        
+        println("_________");
+        println(import(loadcode("动态加载.xfe","
+        {
+            fun init(){
+                println(\"动态加载 init\");
+            }
+            fun 动态测试() {
+                println(\"动态加载 动态测试\");
+            }
+        }
+        ")).new().动态测试());
+        println("_________");
+        
+        
+        
+        
+        
+        println("_________");
+        while(final.false)
+            println("while error");
+        end
+        
+        try(a)
+            importjava("java.");
+            println("try error");
+        end
+        println(a);
+        
+        if("".getClass(), getjavaclass(importjava("java.lang.String")))
+            println("if true");
+        end
+        if(final.true)
+            println("if true");
+        end
+        if(final.false)
+            println("if error");
+        end
+        if(final.null)
+            println("if error");
+        end
+        println("_________");
+        
+        
+        
+        println("_________");
+        println(f);
+        y = final.null;
+        f = y;
+        println(f);
+        println("_________");
+        
+        
+        
+        
+        println("_________");
+        this.returnThis().hh = "this.hh";
+        println(this.hh);
+        println("_________");
+        
+        
+        println("_________");
+        string = returnArgs0(
+            a = returnArgs0("1"), 
+            a2 = returnArgs0("2"), 
+            a3 = returnArgs0("3"), 
+            a4 = returnArgs0("4")
+        ).charAt(int:0);
+        println(string,a,a2,a3,a4);
+        println("_________");
+        
+        
+        println("_________");
+        string = "ohhh".toString().toString().toString().toString().charAt(int:0);
+        println(string("firstChar: ", string));
+        println(string("fileLength: ", importjava("java.io.File").new("/sdcard/6a1a5ffafd175d109c3a93b3c868d099.png").length()));
+        println("_________");
+        
+        
+        println("_________");
+        this.a = "this.a";
+        a = this.a;
+        println(this.a, a);
+        println("_________");
+        
+        
+        
+        
+        println("_________");
+        this.b = map();
+        this.b.k = "丢丢丢丢";
+        b = this.returnArgs0("b");
+        println(this.b, b);
+        println("_________");
+        
+        
+        
+        //throwtest();
+        
+    }
+    
+    
+    fun whiletest(){
+        if(final.false) else end
+        if(final.false, final.true) else end
+        
+        while(final.false) end
+        while(final.false, final.true) end
+        
+        try() else end
+        try(a) else end
+        try(a, b, c) else end
+    }
+    
+    
+    fun time(){
+        System = 
+            importjava(
+            "java.lang.System"
+            );
+            
+        return(System.currentTimeMillis());
+    }
+    
+     
+    fun hscz(){
+        i = int:0;
+        while(math(i, "<", int:1000000))
+            i = math(i, "+", int:1);
+        end
+        
+        //i = int:0;
+        //while(i < int:1000000)
+        //    i = i + int:1;
+        //end
+    }
+    
+}

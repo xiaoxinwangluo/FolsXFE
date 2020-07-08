@@ -8,12 +8,10 @@
 
 
 
-
-
-fun init()
-    println(this);
-end
-
-
+{
+    fun init(){
+        println(this);
+    }
+}
 
 
