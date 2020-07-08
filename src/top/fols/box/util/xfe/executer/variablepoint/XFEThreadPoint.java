@@ -31,7 +31,7 @@ public class XFEThreadPoint implements XFEInterfaceGetXFEClass, XFEAbstractVaria
 	@Override
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) throws Throwable {
 		// TODO: Implement this method
-		return this.xfeclassinstance.getVariable(name);
+		return this.xfeclassinstance.getVariable(xfeexecute.getStack(),name);
 	}
 
 	@Override

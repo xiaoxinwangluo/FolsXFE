@@ -2,36 +2,37 @@ package top.fols.box.util.xfe.executer.variablepoint;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import top.fols.box.util.XCHashMap;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
-import java.util.function.Function;
-import java.util.function.BiFunction;
+import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 
 
 	private Class mapClass = Map.class;
-	private Map map = null;
+	private XCHashMap variables = null;
 
-	public XFEMapPoint(Map map) {
-		this.map = (null == map ? map = new LinkedHashMap<>() : map);
-        this.mapClass = this.map.getClass();
+	public XFEMapPoint(XCHashMap map) {
+		this.variables = (null == map ? map = new XCHashMap<>() : map);
+        this.mapClass = this.variables.getClass();
 	}
 
 	@Override
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 		// TODO: Implement this method
-		return this.map.get(name);
+		return XFEKeyWords.getVariable(xfeexecute.getStack(), this.variables, name);
 	}
 
 	@Override
 	public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name,
                                      Object value) {
 		// TODO: Implement this method
-		this.map.put(name, value);
+		this.variables.put(name, value);
 		return value;
 	}
 
@@ -42,115 +43,115 @@ public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 		// System.out.println(XString.join(Thread.currentThread().getStackTrace(),
 		// "\n"));
 		Method method = xfeexecute.getJavaReflectManager().getMethod(this.mapClass, name, value);
-		return method.invoke(this.map, value);
+		return method.invoke(this.variables, value);
 	}
 
 	//
 	@Override
 	public int size() {
 		// TODO: Implement this method
-		return this.map.size();
+		return this.variables.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
 		// TODO: Implement this method
-		return this.map.isEmpty();
+		return this.variables.isEmpty();
 	}
 
 	@Override
 	public boolean containsKey(Object p1) {
 		// TODO: Implement this method
-		return this.map.containsKey(p1);
+		return this.variables.containsKey(p1);
 	}
 
 	@Override
 	public boolean containsValue(Object p1) {
 		// TODO: Implement this method
-		return this.map.containsValue(p1);
+		return this.variables.containsValue(p1);
 	}
 
 	@Override
 	public Object get(Object p1) {
 		// TODO: Implement this method
-		return this.map.get(p1);
+		return this.variables.get(p1);
 	}
 
 	@Override
 	public Object put(Object p1, Object p2) {
 		// TODO: Implement this method
-		return this.map.put(p1, p2);
+		return this.variables.put(p1, p2);
 	}
 
 	@Override
 	public Object remove(Object p1) {
 		// TODO: Implement this method
-		return this.map.remove(p1);
+		return this.variables.remove(p1);
 	}
 
 	@Override
 	public void putAll(Map p1) {
 		// TODO: Implement this method
-		this.map.putAll(p1);
+		this.variables.putAll(p1);
 	}
 
 	@Override
 	public void clear() {
 		// TODO: Implement this method
-		this.map.clear();
+		this.variables.clear();
 	}
 
 	@Override
 	public Set keySet() {
 		// TODO: Implement this method
-		return this.map.keySet();
+		return this.variables.keySet();
 	}
 
 	@Override
 	public Collection values() {
 		// TODO: Implement this method
-		return this.map.values();
+		return this.variables.values();
 	}
 
 	@Override
 	public Set entrySet() {
 		// TODO: Implement this method
-		return this.map.entrySet();
+		return this.variables.entrySet();
 	}
 
     @Override
     public Object getOrDefault(Object key, Object defaultValue) {
-        return this.map.getOrDefault(key, defaultValue);
+        return this.variables.getOrDefault(key, defaultValue);
     }
 
     @Override
     public Object putIfAbsent(Object key, Object value) {
-        return this.map.putIfAbsent(key, value);
+        return this.variables.putIfAbsent(key, value);
     }
 
     @Override
     public Object replace(Object key, Object value) {
-        return this.map.replace(key, value);
+        return this.variables.replace(key, value);
     }
 
     @Override
     public Object computeIfAbsent(Object key, Function mappingFunction) {
-        return this.map.computeIfAbsent(key, mappingFunction);
+        return this.variables.computeIfAbsent(key, mappingFunction);
     }
 
     @Override
     public Object computeIfPresent(Object key, BiFunction remappingFunction) {
-        return this.map.computeIfPresent(key, remappingFunction);
+        return this.variables.computeIfPresent(key, remappingFunction);
     }
 
     @Override
     public Object compute(Object key, BiFunction remappingFunction) {
-        return this.map.compute(key, remappingFunction);
+        return this.variables.compute(key, remappingFunction);
     }
 
     @Override
     public Object merge(Object key, Object value, BiFunction remappingFunction) {
-        return this.map.merge(key, value, remappingFunction);
+        return this.variables.merge(key, value, remappingFunction);
     }
 
 
@@ -159,18 +160,18 @@ public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO: Implement this method
-		return this.map.equals(obj);
+		return this.variables.equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
 		// TODO: Implement this method
-		return this.map.hashCode();
+		return this.variables.hashCode();
 	}
 
 	@Override
 	public String toString() {
 		// TODO: Implement this method
-		return this.map.toString();
+		return this.variables.toString();
 	}
 }

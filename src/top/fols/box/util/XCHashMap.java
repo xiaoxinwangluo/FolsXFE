@@ -292,7 +292,7 @@ implements Map<K,V>, Cloneable, Serializable {
      * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
      */
 	
-    static class Node<K,V> implements Map.Entry<K,V> {
+    public static class Node<K,V> implements Map.Entry<K,V> {
 
 
 		/*

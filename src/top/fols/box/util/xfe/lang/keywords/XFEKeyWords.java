@@ -3,6 +3,7 @@ package top.fols.box.util.xfe.lang.keywords;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import top.fols.box.util.XCHashMap;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
@@ -102,7 +103,7 @@ public class XFEKeyWords {
 	FALSE 	= "false",		NULL = "null",				IF = "if",				WHILE 	= "while",
 	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",		TRY = "try",			
 	ELSE = "else",
-	
+
 	NEW = "new"//XFEClassStaticPoint / XFEJavaClassStaticPoint, create instance method name extension		
 	;
 	private static Map<String, String> KEYWORDS = putKeyWords(new String[] {
@@ -128,7 +129,7 @@ public class XFEKeyWords {
 	/**
 	 * 唯一内存关键词
 	 */
-	public static String searchRootKeyWords(String keywords) {
+	public static String keyIntern(String keywords) {
 		if (null == keywords) {
 			return null;
 		} else {
@@ -197,7 +198,7 @@ public class XFEKeyWords {
 
 
 
-	public static final Map<String, Object> initFinalVariableManagerValues(HashMap<String, Object> kf) {
+	public static final Map<String, Object> initFinalVariableManagerValues(Map<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
 		kf.put(XFEKeyWords.NULL, 	null);
@@ -261,11 +262,11 @@ public class XFEKeyWords {
 
 		new TIME()
 	);
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static boolean isCodeBlockHeader(String option) {
 		return 
 			option == XFEKeyWords.IF || 
@@ -280,13 +281,13 @@ public class XFEKeyWords {
 		return 
 			option == XFEKeyWords.ENDL;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	//prohibit set variable
 	public static boolean isExecuterFinalVariable(String name) {
 		return 
@@ -301,10 +302,10 @@ public class XFEKeyWords {
 		map.put(XFEKeyWords.THIS, 			xfeclassinstance);
 		map.put(XFEKeyWords.STATIC, 		xfeclassinstance.getStaticInstance(stack));
 	}
-	
-	
-	
-	
+
+
+
+
     public static boolean isStandardVariableName(String str) {
 		int strlen = str.length();
 		if (strlen == 0) {
@@ -337,12 +338,7 @@ public class XFEKeyWords {
 
 
 
-	public static class XFEBaseMethodResource {
-		public static class STRF {
-			public static final char ANNOTATION_START = '{';
-			public static final char ANNOTATION_END = '}';
-		}
-	}
+
 	public static class XFEUTILRESOURCE {
 	    public static class ArrayOption {
 			public static final String METHOD_GET = "get";
@@ -352,7 +348,14 @@ public class XFEKeyWords {
 	}
 
 
-
+	public static Object getVariable(XFEStack stack, XCHashMap<String, Object> variables, String name) {
+		XCHashMap.Node<String, Object> variable = variables.getNote(name);
+		if (variable != null) {
+			return variable.getValue();
+		}
+		stack.setThrow("not found variable: " + name);
+		return null;
+	}
 
 
 

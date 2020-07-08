@@ -6,9 +6,10 @@ import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
+import top.fols.box.util.XCHashMap;
 
 final class XFEFinalVariableManager {
-	private Map<String, Object> finalVariable = XFEKeyWords.initFinalVariableManagerValues(new HashMap<String,Object>());
+	private XCHashMap<String, Object> finalVariable = (XCHashMap<String, Object>)XFEKeyWords.initFinalVariableManagerValues(new XCHashMap<String,Object>());
 	private XFEFinalVariableManager() {
 		super();
 	}
@@ -18,9 +19,9 @@ final class XFEFinalVariableManager {
 
 
 	//*****
-	private Map<String, String> stringVariableCacheMap0;
-	private Map<String, String> stringVariableCacheMap() {
-		return null == this.stringVariableCacheMap0 ?this.stringVariableCacheMap0 = new HashMap<String, String>(): this.stringVariableCacheMap0;
+	private XCHashMap<String, String> stringVariableCacheMap0;
+	private XCHashMap<String, String> stringVariableCacheMap() {
+		return null == this.stringVariableCacheMap0 ?this.stringVariableCacheMap0 = new XCHashMap<String, String>(): this.stringVariableCacheMap0;
 	}
     //返回变量名
 	protected String putStringFinalValue(XFEClass cls, String value) {
@@ -66,9 +67,9 @@ final class XFEFinalVariableManager {
 		this.put(cls, name, value);
 		return name;
     }
-	
-	
-	
+
+
+
 	protected void releaseCache() {
 		this.stringVariableCacheMap0 = null;
 	}
@@ -77,7 +78,7 @@ final class XFEFinalVariableManager {
 			this.finalVariable.clear(); 
 			this.finalVariable = null;
 		}
-		
+
 		if (null != this.stringVariableCacheMap0) {
 			this.stringVariableCacheMap0.clear(); 
 			this.stringVariableCacheMap0 = null;
@@ -91,7 +92,7 @@ final class XFEFinalVariableManager {
 	protected boolean has(String name) {
 		return this.finalVariable.containsKey(name);
     }
-	protected Object get(String name) {
+	protected Object get(String name) { 
         return this.finalVariable.get(name);
     }
 
@@ -112,7 +113,7 @@ final class XFEFinalVariableManager {
 		@Override
 		public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 			// TODO: Implement this method
-            return this.fvm.get(name);
+			return XFEKeyWords.getVariable(xfeexecute.getStack(), this.fvm.finalVariable, name);
 		}
 		@Override
 		public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object value) {

@@ -1,12 +1,9 @@
 package top.fols.box.util.xfe.lang;
 
-import java.util.HashMap;
-import java.util.Map;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
-import top.fols.box.util.xfe.executer.XFEExecute.ExecuteStatus;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 public final class XFEClassInstance extends XFEClass implements XFEAbstractVariablePoint {
@@ -67,7 +64,7 @@ public final class XFEClassInstance extends XFEClass implements XFEAbstractVaria
 
 	@Override
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) throws Throwable {
-		return super.getVariable(name);
+		return super.getVariable(xfeexecute.getStack(), name);
 	}
 	@Override
 	public Object setVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name, Object value) throws Throwable {

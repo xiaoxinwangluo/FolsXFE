@@ -47,6 +47,10 @@ fun throwtest()
 end
 fun test(f)
     
+    user = "World";
+    println(strf("Hello, {user}!"));
+    
+    
     k = final.false;
     if(k, final.true)
         println("ifelse error,<1>");
@@ -152,6 +156,7 @@ fun test(f)
     
     println("_________");
     println(f);
+    y = final.null;
     f = y;
     println(f);
     println("_________");
@@ -195,7 +200,7 @@ fun test(f)
     println("_________");
     this.b = map();
     this.b.k = "丢丢丢丢";
-    b = this.returnArgs0();
+    b = this.returnArgs0("b");
     println(this.b, b);
     println("_________");
     

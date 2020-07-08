@@ -1,6 +1,7 @@
 package top.fols.box.util.xfe.lang;
 import java.util.HashMap;
 import java.util.Map;
+import top.fols.box.util.XCHashMap;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
@@ -13,7 +14,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	protected XFEClassLoader classLoader;//class loader
 	protected String name;//class name
 	protected int RUNNING_MOD = 0;//instance/staticinstance
-	protected Map<String, Object> variable;//variable
+	protected XCHashMap<String, Object> variable;//variable
 	protected XFEClassInstance staticInstance;//static instance
 	protected XFEFinalVariableManager finalVariable;//String char and base type data
 
@@ -23,7 +24,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		this.classLoader = cls.classLoader;
 		this.name = cls.name;
 		this.methods = cls.methods;
-		this.variable = new HashMap<>();
+		this.variable = new XCHashMap<>();
 		this.RUNNING_MOD = cls.RUNNING_MOD;
 		this.staticInstance = cls.staticInstance;
 		this.finalVariable = cls.finalVariable;
@@ -107,10 +108,11 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		return newValue;
 	}
 
-	public Object getVariable(String name) {
-		return this.variable.get(name);
+	public Object getVariable(XFEStack stack, String name) {
+		return XFEKeyWords.getVariable(stack, this.variable, name);
 	}
 
+	
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
@@ -205,7 +207,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 
 
-	
+
 	public static String getClassFileExtensionNameSeparator() {
 		return XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR;
 	}

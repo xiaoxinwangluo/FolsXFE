@@ -188,7 +188,7 @@ public class XFECodeLoader {
             if ((nextCode = nextCode.trim()).length() == 0) {
 				continue;
             }
-            nextCode = XFEKeyWords.searchRootKeyWords(nextCode);
+            nextCode = XFEKeyWords.keyIntern(nextCode);
 
             if (nextCode.equals(XFEKeyWords.CODE_VARIABLE_ASSIGNMENT_SYMBOL)) {//=
                 if (null == nowParamCode) { fun.addParamToTop(nowParamCode = new Code().setLine(lineTracker.getLine())); }
@@ -245,7 +245,7 @@ public class XFECodeLoader {
             if ((nextCode = nextCode.trim()).length() == 0) {
                 continue;
             }
-            nextCode = XFEKeyWords.searchRootKeyWords(nextCode);
+            nextCode = XFEKeyWords.keyIntern(nextCode);
 
             if (nextCode.equals(XFEKeyWords.CODE_VARIABLE_ASSIGNMENT_SYMBOL)) {//=
                 c.addCodeToTop(DEFAULT_ASSIGNMENT);

@@ -32,7 +32,7 @@ public class XFEClassStaticPoint implements XFEInterfaceGetXFEClass, XFEAbstract
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 		// TODO: Implement this method
 		XFEStack stack = xfeexecute.getStack();
-		return this.getStaticInstance(stack).getVariable(name);
+		return this.getStaticInstance(stack).getVariable(xfeexecute.getStack(),name);
 	}
 
 	@Override

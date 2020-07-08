@@ -2,9 +2,9 @@ package top.fols.box.util.xfe.executer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import top.fols.box.lang.XStringFormat;
 import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.util.XCHashMap;
 import top.fols.box.util.XDoubleLinked;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
@@ -24,12 +24,24 @@ import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
 
-public class XFEExecute {
+public class XFEExecute implements XStringFormat.VarManager {
+    /* 
+	 * interface@ XStringFormat.VarManager
+	 */
+	@Override
+	public Object getVarValue(String p1) throws RuntimeException {
+		return this.getVariableValue(p1);
+	}
+
+
+
+
+
     private XFEStack stack;
 
 	private XFEClassInstance clsInstance;
 	private XFEMethod method;
-	private Map<String, Object> variable;
+	private XCHashMap<String, Object> variable;
 
 	private XDoubleLinked.VarLinked<XFEStack.StackElement> current;
 
@@ -61,7 +73,7 @@ public class XFEExecute {
         this.clsInstance = xfeclass;
         this.method = xfemethod;
 
-        this.variable = (null == inherit ?new HashMap<>(): inherit.variable);
+        this.variable = (null == inherit ?new XCHashMap<>(): inherit.variable);
 
 
         XFEStack.StackElement currentMessage = new XFEStack.StackElement(xfeclass.getFileName(), xfeclass.getName(), xfemethod.getName(), -1);
@@ -138,7 +150,7 @@ public class XFEExecute {
 		return result;
 	}
 	public Object getVariableValue(String name) {
-		return this.variable.get(name);
+		return XFEKeyWords.getVariable(this.stack, this.variable, name);
 	}
 
 	private Object setPointVariableValue0(XFEExecute.ExecuteStatus execStatus, Object instance, String name, Object value) {
