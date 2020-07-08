@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.util.XFECalc;
 
-public class CALC extends XFEBaseMethod {
+public class MATH extends XFEBaseMethod {
 
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args)

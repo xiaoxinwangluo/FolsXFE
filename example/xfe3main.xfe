@@ -47,7 +47,7 @@ fun throwtest()
 end
 fun test(f)
     
-    user = "World";
+    user = "784920843@qq.com";
     println(strf("Hello, {user}!"));
     
     
@@ -212,46 +212,36 @@ end
 
 
 fun whiletest()
-    if(final.false) endl
-    if(final.false, final.true) endl
+    if(final.false) else endl
+    if(final.false, final.true) else endl
     
     while(final.false) endl
     while(final.false, final.true) endl
     
-    try() endl
-    try(a) endl
-    try(a, b, c) endl
+    try() else endl
+    try(a) else endl
+    try(a, b, c) else endl
 end
 
 
 fun time()
-    
-    
     System = 
         importjava(
         "java.lang.System"
         );
+        
     return(System.currentTimeMillis());
 end
 
  
 fun hscz()
-    
     i = int:0;
-    while(calc(i, "<", int:1000000))
-        i = calc(i, "+", int:1);
+    while(math(i, "<", int:1000000))
+        i = math(i, "+", int:1);
     endl
     
-    //存储于匿名Class
-    //存储于匿名ClassLoader
-    //fun2 = javainterface("java.util.Enumeration", "
-    //    fun hasMoreElements()
-    //        return(final.true);
-    //    end
-    //    fun nextElement()
-    //        return("element");
-    //    end
-    //"
-    //);
-    //addLineLimiter(fun2);
+    //i = int:0;
+    //while(i < int:1000000)
+    //    i = i + int:1;
+    //endl
 end

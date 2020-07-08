@@ -199,17 +199,17 @@ public class XFECodeLoader {
             } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_JOIN_SYMBOL)) {//(
                 ContentLinked<Var> last = c.getCodeTop();
                 Var lastContent = null == last.content() ?null: last.content();
-                if (!(null == lastContent || null == lastContent.name || isVar(lastContent))) {
-                    throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
-                }
-                String name = null == lastContent ?null: lastContent.name;
-                Fun f = new Fun();
-                if (null == name) {
-                    f.name = ""; // ()
+				Fun f = new Fun();
+			    if (isVar(lastContent)) {
+					f.name = lastContent.name;
+					c.removeCode(last);
                 } else {
-                    f.name = name; // name()
-                    c.removeCode(last);
-                }
+					if (null == lastContent || null == lastContent.name || isAssignment(lastContent)) {//a = (b);
+						f.name = "";
+					} else {
+						throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+					}
+				}
                 f.line = lineTracker.getLine();
 //                System.out.println("@" + f.name);
                 if (null == c) { fun.addParamToTop(c = new Code().setLine(lineTracker.getLine())); }
@@ -254,17 +254,17 @@ public class XFECodeLoader {
             } else if (nextCode.equals(XFEKeyWords.CODE_PARAM_JOIN_SYMBOL)) {//(
                 ContentLinked<Var> last = c.getCodeTop();
                 Var lastContent = null == last.content() ?null: last.content();
-                if (!(null == lastContent || null == lastContent.name || isVar(lastContent))) {
-                    throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
-                }
-                String name = null == lastContent ?null: lastContent.name;
-                Fun f = new Fun();
-                if (null == name) {
-                    f.name = ""; // ()
+				Fun f = new Fun();
+			    if (isVar(lastContent)) {
+					f.name = lastContent.name;
+					c.removeCode(last);
                 } else {
-                    f.name = name; // name()
-                    c.removeCode(last);
-                }
+					if (null == lastContent || null == lastContent.name || isAssignment(lastContent)) {//a = (b);
+						f.name = "";
+					} else {
+						throw new RuntimeException("Grammatical errors: " + "[" + lastContent.name + "]" + " " + XFEMethodCode.lineAddresString(this.getFileName(), this.getClassName(), null, lineTracker.getLine()));
+					}
+				}
                 f.line = lineTracker.getLine();
 //                System.out.println("@" + f.name);
                 c.addCodeToTop(f);
@@ -405,12 +405,12 @@ public class XFECodeLoader {
         CodeReader lineCodeReader = new CodeReader();
         lineCodeReader.setBuffer(content);
         lineCodeReader.setSeparator(separate);
-		
+
         //一次性读取所有Code
         Code code = 
 			this.readCode0(lineTracker, lineCodeReader);
         this.loadMethodsToXFEClass(xfeclass, code);
-		
+
         content = null;
         code = null;
         lineCodeReader.releaseBuffer();

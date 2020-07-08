@@ -8,7 +8,7 @@ import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethodManager;
 import top.fols.box.util.xfe.executer.basemethod.lang.BREAK;
-import top.fols.box.util.xfe.executer.basemethod.lang.CALC;
+import top.fols.box.util.xfe.executer.basemethod.lang.MATH;
 import top.fols.box.util.xfe.executer.basemethod.lang.CONTINUE;
 import top.fols.box.util.xfe.executer.basemethod.lang.EQUAL;
 import top.fols.box.util.xfe.executer.basemethod.lang.EQUALS;
@@ -68,6 +68,7 @@ import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetJavaClass;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
+import top.fols.box.util.xfe.executer.basemethod.lang._;
 
 
 public class XFEKeyWords {
@@ -93,7 +94,7 @@ public class XFEKeyWords {
     public static final String      CODE_PARAM_END_SYMBOL = ")";
 
 
-	
+
 
 
 
@@ -199,7 +200,7 @@ public class XFEKeyWords {
 	//public static final String BASE_VARIABLE_TYPE_BOOLEAN = "boolean";
 	//public static final String BASE_VARIABLE_TYPE_OBJECT = "object";
 
-	
+
 	public static final Map<String, Object> initFinalVariableManagerValues(Map<String, Object> kf) {
 		kf.put(XFEKeyWords.TRUE, 	true);
 		kf.put(XFEKeyWords.FALSE, 	false);
@@ -210,6 +211,13 @@ public class XFEKeyWords {
 
 	//*****
 	public static final XFEBaseMethodManager DEFAULT_BASEMETHOD_MANAGER = new XFEBaseMethodManager(
+	    new _(), //no method name => ()
+		
+		
+		
+		
+		
+		
 		//----lang
 		new RETURN(),			new CONTINUE(),			new BREAK(),
 
@@ -222,7 +230,7 @@ public class XFEKeyWords {
 
 		new NEW(), 			
 
-		new CALC(),			
+		new MATH(),			
 
 		new GETJAVACLASS(),			new GETCLASS(),	
 
@@ -355,7 +363,7 @@ public class XFEKeyWords {
 		if (variable != null) {
 			return variable.getValue();
 		}
-		stack.setThrow("not found " + type + " variable: " + name);
+		stack.setThrow("not found " + type + " variable: " + "[" + name + "]");
 		return null;
 	}
 

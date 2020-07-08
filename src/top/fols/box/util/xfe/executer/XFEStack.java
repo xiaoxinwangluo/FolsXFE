@@ -9,6 +9,7 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEUtil;
 import top.fols.box.util.xfe.util.interfacelist.XFEStackInterface;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
+import top.fols.box.statics.XStaticFixedValue;
 
 public class XFEStack implements XFEStackInterface {
 
@@ -66,6 +67,11 @@ public class XFEStack implements XFEStackInterface {
 		}
 
 	}
+
+
+
+	
+
 
 	private XDoubleLinked.VarLinked<StackElement> stacks = new XDoubleLinked.VarLinked<>(null);
 
@@ -197,7 +203,7 @@ public class XFEStack implements XFEStackInterface {
 			StackElement current = now.content();
 			if (null != current) {
 				sb.add(new StringBuilder("at: ").append(XFEMethodCode.lineAddresString(current.fileName,
-						current.className, current.methodName, current.line)));
+							current.className, current.methodName, current.line)));
 			}
 		}
 		return sb.toString();
@@ -210,11 +216,11 @@ public class XFEStack implements XFEStackInterface {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		
+
 		Throwable tT = this.getThrowJavaThrowableInstance();
 		if (null != tT) {
 			sb.append("java_throwable: ").append(tT.getClass().getCanonicalName())
-					.append(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR);
+				.append(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR);
 		}
 
 		String tR = this.getThrowReason();

@@ -23,6 +23,7 @@ import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
 
 import static top.fols.box.util.xfe.lang.XFECodeLoader.*;
+import top.fols.box.lang.XString;
 
 public class XFEExecute implements XStringFormat.VarManager {
     /* 
@@ -35,8 +36,10 @@ public class XFEExecute implements XStringFormat.VarManager {
 
 
 
-
-
+	
+	
+	
+	
     private XFEStack stack;
 
 	private XFEClassInstance clsInstance;
