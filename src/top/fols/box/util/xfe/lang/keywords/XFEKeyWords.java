@@ -212,12 +212,12 @@ public class XFEKeyWords {
 	//*****
 	public static final XFEBaseMethodManager DEFAULT_BASEMETHOD_MANAGER = new XFEBaseMethodManager(
 	    new _(), //no method name => ()
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		//----lang
 		new RETURN(),			new CONTINUE(),			new BREAK(),
 
@@ -363,7 +363,7 @@ public class XFEKeyWords {
 		if (variable != null) {
 			return variable.getValue();
 		}
-		stack.setThrow("not found " + type + " variable: " + "[" + name + "]");
+		stack.setThrow("not found " + type + " variable: " + "" + name + "");
 		return null;
 	}
 
