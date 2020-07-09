@@ -16,8 +16,8 @@
         inherit(this).setvar();
         
         packageName = loadPackageParam.packageName;
-        if("com.coolapk.market".equals(packageName))
-        end
+        if("com.coolapk.market".equals(packageName)){
+        }
     }
 }
 

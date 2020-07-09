@@ -117,8 +117,6 @@ public class Main {
 
 			XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
 			xfeclassloader1.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
-			xfeclassloader1.forName("hook");
-			
 			
 			xtimingLoad = XTiming.newAndStart();
 			XFEClass xfeclass = xfeclassloader1.forName("xfe3main");

@@ -48,6 +48,14 @@
     
     fun test(f){
         
+        
+        if(final.true){
+            println(final.true);
+        }else{
+            println(final.true);
+        }
+        
+        
         a = {   
             fun init(arrays){
                 a = {
@@ -56,15 +64,15 @@
                 this.index = int:-1;
             }
             fun hasNext() {
-                if(math(this.index, ">=", this.arrays.length()))
+                if(math(this.index, ">=", this.arrays.length())) {
                     return(final.false);
-                end
+                }
                 return(final.true);
             }
             fun next() {
                 return(this.arrays.get(this.index = math(this.index, "+", int:1)));
             }
-        }
+        };
         println(a);
         
         user = "784920843@qq.com";
@@ -72,19 +80,19 @@
         
         
         k = final.false;
-        if(k, final.true)
+        if(k, final.true){
             println("ifelse error,<1>");
-        else
-            if(k, final.false)
-                if(k, final.true)
+        }else{
+            if(k, final.false){
+                if(k, final.true){
                     println("ifelse error,<2>");
-                else
+                }else{
                     println("if else complete!");
-                end
-            else
+                }
+            }else{
                 println("ifelse error,<3>");
-            end
-        end
+            }
+        }
         
         
         
@@ -93,19 +101,19 @@
         
         
         
-        try(e)
+        try(e){
             importjava("java.lang.String");
-        else
-            println("try()<1>");
+        }else{
+            println("try() else error <1>");
             println(strf("error: {e}"));
-        end
+        }
         
-        try(e)
+        try(e){
             importjava("util");
-        else
-            println("try()<2>");
+        }else{
+            println("try() else complete <2>");
             println(strf("error: {e}"));
-        end
+        }
         
         
         
@@ -150,28 +158,28 @@
         
         
         println("_________");
-        while(final.false)
+        while(final.false){
             println("while error");
-        end
+        }
         
-        try(a)
+        try(a){
             importjava("java.");
             println("try error");
-        end
+        }
         println(a);
         
-        if("".getClass(), getjavaclass(importjava("java.lang.String")))
+        if("".getClass(), getjavaclass(importjava("java.lang.String"))){
             println("if true");
-        end
-        if(final.true)
+        }
+        if(final.true){
             println("if true");
-        end
-        if(final.false)
+        }
+        if(final.false){
             println("if error");
-        end
-        if(final.null)
+        }
+        if(final.null){
             println("if error");
-        end
+        }
         println("_________");
         
         
@@ -234,15 +242,15 @@
     
     
     fun whiletest(){
-        if(final.false) else end
-        if(final.false, final.true) else end
+        if(final.false) {} else {}
+        if(final.false, final.true) {} else {}
         
-        while(final.false) end
-        while(final.false, final.true) end
+        while(final.false) {}
+        while(final.false, final.true) {}
         
-        try() else end
-        try(a) else end
-        try(a, b, c) else end
+        try() {} else {}
+        try(a) {} else {}
+        try(a, b, c) {} else {}
     }
     
     
@@ -258,14 +266,14 @@
      
     fun hscz(){
         i = int:0;
-        while(math(i, "<", int:1000000))
+        while(math(i, "<", int:1000000)){
             i = math(i, "+", int:1);
-        end
+        }
         
         //i = int:0;
-        //while(i < int:1000000)
+        //while(i < int:1000000){
         //    i = i + int:1;
-        //end
+        //}
     }
     
 }

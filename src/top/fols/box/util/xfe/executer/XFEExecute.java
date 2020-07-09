@@ -531,27 +531,11 @@ public class XFEExecute implements XStringFormat.VarManager {
             if (cbo == XFEKeyWords.IF) {
 				while (true) {
 					boolean ifResult = this.ifParamResult(status, rootVars);
-					int absIndex, absTail; 
-					if (code.crashIndex > -1) {//存在else
-						if (ifResult) {
-							absIndex = startIndex + 1;
-							absTail = code.crashIndex - 1;
-						} else {
-							absIndex = code.crashIndex + 1;
-							absTail = code.gotoIndex - 1;
-						}
-					} else {
-						if (ifResult) {
-							absIndex = startIndex + 1;
-							absTail = code.gotoIndex - 1;
-						} else {
-							break;
-						}
-					}
-					this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index
+					XFEMethodCode[] block = ifResult ?code.block: code.elseblock;
+					this.executeProcess(status, block, 0, block.length - 1);// CodeBlock header index
 					break;
 				}
-                startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
+                startIndex++;
                 continue;
             } else if (cbo == XFEKeyWords.WHILE) {
                 while (true) {
@@ -560,7 +544,8 @@ public class XFEExecute implements XStringFormat.VarManager {
                     if (!(result instanceof Boolean) || !((Boolean) result).booleanValue()) {
                         break;
                     }
-                    this.executeProcess(status, codes, startIndex + 1, code.gotoIndex - 1);// CodeBlock header index
+					XFEMethodCode[] block = code.block;
+                    this.executeProcess(status, block, 0, block.length - 1);// CodeBlock header index
                     if (this.stack.isThrow()) {
                         return;
                     } else if (status.isReturn) {
@@ -574,18 +559,13 @@ public class XFEExecute implements XStringFormat.VarManager {
                         return;
                     }
                 }
-                startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
+                startIndex++;
                 continue;
             } else if (cbo == XFEKeyWords.TRY) {
-				int absIndex, absTail;
-				if (code.crashIndex > -1) {
-					absIndex = startIndex + 1;
-					absTail = code.crashIndex - 1;
-				} else {
-					absIndex = startIndex + 1;
-					absTail = code.gotoIndex - 1;
+				{
+					XFEMethodCode[] block = code.block;
+					this.executeProcess(status, block, 0, block.length - 1);// CodeBlock header index +1,
 				}
-				this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index +1,
 				boolean isthrow = false;
 				if (this.stack.isThrow()) {
 					// run exception
@@ -598,13 +578,12 @@ public class XFEExecute implements XStringFormat.VarManager {
 				}
 				this.tryParamSet(status, rootVars, isthrow);// set try method param
 				if (isthrow) {
-					if (code.crashIndex > -1) {
-						absIndex = code.crashIndex + 1;
-						absTail = code.gotoIndex - 1;
-						this.executeProcess(status, codes, absIndex, absTail);// CodeBlock header index +1,
+					{
+						XFEMethodCode[] block = code.elseblock;
+						this.executeProcess(status, block, 0, block.length - 1);// CodeBlock header index +1,
 					}
 				}
-                startIndex = code.gotoIndex + 1;// CodeBlock tail + 1
+                startIndex++;
                 continue;
             } else {
                 // normal execute

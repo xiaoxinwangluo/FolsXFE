@@ -105,7 +105,7 @@ public class XFEKeyWords {
 	 * XFE KeyWord
 	 */
 	public static final String 
-	RETURN = "return",  	FUN = "fun", 	    	    END = "end", 			
+	RETURN = "return",  	FUN = "fun", 	    	    			
 	FINAL = "final",		THIS = "this",			    INIT = "init", 			TRUE = "true",
 	FALSE = "false",		NULL = "null",				IF = "if",				WHILE = "while",
 	BREAK = "break",		CONTINUE = "continue",		STATIC 	= "static",		TRY = "try",			
@@ -114,7 +114,7 @@ public class XFEKeyWords {
 	NEW = "new"//XFEClassStaticPoint / XFEJavaClassStaticPoint, create instance method name extension		
 	;
 	private static Map<String, String> KEYWORDS = putKeyWords(new String[] {
-			RETURN, 	FUN, 		END, 		
+			RETURN, 	FUN, 			
 			FINAL, 		THIS,		INIT,		TRUE,		
 			FALSE,		NULL,		IF,			WHILE,
 			BREAK, 		CONTINUE,	STATIC,		TRY,		
@@ -291,12 +291,11 @@ public class XFEKeyWords {
 		return 
 			option == XFEKeyWords.ELSE;
 	}
-	public static boolean isCodeBlockTail(String option) {
-		return 
-			option == XFEKeyWords.END;
-	}
-
-
+	
+	
+	
+	
+	
 
 
 
