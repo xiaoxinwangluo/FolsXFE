@@ -326,7 +326,7 @@ public class XFEExecute implements XStringFormat.VarManager {
             this.now = now;
             return this;
         }
-        public static XFECodeLoader.ContentLinked<Var> next(XFECodeLoader.ContentLinked<Var> now) {
+        public static XFECodeLoader.ContentLinked<Var> getNext(XFECodeLoader.ContentLinked<Var> now) {
             return null == now ? null : now.getNext();
         }
     }
@@ -358,7 +358,7 @@ public class XFEExecute implements XStringFormat.VarManager {
                         stack.setThrow(XFEStackThrowMessageTool.notFoundObjectFieled(null, nowVar.getName()));
                         return null;
                     }
-                    XFECodeLoader.ContentLinked<Var> next = VarLinkedReader.next(now);
+                    XFECodeLoader.ContentLinked<Var> next = VarLinkedReader.getNext(now);
                     if (null != next && isAssignment(next.content())) {
                         // x = ...
                         result = this.setVariableValue(nowVar.getName(),
@@ -372,7 +372,7 @@ public class XFEExecute implements XStringFormat.VarManager {
                     }
                 } else if (joinPoint) {
                     // 上一个元素为点
-                    XFECodeLoader.ContentLinked<Var> next = VarLinkedReader.next(now);
+                    XFECodeLoader.ContentLinked<Var> next = VarLinkedReader.getNext(now);
                     if (null == next) {
                         // 数据被读完 x.x
                         result = this.getPointVariableValue0(execStatus, result, nowVar.getName());
