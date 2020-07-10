@@ -63,10 +63,18 @@ public class XFEExecute implements XStringFormat.VarManager {
 			execute.current = null;
 		}
 	}
-	private XFEExecute(XFEClassInstance xfeclass, XFEMethod xfemethod, XFEStack stack) {
+
+
+
+
+	private XFEExecute(XFEClassInstance xfeclass,
+					   XFEMethod xfemethod, 
+					   XFEStack stack) {
 		this(xfeclass, xfemethod, stack, null);
 	}
-	private XFEExecute(XFEClassInstance xfeclass, XFEMethod xfemethod, XFEStack stack,
+	private XFEExecute(XFEClassInstance xfeclass,
+					   XFEMethod xfemethod, 
+					   XFEStack stack,
                        XFEExecute inherit) {
 		this.stack = (null == stack ? (stack = XFEStack.newXFEThreadStack(null)) : stack);
         if (this.stack.isThrow()) {
@@ -91,6 +99,10 @@ public class XFEExecute implements XStringFormat.VarManager {
         this.javaReflectMatcher = xfeclassloader.getJavaReflectManager();
 		// System.out.println("{" + this.stack + "}");
 	}
+
+
+
+
 
 	public XFEJavaReflectManager getJavaReflectManager() {
 		return this.javaReflectMatcher;

@@ -11,15 +11,6 @@ public class XFEClassInstance extends XFEClass implements XFEAbstractVariablePoi
 	
 	protected XFEClassInstance(XFEClass cls) {
 		//System.out.println("创建: " + cls);
-//		super.fileName = cls.fileName;
-//		super.classLoader = cls.classLoader;
-//		super.name = cls.name;
-//		super.methods = cls.methods;
-//		super.variable = new HashMap<>();
-//		super.isInstance = true;
-//		super.isStaticInstance = cls.isStaticInstance;
-//		super.staticInstance = cls.staticInstance;
-//		super.finalVariable = cls.finalVariable;
 		super(cls);
 	}
 

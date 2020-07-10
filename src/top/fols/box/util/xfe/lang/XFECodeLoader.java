@@ -583,21 +583,23 @@ public class XFECodeLoader {
 										throw new RuntimeException("grammatical errors: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
 									}
 									Block codeblock = (XFECodeLoader.Block) next.content();
+									joinFun = true;
 
+									
+									
 									xfemethod = new XFEMethod();
 									xfemethod.setClassName(className);
 									xfemethod.setFileName(fileName);
-
 									xfemethod.setName(funName);
 									String[] paramList = this.required_Local_FunParam(xfeclass, xfemethod, nowLine, funv);
 									xfemethod.setParamName(paramList);
-									joinFun = true;
 //                                  System.out.println("+method: " + funName + XString.join(paramList, "(", ",", ")"));
-
 									xfemethod.setCode(this.readXFEMethodCodes(xfeclass, codeblock));
+									
 									xfeclass.putMethod(xfemethod);
-									joinFun = false;
-
+									
+									
+									
 
 //									System.out.println("");
 //									System.out.println("--------Method----------");
@@ -610,10 +612,13 @@ public class XFECodeLoader {
 //										dex++;
 //									}
 //									System.out.println("------------------");
+
+									joinFun = false;
+									continue;
 								}
-								continue;
+							} else {
+								throw new RuntimeException("no join fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
 							}
-							throw new RuntimeException("no join fun. " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, nowLine));
 						}
 					}
 				} else {

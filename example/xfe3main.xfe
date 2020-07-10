@@ -13,6 +13,8 @@
     }
     
     fun init(a){
+    	println("----init----");
+    	
     	
     	this.time	(	a	);
     	

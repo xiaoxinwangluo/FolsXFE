@@ -9,16 +9,43 @@ import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
 
 public class XFEClass implements XFEInterfaceGetXFEClass {
 	protected String fileName;//class filename
-
-	protected Map<String, XFEMethod> methods;//methods
-	protected XFEClassLoader classLoader;//class loader
-	protected String name;//class name
+	protected Map<String, XFEMethod> methods;//method list
+	protected XFEClassLoader classLoader;//xfeclass loader
+	protected String name;//xfeclass name
 	protected int RUNNING_MOD = 0;//instance/staticinstance
-	protected XCHashMap<String, Object> variable;//variable
+	protected XCHashMap<String, Object> variable;//instance variable
 	protected XFEClassInstance staticInstance;//static instance
 	protected XFEFinalVariableManager finalVariable;//String char and base type data
 
-	//instance
+
+	protected InitMethodList initMethodList;
+	protected InitMethodList getInitMethodList0() {
+		return null == initMethodList ?initMethodList = new InitMethodList(): initMethodList;
+	}
+	protected static class InitMethodList {
+		private XFEMethod initMethod;
+		private XFEMethod staticMethod;
+		
+
+		public void setInitMethod(XFEMethod initMethod) {
+			this.initMethod = initMethod;
+		}
+		public XFEMethod getInitMethod() {
+			return initMethod;
+		}
+
+		public void setStaticMethod(XFEMethod staticMethod) {
+			this.staticMethod = staticMethod;
+		}
+		public XFEMethod getStaticMethod() {
+			return staticMethod;
+		}
+	}
+
+
+
+
+	//new instance
 	protected XFEClass(XFEClass cls) {
 		this.fileName = cls.fileName;
 		this.classLoader = cls.classLoader;
@@ -28,7 +55,45 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 		this.RUNNING_MOD = cls.RUNNING_MOD;
 		this.staticInstance = cls.staticInstance;
 		this.finalVariable = cls.finalVariable;
+
+		this.initMethodList = cls.initMethodList;
 	}
+	public XFEClassInstance getStaticInstance(XFEStack stack) {
+		if (null == this.staticInstance) {
+			XFEClassInstance instance = new XFEClassInstance(this){
+				@Override
+				public Object getVariable(XFEStack stack, String name) {
+					return XFEKeyWords.getVariable(stack, this.variable, "static", name);
+				}
+			}; 
+			this.staticInstance = instance;
+			instance.staticInstance = instance;
+			instance.setInstance(true);
+			instance.setStaticInstance(true);
+			instance.executeStaticMethod(stack);
+		}
+		return this.staticInstance;
+	}
+	public XFEClassInstance newInstance(XFEStack stack, Object[] args) {
+		return this.newInstance(stack, args, 0, args.length);
+	}
+	public XFEClassInstance newInstance(XFEStack stack, Object[] args, int off, int len) {
+		// TODO: Implement this method
+		XFEClassInstance instance;
+		instance = new XFEClassInstance(this);
+		instance.staticInstance = this.getStaticInstance(stack);
+		instance.setInstance(true);
+		instance.setStaticInstance(false);
+		instance.executeInitMethod(stack, args, off, len);
+		return instance;
+	}
+
+
+
+
+
+
+
 	protected XFEClass(XFEClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
@@ -75,22 +140,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 
 
 
-	public XFEClassInstance getStaticInstance(XFEStack stack) {
-		if (null == this.staticInstance) {
-			XFEClassInstance instance = new XFEClassInstance(this){
-				@Override
-				public Object getVariable(XFEStack stack, String name) {
-					return XFEKeyWords.getVariable(stack, this.variable, "static", name);
-				}
-			}; 
-			this.staticInstance = instance;
-			instance.staticInstance = instance;
-			instance.setInstance(true);
-			instance.setStaticInstance(true);
-			instance.executeStaticMethod(stack);
-		}
-		return this.staticInstance;
-	}
+
 
 
 
@@ -106,7 +156,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	public XFEClassLoader getClassLoader() {
 		return this.classLoader;
 	}
-	
+
 
 	public Object setVariable(String name, Object newValue) {
 		this.variable.put(name, newValue);
@@ -139,15 +189,36 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	private Map<String, XFEMethod> getMethodMap0() {
 		return null == this.methods ?this.methods = new HashMap<>(): this.methods;
 	}
-	public void putMethod(String name, XFEMethod m) {
-		this.getMethodMap0().put(name, m);
-	}
 	public void putMethod(XFEMethod m) {
 		this.putMethod(null == m ?null: m.getName(), m);
 	}
+
+
 	public XFEMethod getMethod(String name) {
 		return this.getMethodMap0().get(name);
 	}
+	public void putMethod(String name, XFEMethod m) {
+		if (name == XFEKeyWords.INIT) {
+			this.getInitMethodList0().setInitMethod(m);
+		} else if (name == XFEKeyWords.STATIC) {
+			this.getInitMethodList0().setStaticMethod(m);
+		} else {
+			this.getMethodMap0().put(name, m);
+		}
+	}
+	protected XFEMethod getInitMethod() {
+		XFEMethod method = this.getInitMethodList0().getInitMethod();
+		return method;
+	}
+	protected XFEMethod getStaticMethod() {
+		XFEMethod method = this.getInitMethodList0().getStaticMethod();
+		return method;
+	}
+
+
+
+
+
 
 	public String[] listMethodName() {
 		return this.getMethodMap0().keySet().toArray(new String[this.getMethodMap0().size()]);
@@ -157,7 +228,7 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	XFEFinalVariableManager getFinalVariableManager0() {
 		return null == this.finalVariable ?this.finalVariable = XFEFinalVariableManager.newInstance(): this.finalVariable;
 	}
-	XFEFinalVariableManager setFinalVariableManager(XFEFinalVariableManager xfefinalvariablemanager){
+	XFEFinalVariableManager setFinalVariableManager(XFEFinalVariableManager xfefinalvariablemanager) {
 		this.finalVariable = xfefinalvariablemanager;
 		return xfefinalvariablemanager;
 	}
@@ -188,28 +259,8 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	}
 
 
-	protected XFEMethod getInitMethod() {
-		XFEMethod method = this.getMethodMap0().get(XFEKeyWords.INIT);
-		return method;
-	}
-	protected XFEMethod getStaticMethod() {
-		XFEMethod method = this.getMethodMap0().get(XFEKeyWords.STATIC);
-		return method;
-	}
 
-	public XFEClassInstance newInstance(XFEStack stack, Object[] args) {
-		return this.newInstance(stack, args, 0, args.length);
-	}
-	public XFEClassInstance newInstance(XFEStack stack, Object[] args, int off, int len) {
-		// TODO: Implement this method
-		XFEClassInstance instance;
-		instance = new XFEClassInstance(this);
-		instance.staticInstance = this.getStaticInstance(stack);
-		instance.setInstance(true);
-		instance.setStaticInstance(false);
-		instance.executeInitMethod(stack, args, off, len);
-		return instance;
-	}
+
 
 
 

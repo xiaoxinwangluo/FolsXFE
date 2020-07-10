@@ -1,11 +1,12 @@
 package top.fols.box.util.xfe.lang;
 
 public final class XFEMethod {
+	private String fileName;
 	private String className;
 	private String name;
 	private String[] paramName;
 	private XFEMethodCode[] codes;
-	private String fileName;
+	
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
