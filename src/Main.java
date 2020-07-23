@@ -95,10 +95,10 @@ public class Main {
 
 
 
-//		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
-//		if (true) {
-//			return;
-//		}
+		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
+		if (true) {
+			return;
+		}
 
 
         for (int i = 0;i < 2000;i++) { System.out.println(); }

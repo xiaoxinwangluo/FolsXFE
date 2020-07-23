@@ -68,7 +68,7 @@ import top.fols.box.util.xfe.lang.XFEClassInstance;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetJavaClass;
 import top.fols.box.util.xfe.util.interfacelist.XFEInterfaceGetXFEClass;
-import top.fols.box.util.xfe.executer.basemethod.lang._;
+import top.fols.box.util.xfe.executer.basemethod.lang.__;
 
 
 public class XFEKeyWords {
@@ -215,7 +215,7 @@ public class XFEKeyWords {
 
 	//*****
 	public static final XFEBaseMethodManager DEFAULT_BASEMETHOD_MANAGER = new XFEBaseMethodManager(
-	    new _(), //no method name => ()
+	    new __(), //no method name => ()
 
 
 
