@@ -2,7 +2,10 @@ import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
+
 import top.fols.box.io.os.XFile;
+import top.fols.box.lang.XString;
 import top.fols.box.time.XTiming;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.lang.XFEClass;
@@ -11,6 +14,7 @@ import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.lang.XFEMethod;
 import top.fols.box.util.xfe.lang.XFEMethodCode;
 import top.fols.box.util.xfe.lang.autoloader.XFEDirCodeLoader;
+import top.fols.box.util.xfe.lang.autoloader.XFEZipCodeLoader;
 import top.fols.box.util.xfe.util.XFECodeContent;
 import top.fols.box.io.base.XCharArrayWriter;
 
@@ -95,31 +99,34 @@ public class Main {
 
 
 
-		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
-		if (true) {
-			return;
-		}
+		// Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
+		// if (true) {
+		// 	return;
+		// }
 
 
-        for (int i = 0;i < 2000;i++) { System.out.println(); }
         testThreadStack();
 		
 		{
 			File rundir;
 			rundir = new File(XFile.getRunningDir());
-			rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
+			// rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
 			File exampledir = new File(rundir, "example");
 			System.out.println(exampledir);
 			XTiming xtimingLoad;
 			File codeDir = exampledir;
 
-
-
+			XFEDirCodeLoader dircode = new XFEDirCodeLoader(codeDir);
+			XFEZipCodeLoader zipcode = new XFEZipCodeLoader(new File(rundir, "example_zip\\io.zip"));
+			
 			XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
-			xfeclassloader1.getAutoLoaderCodeManager().addLoader(new XFEDirCodeLoader(codeDir));
+			xfeclassloader1.getAutoLoaderCodeManager().addLoader(dircode);
+			xfeclassloader1.getAutoLoaderCodeManager().addLoader(zipcode);
 			xfeclassloader1.forName("hook");
-			
-			
+			xfeclassloader1.forName("io.byte");
+
+
+
 			xtimingLoad = XTiming.newAndStart();
 			XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
 			System.out.println("加载耗时: " + "xfeclass: " + xfeclass + " " + xtimingLoad.endAndGetEndLessStart());

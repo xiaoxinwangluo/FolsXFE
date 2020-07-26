@@ -17,24 +17,37 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 	public static final char separatorChar = File.separatorChar;
 	public static final String extensionNameSeparatorChar = XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR;
 
-	private String path;
-	private String extensionName;
-	private String className;
+	private String filePath;
+	private String fileExtensionName;
 	private String fileName;
+
+	private String xfeclassname;
+
 	private Charset charset;
 	private boolean isRelease;
-	public XFECodeContent(String path, Charset charset) throws NullPointerException {
-        if (null == path) {
-            throw new NullPointerException("path");
+	public XFECodeContent(String filepath, String xfeclassname, Charset charset) throws NullPointerException {
+        if (null == filepath) {
+            throw new NullPointerException("filepath");
         }
-		this.path = XFile.formatPath(path, separatorChar);
-		this.extensionName = XFile.getExtensionName(this.path, separator, extensionNameSeparatorChar);
-		this.className = XFile.getNameNoExtension(this.path, separator, extensionNameSeparatorChar);
-		this.fileName = XFile.getName(this.path, separator);
+		this.filePath = filepath;
+
+		String fromatFilePath = XFile.formatPath(filepath, separatorChar);
+		this.fileExtensionName = XFile.getExtensionName(fromatFilePath, separator, extensionNameSeparatorChar);
+		this.fileName = XFile.getName(fromatFilePath, separator);
+
+		this.xfeclassname = xfeclassname;
+
 		this.charset = charset;
+		this.isRelease = false;
 	}
-	public String getPath() {
-		return this.path;
+	public String getFilePath() {
+		return this.filePath;
+	}
+	public String getFileName() {
+		return this.fileName;
+	}
+	public String getFileExtensionName() {
+        return this.fileExtensionName;
 	}
 
 	public Charset getCharset() {
@@ -42,13 +55,7 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 	}
 
 	public String getClassName() {
-		return this.className;
-	}
-	public String getFileName() {
-		return this.fileName;
-	}
-	public String getFileExtensionName() {
-        return this.extensionName;
+		return this.xfeclassname;
 	}
 
 
@@ -113,11 +120,6 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 		fis.close();
 		return bytes;
 	}
-
-
-
-
-
 	public static InputStream getZipEntryInputStream(ZipFile zf, ZipEntry ze) {
 		try {
 			InputStream zis = zf.getInputStream(ze);
@@ -145,18 +147,25 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 
 
 
+
+
+
+
+
+
+
 	public static XFECodeContent wrapZipFile(final File zipfile, ZipFile zipfileobject, 
-											 final String path, final Charset charset) {
+											 final String path, String xfeclassname, final Charset charset) {
 		return new XFEZipFileContent(zipfile, zipfileobject, 
-			path, charset);
+			path, xfeclassname, charset);
 	}
 	public static class XFEZipFileContent extends XFECodeContent {
 		private char[] content = null;
 		private File zipfile;
 		private ZipFile zipfile2;
-		public XFEZipFileContent(File zipfile, ZipFile zipfile2, 
-								 String path, Charset charset) {
-			super(path, charset);
+		
+		public XFEZipFileContent(File zipfile, ZipFile zipfile2, String path, String xfeclassname, Charset charset) {
+			super(path, xfeclassname, charset);
 			this.zipfile = zipfile;
 			this.zipfile2 = zipfile2;
 		}
@@ -181,16 +190,15 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 			if (super.isRelease) {
 				throw new RuntimeException("already release");
 			}
-			char[] content = null == this.content ?this.content = XFECodeContent.readZipFileContent(this.zipfile2, super.path, super.getCharset()): this.content;
+			char[] content = null == this.content ?this.content = XFECodeContent.readZipFileContent(this.zipfile2, super.filePath, super.getCharset()): this.content;
 			return content;
 		}
 	}
 
 
 
-	public static XFECodeContent wrapFile(final File fileObject, final Charset charset) {
-		return new XFECodeContent(fileObject.getAbsolutePath(), charset){
-			private File file = fileObject;
+	public static XFECodeContent wrapFile(final File fileObject, String xfeclassname, final Charset charset) {
+		return new XFECodeContent(fileObject.getAbsolutePath(), xfeclassname, charset){
 			private char[] content = null;
 
 			@Override
@@ -208,12 +216,12 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 				if (super.isRelease) {
 					throw new RuntimeException("already release");
 				}
-				return null == this.content ?this.content = XFECodeContent.readFileContent(super.path, super.getCharset()): this.content;
+				return null == this.content ?this.content = XFECodeContent.readFileContent(super.filePath, super.getCharset()): this.content;
 			}
 		};
 	}
-	public static XFECodeContent wrapBytes(final String filePath, final byte[] fileContent, final Charset charset) {
-		return new XFECodeContent(filePath, charset) {
+	public static XFECodeContent wrapBytes(final String filePath, String xfeclassname, final byte[] fileContent, final Charset charset) {
+		return new XFECodeContent(filePath,xfeclassname, charset) {
 			private byte[] bytes = fileContent;
 			private char[] content = null;
 
@@ -244,8 +252,8 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
 		};
 	}
 	
-	public static XFECodeContent wrapString(final String filePath, final String fileContent) {
-        return new XFECodeContent(filePath, Charset.defaultCharset()){
+	public static XFECodeContent wrapString(final String filePath, String xfeclassname, final String fileContent) {
+        return new XFECodeContent(filePath, xfeclassname, Charset.defaultCharset()){
             private char[] content = fileContent.toCharArray();
 
             @Override
@@ -267,8 +275,8 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
             }
         };
 	}
-	public static XFECodeContent wrapChars(final String filePath, final char[] fileContent) {
-		return new XFECodeContent(filePath, Charset.defaultCharset()){
+	public static XFECodeContent wrapChars(final String filePath, String xfeclassname, final char[] fileContent) {
+		return new XFECodeContent(filePath, xfeclassname, Charset.defaultCharset()){
 			private char[] content = fileContent;
 
 			@Override

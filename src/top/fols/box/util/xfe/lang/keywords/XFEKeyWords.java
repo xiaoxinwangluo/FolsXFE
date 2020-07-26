@@ -1,5 +1,6 @@
 package top.fols.box.util.xfe.lang.keywords;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,29 +75,31 @@ import top.fols.box.util.xfe.executer.basemethod.lang.__;
 public class XFEKeyWords {
 
 	/* ---------- */
-	public static final String 		CODE_FILE_EXTENSION_NAME_SEPARATOR = ".";
-	public static final String 		CODE_FILE_EXTENSION_NAME = "xfe";
-
-	public static final Charset 	CODE_DEFAULT_CHARSET_UTF_8 = Charset.forName("UTF-8");
-    public static final String      CODE_METHOD_MAIN_NAME = "main";
 
 
-    public static final String      CODE_NOTE_LINE_START = "//";
-	public static final char 		CODE_LINE_SEPARATOR_CHAR = '\n';
-	public static final String 		CODE_LINE_MULTI_CODE_SEPARATOR = ";";
+	public static final String 		CODE_FILE_EXTENSION_NAME_SEPARATOR = ".";//文件后缀分隔符
+	public static final String 		CODE_FILE_EXTENSION_NAME = "xfe";//文件后缀名
+
+	public static final Charset 	CODE_DEFAULT_CHARSET_UTF_8 = Charset.forName("UTF-8");//default code encoding
+    public static final String      CODE_METHOD_MAIN_NAME = "main";//main method name
+
+	public static final String      CODE_NOTE_LINE_START = "//";//注释
+	public static final char 		CODE_LINE_SEPARATOR_CHAR = '\n';//换行
+	public static final String 		CODE_LINE_MULTI_CODE_SEPARATOR = ";";//代码分隔符
 
 
-	public static final String		CODE_OBJECT_POINT_SYMBOL = ".";
+	public static final String		CODE_OBJECT_POINT_SYMBOL = ".";//点语法
 
-	public static final String		CODE_VARIABLE_ASSIGNMENT_SYMBOL = "=";
-    public static final String      CODE_PARAM_JOIN_SYMBOL = "(";
-    public static final String      CODE_PARAM_SEPARATOR = ",";
-    public static final String      CODE_PARAM_END_SYMBOL = ")";
+	public static final String		CODE_VARIABLE_ASSIGNMENT_SYMBOL = "=";//赋值
+    public static final String      CODE_PARAM_JOIN_SYMBOL = "(";//方法参数开始
+    public static final String      CODE_PARAM_SEPARATOR = ",";//方法参数分隔符
+    public static final String      CODE_PARAM_END_SYMBOL = ")";//方法参数结束
 
-	public static final String      CODE_BLOCK_JOIN_SYMBOL = "{";
-    public static final String      CODE_BLOCK_END_SYMBOL = "}";
+	public static final String      CODE_BLOCK_JOIN_SYMBOL = "{";//代码块开始
+    public static final String      CODE_BLOCK_END_SYMBOL = "}";//代码块结束
 	
 
+	public static final String      PACKAGE_PATH_SEPARATOR = ".";//package 分隔符
 
 
 

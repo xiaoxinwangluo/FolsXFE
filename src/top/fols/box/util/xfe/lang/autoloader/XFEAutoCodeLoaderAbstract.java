@@ -58,7 +58,7 @@ public abstract class XFEAutoCodeLoaderAbstract {
 
 
 	public abstract void reLoad();
-	public abstract String[] listClsName();
-	public abstract XFECodeContent getCode(String clsName) throws IOException;
-	public abstract XFEClass loadCode(XFEClassLoader clsLoader, String clsName) throws IOException;
+	public abstract String[] listClassName();
+	public abstract XFECodeContent getCode(String xfeclassname) throws IOException;
+	public abstract XFEClass loadCode(XFEClassLoader clsLoader, String xfeclassname) throws IOException;
 }

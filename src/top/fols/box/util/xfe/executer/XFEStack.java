@@ -9,7 +9,6 @@ import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFEUtil;
 import top.fols.box.util.xfe.util.interfacelist.XFEStackInterface;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
-import top.fols.box.statics.XStaticFixedValue;
 
 public class XFEStack implements XFEStackInterface {
 

@@ -74,6 +74,13 @@ public class XFEStackThrowMessageTool {
 		return sb.toString();
 	}
 
+	public static String autoCodeLoaderNotFoundXfeClass(String name, String path) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("not found xfeClass: ").append(name).append(" from: ").append(path);
+		return sb.toString();
+	}
+
+
 	public static String notFoundObjectFieled(Object object, String name) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("not found objectField: ").append(getJavaClassName(object)).append('.').append(name);

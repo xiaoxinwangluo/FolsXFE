@@ -42,10 +42,11 @@ public class XFEAutoCodeLoaderManager {
 			return this.loaderList.containsKey(al);
 		}
 	}
+	
 	public void addLoader(XFEAutoCodeLoaderAbstract loader) {
 		synchronized (this.loaderList) {
-			String[] clss = loader.listClsName();
-			for (String name:clss) {
+			String[] clss = loader.listClassName();
+			for (String name : clss) {
 				if (name == null) {
 					continue;
 				}
@@ -81,28 +82,17 @@ public class XFEAutoCodeLoaderManager {
 		synchronized (loaderList) {
 			XFEAutoCodeLoaderAbstract loader = this.classNameCorrespondsToLoaderMap.get(clsName);
 			if (loader == null) {
-				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
+				return null;
 			}
 			XFEClass bs = loader.loadCode(clsLoader, clsName);
 			if (bs == null) {
-				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
+				return null;//It's impossible
 			}
 			return bs;
 		}
 	}
-	public XFECodeContent getCodeContent(String clsName) throws IOException, RuntimeException {
-		synchronized (loaderList) {
-			XFEAutoCodeLoaderAbstract loader = this.classNameCorrespondsToLoaderMap.get(clsName);
-			if (loader == null) {
-				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
-			}
-			XFECodeContent bs = loader.getCode(clsName);
-			if (bs == null) {
-				throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(clsName));
-			}
-			return bs;
-		}
-	}
+	
+
 	
 	//加载所有自动代码加载器的类文件到ClassLoader
 	public static XFEClass[] loadCodeAndAddAllXClass(XFEClassLoader clsLoader,
@@ -112,7 +102,7 @@ public class XFEAutoCodeLoaderManager {
 			if (loader == null) {
 				continue;
 			}
-			String[] clsNames = loader.listClsName();
+			String[] clsNames = loader.listClassName();
 			for (String namei: clsNames) {
 				XFEClass bs = loader.loadCode(clsLoader, namei);
 				clss.add(bs);
@@ -136,7 +126,7 @@ public class XFEAutoCodeLoaderManager {
 			Collection<XFEAutoCodeLoaderAbstract> loaders = oriMap.values();
 			for (XFEAutoCodeLoaderAbstract lai: loaders) {
 				lai.reLoad();
-				String[] clss = lai.listClsName();
+				String[] clss = lai.listClassName();
 				for (String name:clss) {
 					if (name == null) {
 						continue;

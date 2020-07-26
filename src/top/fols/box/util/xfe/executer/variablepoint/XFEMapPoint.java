@@ -2,30 +2,29 @@ package top.fols.box.util.xfe.executer.variablepoint;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import top.fols.box.util.XCHashMap;
 import top.fols.box.util.xfe.executer.XFEExecute;
 import top.fols.box.util.xfe.executer.variablepoint.abstractlist.XFEAbstractVariablePoint;
-import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 
 public class XFEMapPoint implements Map, XFEAbstractVariablePoint {
 
 
 	private Class mapClass = Map.class;
-	private XCHashMap variables = null;
+	private Map variables = null;
 
-	public XFEMapPoint(XCHashMap map) {
-		this.variables = (null == map ? map = new XCHashMap<>() : map);
+	public XFEMapPoint(Map map) {
+		this.variables = (null == map ? map = new HashMap<>() : map);
         this.mapClass = this.variables.getClass();
 	}
 
 	@Override
 	public Object getVariableProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, String name) {
 		// TODO: Implement this method
-		return XFEKeyWords.getVariable(xfeexecute.getStack(), this.variables, "map", name);
+		return this.variables.get(name);
 	}
 
 	@Override

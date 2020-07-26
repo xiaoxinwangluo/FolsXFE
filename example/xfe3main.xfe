@@ -1,4 +1,11 @@
+//加入 package
+
+//添加 判断应用是否存在
+//induce(XFEClassInstance)
+
+
 {
+	
     fun 获取北京时间() {
         url = importjava("java.net.URL").new("http://www.baidu.com");
         uc = url.openConnection();//生成连接对象
@@ -50,6 +57,9 @@
     
     fun test(f){
         
+		
+		import("util.a");
+		import("util.b");
         
         if(final.true){
             println(final.true);
@@ -244,7 +254,8 @@
     
     
     fun whiletest(){
-        if(final.false) {} else {}
+        if(final.false) { } else { }
+
         if(final.false, final.true) {} else {}
         
         while(final.false) {}

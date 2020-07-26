@@ -13,13 +13,13 @@ public class LOADCODE extends XFEBaseMethod {
 		// TODO: Implement this method
 		XFEStack stack = xfeexecute.getStack();
 		if (args.length > 0) {
-			String filename = null;
+			String xfeclassname = null;
 			String code = null;
 			XFEClassLoader xfeclassloader = null;
 			if (args.length == 2) {
 				Object fileName = args[0];
 				Object codeString = args[1];
-				filename = fileNameToString(fileName);
+				xfeclassname = fileNameToString(fileName);
 				code = codeToString(codeString);
 				xfeclassloader = xfeexecute.getXFEClassInstance().getClassLoader();
 			} else if (args.length == 3) {
@@ -30,14 +30,14 @@ public class LOADCODE extends XFEBaseMethod {
 					stack.setThrow("this is not xfeclassloader: " + xcl);
 					return null;
 				}
-				filename = fileNameToString(fileName);
+				xfeclassname = fileNameToString(fileName);
 				code = codeToString(codeString);
 				xfeclassloader = (XFEClassLoader) xcl;
 			}
 			if (null == xfeclassloader) {
 				stack.setThrow("this is not xfeclassloader: " + xfeclassloader);
 			} 
-            return xfeclassloader.loadCode(XFECodeContent.wrapString(filename, code));
+            return xfeclassloader.loadCode(XFECodeContent.wrapString(xfeclassname, xfeclassname, code));
 		}
 		super.throwNotFoundMethod(stack, args);
 		return null;

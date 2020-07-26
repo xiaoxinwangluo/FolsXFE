@@ -1,4 +1,5 @@
 package top.fols.box.util.xfe.lang;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import top.fols.box.util.XCHashMap;
@@ -259,22 +260,47 @@ public class XFEClass implements XFEInterfaceGetXFEClass {
 	}
 
 
-
-
-
-
-
-
-
-
-
-	public static String getClassFileExtensionNameSeparator() {
-		return XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR;
+	public String getPackageName() {
+		if (null == this.name) {
+			return null;
+		} else {
+			int index = this.name.lastIndexOf(XFEKeyWords.PACKAGE_PATH_SEPARATOR);
+			if (index <= -1) {
+				return null;
+			} else {
+				return this.name.substring(0, index);
+			}
+		}
 	}
-	public static String getClassFileExtensionName() {
-		return XFEKeyWords.CODE_FILE_EXTENSION_NAME;
-	}
-	public static String getStandardFormatFileName(String className) {
-		return new StringBuilder(null == className ?"null": className).append(XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR).append(XFEClass.getClassFileExtensionName()).toString();
+
+
+
+
+
+	public static class Tool {
+		public static String getClassFileExtensionNameSeparator() {
+			return XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR;
+		}
+		public static String getClassFileExtensionName() {
+			return XFEKeyWords.CODE_FILE_EXTENSION_NAME;
+		}
+		
+
+		
+		
+		public static String classNameToRelativeFilePath(String xfeclassname) {
+			return new StringBuilder(xfeclassname.replace(XFEKeyWords.PACKAGE_PATH_SEPARATOR, File.separator))
+					.append(XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR).append(Tool.getClassFileExtensionName())
+					.toString();
+		}
+		public static String relativeFilePathToClassName(String relativeFilePath) {
+			String p = relativeFilePath.replace(File.separator, XFEKeyWords.PACKAGE_PATH_SEPARATOR);
+			int index = p.lastIndexOf(XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR);
+			if (index <= -1) {
+				return p;
+			} else {
+				return p.substring(0, index);
+			}
+		}
 	}
 }

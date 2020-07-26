@@ -1,4 +1,5 @@
 package top.fols.box.util.xfe.lang.autoloader;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,11 +7,17 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import top.fols.box.io.os.XFile;
+import top.fols.box.lang.XString;
 import top.fols.box.statics.XStaticFixedValue;
+import top.fols.box.util.XArray;
+import top.fols.box.util.XCHashMap;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassLoader;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
 import top.fols.box.util.xfe.util.XFECodeContent;
+import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 
 /*
  * 自动加载 
@@ -18,6 +25,17 @@ import top.fols.box.util.xfe.util.XFECodeContent;
  * 其次加载未编译代码(UTF-8)
  */
 public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
+
+	/**
+	 * 类名对应的文件路径
+	 *
+	 * com.a => com/a
+	 */
+	private XCHashMap<String, String> classRelativeFilePath = new XCHashMap<>();
+	private String getClassRelativeFilePath(String xfeclassname) {
+		String path = classRelativeFilePath.get(xfeclassname);
+		return path;
+	}
 
 
 
@@ -29,11 +47,10 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 		return;
 	}
 	@Override
-	public String[] listClsName() {
+	public String[] listClassName() {
 		// TODO: Implement this method
-		String[] fileNames = this.getZipRootDirFileList();
-		String[] newFileList = matchExtensionName(fileNames, XFEClass.getClassFileExtensionName());
-		String[] clsNames = deleteExtensionName(newFileList);
+		String[] clsNames = this.getZipRootDirFileList();
+		System.out.println(this.classRelativeFilePath);
 		return clsNames;
 	}
 
@@ -42,19 +59,31 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 
 	private String[] getZipRootDirFileList() {
 		try {
-			List<String> names = new ArrayList<>();
+			List<String> list = new ArrayList<>();
 			ZipFile zipfile = new ZipFile(getFile());
 			Enumeration<ZipEntry> zes = (Enumeration<ZipEntry>) zipfile.entries();
 			while (zes.hasMoreElements()) {
 				ZipEntry ze = zes.nextElement();
-				String name = ze.getName();
-				if (!XFEZipCodeLoader.ifPathExistDirSeparator(name)) {
-					names.add(ze.getName());
+				String path = ze.getName();
+				String fromatpath = toSystemFileSeparator(path);
+
+				String fileExtensionName = XFile.getExtensionName(fromatpath, File.separator,
+						XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR);
+				if (XFEKeyWords.CODE_FILE_EXTENSION_NAME.equals(fileExtensionName)) {
+
+					String fileNameNoExtension = XFile.getNameNoExtension(fromatpath, File.separator,
+							XFEKeyWords.CODE_FILE_EXTENSION_NAME_SEPARATOR);
+
+					String xfeclassname = XFEClass.Tool.relativeFilePathToClassName(fromatpath);
+					String filepath = path;
+
+					list.add(xfeclassname);
+					classRelativeFilePath.put(xfeclassname, filepath);
 				}
 			}
-			return names.toArray(new String[names.size()]);
+			return list.toArray(new String[list.size()]);
 		} catch (Throwable e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 			return XStaticFixedValue.nullStringArray;
 		}
 	}
@@ -67,20 +96,12 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	public static final char 		WINDOWS_FILE_SEPARATOR = '\\';
 	public static final String 		WINDOWS_FILE_SEPARATOR_STRING = String.valueOf(WINDOWS_FILE_SEPARATOR);
 
-	//is path exist dir separator
-	public static boolean ifPathExistDirSeparator(String path) {
-		if (null == path) {
-			return false;
-		}
-		int count = null == path ?0: path.length();
-		for (int i = 0;i < count;i++) {
-			char ch = path.charAt(i);
-			if (ch == UNIX_FILE_SEPARATOR || ch == WINDOWS_FILE_SEPARATOR) {
-				return true;
-			}
-		}
-		return false;
+	public static String toSystemFileSeparator(String path){
+		path = XString.replace(path, UNIX_FILE_SEPARATOR_STRING, File.separator);
+		path = XString.replace(path, WINDOWS_FILE_SEPARATOR_STRING, File.separator);
+		return path.toString();
 	}
+
 
 
 
@@ -90,9 +111,9 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	private File file;
 	private ZipFile zipfile;
 	@Override
-	public synchronized XFEClass loadCode(XFEClassLoader clsLoader, String clsName0) throws IOException, OutOfMemoryError, RuntimeException  {
-		// TODO: Implement this method
-		XFECodeContent content = this.getCode(clsName0);
+	public synchronized XFEClass loadCode(XFEClassLoader clsLoader, String xfeclassname) throws IOException, OutOfMemoryError, RuntimeException  {
+		// // TODO: Implement this method
+		XFECodeContent content = this.getCode(xfeclassname);
 		if (null != content) {
 			XFEClass xfeclass = clsLoader.loadCode(content);
 			content.releaseBuffer();
@@ -100,15 +121,22 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 		}
 		return null;
 	}
+	
 	@Override
-	public XFECodeContent getCode(String clsName) throws IOException {
-		String noCompilerFileName = XFEClass.getStandardFormatFileName(clsName);
-		if (this.exists(noCompilerFileName)) {
-			XFECodeContent content = XFECodeContent.wrapZipFile(this.file, this.getZipFile(), noCompilerFileName, XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
+	public XFECodeContent getCode(String xfeclassname) throws IOException {
+		String noCompilerFilePath = getClassRelativeFilePath(xfeclassname);
+		if (null == noCompilerFilePath) {
+			return null;
+		}
+		if (this.exists(noCompilerFilePath)) {
+			XFECodeContent content = XFECodeContent.wrapZipFile(this.file, this.getZipFile(), noCompilerFilePath,
+					xfeclassname, XFEKeyWords.CODE_DEFAULT_CHARSET_UTF_8);
 			return content;
 		}
-		return null;
+		throw new RuntimeException(
+				XFEStackThrowMessageTool.autoCodeLoaderNotFoundXfeClass(xfeclassname, this.getFile().getPath()));
 	}
+
 
 
 

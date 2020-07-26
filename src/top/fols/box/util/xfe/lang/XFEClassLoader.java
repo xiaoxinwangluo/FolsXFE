@@ -62,16 +62,22 @@ public class XFEClassLoader {
 	public boolean hasClass(String name) {
 		return this.xfeClassMap.containsKey(name);
 	}
+	
 	public XFEClass forName(String name) throws RuntimeException {
 		XFEClass c = this.xfeClassMap.get(name);
 		if (null != c) {
 			return c;
 		}
+		
 		XFEClass ac = null;
 		try {
 			ac = this.fromAutoCodeLoaderLoadCode(name);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		}
+
+		if (null == ac) {
+			throw new RuntimeException(XFEStackThrowMessageTool.notFoundXfeClass(name));
 		}
 		return ac;
 	}
