@@ -99,10 +99,10 @@ public class Main {
 
 
 
-		// Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
-		// if (true) {
-		// 	return;
-		// }
+		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
+		if (true) {
+			return;
+		}
 
 
         testThreadStack();
@@ -118,7 +118,7 @@ public class Main {
 
 			XFEDirCodeLoader dircode = new XFEDirCodeLoader(codeDir);
 			XFEZipCodeLoader zipcode = new XFEZipCodeLoader(new File(rundir, "example_zip\\io.zip"));
-			
+
 			XFEClassLoader xfeclassloader1 = XFEClassLoader.getDefaultLoader();
 			xfeclassloader1.getAutoLoaderCodeManager().addLoader(dircode);
 			xfeclassloader1.getAutoLoaderCodeManager().addLoader(zipcode);
