@@ -513,7 +513,7 @@ public class XFECodeLoader {
         //一次性读取所有Code
         Code code = 
 			this.readCode0(lineTracker, lineCodeReader);
-        this.loadMethodsToXFEClass(xfeclass, code, true);
+        this.loadMethodsToXFEClass(xfeclass, code);
 
         content = null;
         code = null;
@@ -536,11 +536,11 @@ public class XFECodeLoader {
 		code.setLine(block.getLine());
 		code.addCodeToTop(block);
 
-        this.loadMethodsToXFEClass(xfeclass, code, false);
+        this.loadMethodsToXFEClass(xfeclass, code);
 		return xfeclass;
 	}
 
-	private void loadMethodsToXFEClass(XFEClass xfeclass, Code code, boolean checkJoinClass) {
+	private void loadMethodsToXFEClass(XFEClass xfeclass, Code code) {
 		if (null == code) {
 			return;
 		}
