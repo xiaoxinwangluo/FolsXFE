@@ -533,12 +533,27 @@ public class XFEExecute implements XStringFormat.VarManager {
                 status.clear();
                 return;
             }
+            if (status.isReturn) {
+                return;
+            }
             if (startIndex > endIndex) {
                 return;
             }
+            
             XFEMethodCode code = codes[startIndex];
             this.current.content().setLine(code.lineNumber);
             XFECodeLoader.ContentLinked<Var> rootVars = code.rootCode;
+
+            
+            // System.out.println();
+            // System.out.println(code.formatCode()
+            // + "\n"
+            // + "local: " + XString.join(this.cloneParam(), "{" , "=", "\n", "}")
+            // + "\n"
+            // + "this: " + XString.join(this.getXFEClassInstance().cloneParam(), "{" , "=",
+            // "\n", "}")
+            // );
+            
             String cbo = code.codeBlocOptionName;
             if (cbo == XFEKeyWords.IF) {
 				while (true) {
@@ -600,20 +615,11 @@ public class XFEExecute implements XStringFormat.VarManager {
             } else {
                 // normal execute
                 this.executeVars(status, rootVars);
+                
+                startIndex++;// next line
+                continue;
             }
 
-            // System.out.println();
-            // System.out.println(XFEMethodCode.lineAddresString(code)
-            // + "\n"
-            // + "local: " + XString.join(this.cloneParam(), "{" , "=", "\n", "}")
-            // + "\n"
-            // + "this: " + XString.join(this.getXFEClassInstance().cloneParam(), "{" , "=",
-            // "\n", "}")
-            // );
-            if (status.isReturn) {
-                return;
-            }
-            startIndex++;// next line
         }
     }
 

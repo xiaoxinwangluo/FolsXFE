@@ -50,7 +50,7 @@ public class XFEZipCodeLoader extends XFEAutoCodeLoaderAbstract {
 	public String[] listClassName() {
 		// TODO: Implement this method
 		String[] clsNames = this.getZipRootDirFileList();
-		System.out.println(this.classRelativeFilePath);
+		// System.out.println(this.classRelativeFilePath);
 		return clsNames;
 	}
 
