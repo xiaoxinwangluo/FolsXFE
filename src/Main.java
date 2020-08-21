@@ -95,7 +95,6 @@ public class Main {
 		// System.out.println(XFEUtil.toAbsClassName("[Ljava.lang.String;"));
         // System.out.println(Class.forName(XFEUtil.toAbsClassName("[B")));
 
-
 		
 		Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.util.xfe.jar");
 		if (true) {
