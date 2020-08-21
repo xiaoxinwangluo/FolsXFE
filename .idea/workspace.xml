@@ -19,20 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c11cfe8b-de10-427a-b65d-aeb4703d60b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main$TryTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main$XFEClassInstanceInterfaceProxy$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main$XFEClassInstanceInterfaceProxy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/comilperSrc.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/top.fols.box.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapJar.bat" beforeDir="false" />
-    </list>
+    <list default="true" id="c11cfe8b-de10-427a-b65d-aeb4703d60b1" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
