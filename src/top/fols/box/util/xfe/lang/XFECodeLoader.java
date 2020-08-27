@@ -157,7 +157,7 @@ public class XFECodeLoader {
         void removeCode(ContentLinked<Var> element) {
             if (this.codeRoot == element) {return;}
             if (this.codeTop == element) {
-                ContentLinked<Var> last = element.getLast();
+                ContentLinked<Var> last = (ContentLinked<Var>) element.getPrev();
                 this.codeRoot.remove(element);
                 this.codeTop = last;
             } else {
@@ -409,8 +409,8 @@ public class XFECodeLoader {
     //local param 单纯一个参数名 非点语法
     private static boolean isLocal_FunParam(ContentLinked<Code> nowParam) {
         ContentLinked<Var> root = nowParam.content().getCodeRoot();
-        ContentLinked<Var> one = root.getNext();
-        ContentLinked<Var> two = null == one ?null: one.getNext();
+        ContentLinked<Var> one = (ContentLinked<Var>) root.getNext();
+        ContentLinked<Var> two = null == one ?null: (ContentLinked<Var>) one.getNext();
         return isVar(one.content()) && null == two;
     }
     //local param 单纯一个参数名 非点语法
@@ -418,7 +418,7 @@ public class XFECodeLoader {
         String[] params = new String[f.getParamCount()];
         int i = 0;
         ContentLinked<Code> nowParam = f.getParamRoot();
-        while (null != (nowParam = nowParam.getNext())) {
+        while (null != (nowParam = (ContentLinked<Code>) nowParam.getNext())) {
             if (!isLocal_FunParam(nowParam)) {
                 throw new RuntimeException("param statement error: " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null == xfemethod ? null: xfemethod.getName(), nowLine));
             }
@@ -781,7 +781,7 @@ public class XFECodeLoader {
         for (int i = 0;i < codes.length;i++) {
             XFEMethodCode code = codes[i];
 
-            ContentLinked<Var> firstVar = code.rootCode.getNext();
+            ContentLinked<Var> firstVar = (ContentLinked<Var>) code.rootCode.getNext();
             //不存在元素或者只存在一个元素
             Var varContent = null != firstVar ?firstVar.content(): null;
 			ContentLinked<Var> next;
@@ -798,7 +798,7 @@ public class XFECodeLoader {
 				name = varContent.getName();
 				line = varContent.getLine();
 
-				next = firstVar.getNext();
+				next = (ContentLinked<Var>) firstVar.getNext();
 				if (null == next || null == (nextVar = next.content()) || !isBlock(nextVar)) {
 					throw new RuntimeException("a code block is needed after this: " + "[" + name + "]" + " " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, line));
 				}
@@ -806,12 +806,12 @@ public class XFECodeLoader {
 				code.block = this.readXFEMethodCodes(xfeclass, (Block)nextVar);
 
 				//else
-				next = next.getNext();
+				next = (ContentLinked<Var>) next.getNext();
 				if (null != next && null != (nextVar = next.content()) && isVar(nextVar) && XFEKeyWords.isCodeBlockElse(nextVar.name)) {
 					name = nextVar.getName();
 					line = nextVar.getLine();
 
-					next = next.getNext();
+					next = (ContentLinked<Var>) next.getNext();
 					if (null == next || null == (nextVar = next.content()) || !isBlock(nextVar)) {
 						throw new RuntimeException("a code block is needed after this: " + "[" + name + "]" + " " + XFEMethodCode.lineAddresString(xfeclass.getFileName(), xfeclass.getName(), null, line));
 					}
@@ -1285,60 +1285,18 @@ public class XFECodeLoader {
 	}
 
 
-	public static class ContentLinked<T extends Object> extends top.fols.box.util.XDoubleLinked<ContentLinked<T>> implements Serializable {
+	public static class ContentLinked<T extends Object> extends top.fols.box.util.XDoubleLinked<T> implements Serializable {
         private static final long serialVersionUID = 1L;
-
-        private T content;
 
         //Seriously not recommended
         protected void setOrphan() {
-            super.last = null;
+            super.prev = null;
             super.next = null;
         }
 
 
-
         public ContentLinked(T content) {
-            this.content = content;
-        }
-
-        public T content() {
-            return this.content;
-        }
-
-        public ContentLinked<T> setContent(T content) {
-            this.content = content;
-            return this;
-        }
-
-        @Override
-        public int hashCode() {
-            // TODO: Implement this method
-            return null == this.content ? 0 : this.content.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            // TODO: Implement this method
-            if (obj instanceof VarLinked) {
-                return null == this.content ? null == ((ContentLinked<?>) obj).content
-                    : this.content.equals(((ContentLinked<?>) obj).content);
-            } else {
-                return null == this.content ? null == obj : this.content.equals(obj);
-            }
-        }
-
-        @Override
-        public String toString() {
-            // TODO: Implement this method
-            return super.toString();
-        }
-
-        public static boolean equals(Object obj1, Object obj2) {
-            // TODO: Implement this method
-            Object val1 = obj1 instanceof ContentLinked ? (((ContentLinked<?>) obj1).content) : obj1;
-            Object val2 = obj2 instanceof ContentLinked ? (((ContentLinked<?>) obj2).content) : obj2;
-            return XObjects.isEquals(val1, val2);
+            super(content);
         }
     }
 
@@ -1351,7 +1309,7 @@ public class XFECodeLoader {
             this.now = now;
         }
         public ContentLinked<Var> getNext() {
-            return null == this.now ?null: this.now.getNext();
+            return null == this.now ?null: (ContentLinked<Var>) this.now.getNext();
         }
 
 
@@ -1365,7 +1323,7 @@ public class XFECodeLoader {
             }
             this.last = this.now();
 
-            this.now = null == this.now ?null: this.now.getNext();
+            this.now = null == this.now ?null: (ContentLinked<Var>) this.now.getNext();
             return this.now;
         }
         public Var content() {

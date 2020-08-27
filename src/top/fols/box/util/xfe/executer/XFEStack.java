@@ -72,21 +72,21 @@ public class XFEStack implements XFEStackInterface {
 	
 
 
-	private XDoubleLinked.VarLinked<StackElement> stacks = new XDoubleLinked.VarLinked<>(null);
+	private XDoubleLinked<StackElement> stacks = new XDoubleLinked<>(null);
 
 	private XFEStack(StackElement threadStartStackElement) {
 		if (null != threadStartStackElement) {
-			this.stacks.addNext(new XDoubleLinked.VarLinked<StackElement>(threadStartStackElement.clone()));
+			this.stacks.addNext(new XDoubleLinked<StackElement>(threadStartStackElement.clone()));
 		}
 	}
 
 	private XFEStack(XFEStack beConleStack) {
-		XDoubleLinked.VarLinked<StackElement> now = beConleStack.stacks;
-		XDoubleLinked.VarLinked<StackElement> top = this.stacks;
-		while (null != (now = (XDoubleLinked.VarLinked<XFEStack.StackElement>) now.getNext())) {
+		XDoubleLinked<StackElement> now = beConleStack.stacks;
+		XDoubleLinked<StackElement> top = this.stacks;
+		while (null != (now = (XDoubleLinked<XFEStack.StackElement>) now.getNext())) {
 			StackElement current = now.content();
 			if (null != current) {
-				top.addNext(top = new XDoubleLinked.VarLinked<StackElement>(current.clone()));
+				top.addNext(top = new XDoubleLinked<StackElement>(current.clone()));
 			}
 		}
 	}
@@ -150,8 +150,8 @@ public class XFEStack implements XFEStackInterface {
 		return this;
 	}
 
-	protected XDoubleLinked.VarLinked<StackElement> addStackElement(StackElement current) {
-		XDoubleLinked.VarLinked<StackElement> c = new XDoubleLinked.VarLinked<StackElement>(current);
+	protected XDoubleLinked<StackElement> addStackElement(StackElement current) {
+		XDoubleLinked<StackElement> c = new XDoubleLinked<StackElement>(current);
 		this.stacks.addNext(c);
 		this.nowsize++;
 		if (this.nowsize >= this.maxsize) {
@@ -160,7 +160,7 @@ public class XFEStack implements XFEStackInterface {
 		return c;
 	}
 
-	protected void removeStackElement(XDoubleLinked.VarLinked<StackElement> current) {
+	protected void removeStackElement(XDoubleLinked<StackElement> current) {
 		this.stacks.remove(current);
 		this.nowsize--;
 	}
@@ -168,9 +168,9 @@ public class XFEStack implements XFEStackInterface {
 	@Override
 	public StackElement[] stacks() {
 		List<StackElement> cs = new ArrayList<>();
-		XDoubleLinked.VarLinked<StackElement> bottom = this.stacks;
-		XDoubleLinked.VarLinked<StackElement> now = bottom;
-		while (null != (now = (XDoubleLinked.VarLinked<XFEStack.StackElement>) now.getNext())) {
+		XDoubleLinked<StackElement> bottom = this.stacks;
+		XDoubleLinked<StackElement> now = bottom;
+		while (null != (now = (XDoubleLinked<XFEStack.StackElement>) now.getNext())) {
 			StackElement current = now.content();
 			if (null != current) {
 				cs.add(current.clone());
@@ -181,8 +181,8 @@ public class XFEStack implements XFEStackInterface {
 
 	@Override
 	public StackElement now() {
-		XDoubleLinked.VarLinked<StackElement> bottom = this.stacks;
-		XDoubleLinked.VarLinked<StackElement> now = (XDoubleLinked.VarLinked<XFEStack.StackElement>) bottom.getNext();
+		XDoubleLinked<StackElement> bottom = this.stacks;
+		XDoubleLinked<StackElement> now = (XDoubleLinked<XFEStack.StackElement>) bottom.getNext();
 		StackElement n = null == now ? null : now.content();
 		return null == n ? null : n.clone();
 	}
@@ -195,10 +195,10 @@ public class XFEStack implements XFEStackInterface {
 
 	@Override
 	public String string() {
-		XDoubleLinked.VarLinked<StackElement> bottom = this.stacks;
-		XDoubleLinked.VarLinked<StackElement> now = bottom;
+		XDoubleLinked<StackElement> bottom = this.stacks;
+		XDoubleLinked<StackElement> now = bottom;
 		XStringJoiner sb = new XStringJoiner(String.valueOf(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR));
-		while (null != (now = (XDoubleLinked.VarLinked<XFEStack.StackElement>) now.getNext())) {
+		while (null != (now = (XDoubleLinked<XFEStack.StackElement>) now.getNext())) {
 			StackElement current = now.content();
 			if (null != current) {
 				sb.add(new StringBuilder("at: ").append(XFEMethodCode.lineAddresString(current.fileName,

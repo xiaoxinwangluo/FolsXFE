@@ -45,7 +45,7 @@ public class XFEExecute implements XStringFormat.VarManager {
 	private XFEMethod method;
 	private XCHashMap<String, Object> variable;
 
-	private XDoubleLinked.VarLinked<XFEStack.StackElement> current;
+	private XDoubleLinked<XFEStack.StackElement> current;
 
 	private XFEBaseMethodManager baseMethodManager;
 	private XFEJavaReflectManager javaReflectMatcher;
@@ -87,7 +87,7 @@ public class XFEExecute implements XStringFormat.VarManager {
 
 
         XFEStack.StackElement currentMessage = new XFEStack.StackElement(xfeclass.getFileName(), xfeclass.getName(), xfemethod.getName(), -1);
-        XDoubleLinked.VarLinked<XFEStack.StackElement> current = this.stack.addStackElement(currentMessage);
+        XDoubleLinked<XFEStack.StackElement> current = this.stack.addStackElement(currentMessage);
 		this.current = current;
 
 		XFEClassLoader xfeclassloader = xfeclass.getClassLoader();
@@ -260,7 +260,7 @@ public class XFEExecute implements XStringFormat.VarManager {
 			return;
 		} else if (len == 1) {
             XFECodeLoader.ContentLinked<Code> now = fun.getParamRoot();
-            String local1 = XFECodeLoader.getLocal_FunParam_Name(now = now.getNext());
+            String local1 = XFECodeLoader.getLocal_FunParam_Name(now = (ContentLinked<Code>) now.getNext());
             this.setVariableValue(local1, this.stack.clone());
         } else if (len == 3) {
             XFEStack.StackElement stackElement = null;
@@ -272,9 +272,9 @@ public class XFEExecute implements XStringFormat.VarManager {
                 e = this.stack.getThrowJavaThrowableInstance();
             }
             XFECodeLoader.ContentLinked<Code> now = fun.getParamRoot();
-			String local1 = XFECodeLoader.getLocal_FunParam_Name((now = now.getNext()));
-            String local2 = XFECodeLoader.getLocal_FunParam_Name((now = now.getNext()));
-            String local3 = XFECodeLoader.getLocal_FunParam_Name((now = now.getNext()));
+			String local1 = XFECodeLoader.getLocal_FunParam_Name((now = (ContentLinked<Code>) now.getNext()));
+            String local2 = XFECodeLoader.getLocal_FunParam_Name((now = (ContentLinked<Code>) now.getNext()));
+            String local3 = XFECodeLoader.getLocal_FunParam_Name((now = (ContentLinked<Code>) now.getNext()));
             this.setVariableValue(local1, stackElement);
             this.setVariableValue(local2, reason);
             this.setVariableValue(local3, e);
@@ -288,11 +288,11 @@ public class XFEExecute implements XStringFormat.VarManager {
         XFECodeLoader.Fun fun = (XFECodeLoader.Fun) rootVars.getNext().content();
 		int len = fun.getParamCount();
 		if (len == 1) {
-			Object obj = this.getParamValue(execStatus, fun.getParamRoot().getNext());
+			Object obj = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext());
 			return XFEUtil.equals(obj, XStaticBaseType.Boolean_TRUE);
 		} else if (len == 2) {
-            Object obj = this.getParamValue(execStatus, fun.getParamRoot().getNext());
-			Object obj2 = this.getParamValue(execStatus, fun.getParamRoot().getNext().getNext());
+            Object obj = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext());
+			Object obj2 = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext().getNext());
 			return XFEUtil.equals(obj, obj2);
 		}
 		this.stack.setThrow(XFEStackThrowMessageTool.notFoundXfeClassBaseMethod(XFEKeyWords.IF, fun.getParamCount()));
@@ -306,7 +306,7 @@ public class XFEExecute implements XStringFormat.VarManager {
         int paramIndex = 0;
         Object[] paramList = new Object[funv.getParamCount()];
         XFECodeLoader.ContentLinked<Code> nowParam = funv.getParamRoot();
-        while (null != (nowParam = nowParam.getNext())) {
+        while (null != (nowParam = (ContentLinked<Code>) nowParam.getNext())) {
             paramList[paramIndex++] = this.executeVars0(execStatus, new VarLinkedReader().setRoot(nowParam.content().getCodeRoot()));
         }
         return paramList;
@@ -326,12 +326,12 @@ public class XFEExecute implements XStringFormat.VarManager {
         public VarLinkedReader() {
         }
         public XFECodeLoader.ContentLinked<Var> next() {
-            XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : this.now.getNext();
+            XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : (ContentLinked<Var>) this.now.getNext();
             this.now = next;
             return next;
         }
         public XFECodeLoader.ContentLinked<Var> getNext() {
-            XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : this.now.getNext();
+            XFECodeLoader.ContentLinked<Var> next = null == this.now ? null : (ContentLinked<Var>) this.now.getNext();
             return next;
         }
         public VarLinkedReader setRoot(XFECodeLoader.ContentLinked<Var> now) {
@@ -339,7 +339,7 @@ public class XFEExecute implements XStringFormat.VarManager {
             return this;
         }
         public static XFECodeLoader.ContentLinked<Var> getNext(XFECodeLoader.ContentLinked<Var> now) {
-            return null == now ? null : now.getNext();
+            return null == now ? null : (ContentLinked<Var>) now.getNext();
         }
     }
 

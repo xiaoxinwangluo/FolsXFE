@@ -64,8 +64,8 @@ public final class XFEMethodCode {
                 StringJoiner paramBuffer = new StringJoiner(XFEKeyWords.CODE_PARAM_SEPARATOR, XFEKeyWords.CODE_PARAM_JOIN_SYMBOL, XFEKeyWords.CODE_PARAM_END_SYMBOL);
                 Fun contentFun = (Fun) linkedVar;
                 XFECodeLoader.ContentLinked<Code> nowParam = contentFun.getParamRoot();
-                while (null != (nowParam = nowParam.getNext())) {
-                    XFECodeLoader.ContentLinked<Var> nowParamCodeFirstVar = nowParam.content().getCodeRoot().getNext();
+                while (null != (nowParam = (XFECodeLoader.ContentLinked<Code>) nowParam.getNext())) {
+                    XFECodeLoader.ContentLinked<Var> nowParamCodeFirstVar = (XFECodeLoader.ContentLinked<Var>) nowParam.content().getCodeRoot().getNext();
                     paramBuffer.add(formatCodeFromRoot(nowParamCodeFirstVar, interrupt));
                 }
                 string.append(paramBuffer);
@@ -82,7 +82,7 @@ public final class XFEMethodCode {
                     string.append(linkedVar.name);
                 }
             }
-            now = now.getNext();
+            now = (XFECodeLoader.ContentLinked<Var>) now.getNext();
         }
         return string.toString();
     }
