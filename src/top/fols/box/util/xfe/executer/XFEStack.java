@@ -161,7 +161,7 @@ public class XFEStack implements XFEStackInterface {
 	}
 
 	protected void removeStackElement(XDoubleLinked<StackElement> current) {
-		this.stacks.remove(current);
+		current.remove();
 		this.nowsize--;
 	}
 

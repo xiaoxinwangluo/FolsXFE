@@ -158,10 +158,10 @@ public class XFECodeLoader {
             if (this.codeRoot == element) {return;}
             if (this.codeTop == element) {
                 ContentLinked<Var> last = (ContentLinked<Var>) element.getPrev();
-                this.codeRoot.remove(element);
+                element.remove();
                 this.codeTop = last;
             } else {
-                this.codeRoot.remove(element);
+                element.remove();
             }
         }
 
@@ -1289,10 +1289,10 @@ public class XFECodeLoader {
         private static final long serialVersionUID = 1L;
 
         //Seriously not recommended
-        protected void setOrphan() {
-            super.prev = null;
-            super.next = null;
-        }
+//        protected void setOrphan() {
+//            super.prev = null;
+//            super.next = null;
+//        }
 
 
         public ContentLinked(T content) {
@@ -1318,7 +1318,7 @@ public class XFECodeLoader {
         }
         public ContentLinked<Var> next() {
             if (null != this.last) {
-                this.last.setOrphan();
+                this.last.remove();
                 this.last = null;
             }
             this.last = this.now();
