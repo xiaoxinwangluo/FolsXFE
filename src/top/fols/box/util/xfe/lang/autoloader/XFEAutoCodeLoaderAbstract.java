@@ -53,7 +53,7 @@ public abstract class XFEAutoCodeLoaderAbstract {
 		for (String file:fileName) {
 			newList.put(XFile.getNameNoExtension(file));
 		}
-		return newList.getMap().keySet().toArray(new String[newList.size()]);
+		return newList.getInnerMap().keySet().toArray(new String[newList.size()]);
 	}
 
 

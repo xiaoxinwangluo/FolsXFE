@@ -22,8 +22,7 @@
     <list default="true" id="c11cfe8b-de10-427a-b65d-aeb4703d60b1" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/top.fols.box.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/xfe/executer/XFEStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/xfe/executer/XFEStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/xfe/lang/XFECodeLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/xfe/lang/XFECodeLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/xfe/lang/autoloader/XFEAutoCodeLoaderAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/xfe/lang/autoloader/XFEAutoCodeLoaderAbstract.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,25 +157,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="153" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598035547830" />
-    <state width="1493" height="411" key="GridCell.Tab.0.bottom" timestamp="1598644312820">
+    <state width="1493" height="427" key="GridCell.Tab.0.bottom" timestamp="1599078501433">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="411" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598644312820" />
-    <state width="1493" height="411" key="GridCell.Tab.0.center" timestamp="1598644312820">
+    <state width="1493" height="427" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599078501433" />
+    <state width="1493" height="427" key="GridCell.Tab.0.center" timestamp="1599078501433">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="411" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598644312820" />
-    <state width="1493" height="411" key="GridCell.Tab.0.left" timestamp="1598644312819">
+    <state width="1493" height="427" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1599078501433" />
+    <state width="1493" height="427" key="GridCell.Tab.0.left" timestamp="1599078501433">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="411" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598644312819" />
-    <state width="1493" height="411" key="GridCell.Tab.0.right" timestamp="1598644312820">
+    <state width="1493" height="427" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1599078501433" />
+    <state width="1493" height="427" key="GridCell.Tab.0.right" timestamp="1599078501433">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="411" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598644312820" />
-    <state x="270" y="57" key="SettingsEditor" timestamp="1598643121126">
+    <state width="1493" height="427" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1599078501433" />
+    <state x="270" y="57" key="SettingsEditor" timestamp="1599078283233">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598643121126" />
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1599078283233" />
   </component>
 </project>
