@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import top.fols.box.lang.XClass;
-import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArray;
 import top.fols.box.util.XArrays;
 import top.fols.box.util.XRandom;
@@ -214,52 +214,52 @@ public class XFEUtil {
 
 	@SuppressWarnings("unchecked")
 	public static byte[] tobyteArray(Object originArray) {
-		return (byte[]) XArray.copyOfConversion(originArray, XStaticBaseType.byte_class);
+		return (byte[]) XArray.copyOfConversion(originArray, XStaticFixedValue.byte_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static long[] tolongArray(Object originArray) {
-		return (long[]) XArray.copyOfConversion(originArray, XStaticBaseType.long_class);
+		return (long[]) XArray.copyOfConversion(originArray, XStaticFixedValue.long_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static double[] todoubleArray(Object originArray) {
-		return (double[]) XArray.copyOfConversion(originArray, XStaticBaseType.double_class);
+		return (double[]) XArray.copyOfConversion(originArray, XStaticFixedValue.double_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static char[] tocharArray(Object originArray) {
-		return (char[]) XArray.copyOfConversion(originArray, XStaticBaseType.char_class);
+		return (char[]) XArray.copyOfConversion(originArray, XStaticFixedValue.char_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static int[] tointArray(Object originArray) {
-		return (int[]) XArray.copyOfConversion(originArray, XStaticBaseType.int_class);
+		return (int[]) XArray.copyOfConversion(originArray, XStaticFixedValue.int_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static boolean[] tobooleanArray(Object originArray) {
-		return (boolean[]) XArray.copyOfConversion(originArray, XStaticBaseType.boolean_class);
+		return (boolean[]) XArray.copyOfConversion(originArray, XStaticFixedValue.boolean_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static float[] tofloatArray(Object originArray) {
-		return (float[]) XArray.copyOfConversion(originArray, XStaticBaseType.float_class);
+		return (float[]) XArray.copyOfConversion(originArray, XStaticFixedValue.float_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static short[] toshortArray(Object originArray) {
-		return (short[]) XArray.copyOfConversion(originArray, XStaticBaseType.short_class);
+		return (short[]) XArray.copyOfConversion(originArray, XStaticFixedValue.short_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static String[] toStringArray(Object originArray) {
-		return (String[]) XArray.copyOfConversion(originArray, XStaticBaseType.String_class);
+		return (String[]) XArray.copyOfConversion(originArray, XStaticFixedValue.String_class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static Object[] toObjectArray(Object originArray) {
-		return (Object[]) XArray.copyOfConversion(originArray, XStaticBaseType.Object_class);
+		return (Object[]) XArray.copyOfConversion(originArray, XStaticFixedValue.Object_class);
 	}
 
 

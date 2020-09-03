@@ -3,7 +3,7 @@ package top.fols.box.util.xfe.executer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import top.fols.box.lang.XStringFormat;
-import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XCHashMap;
 import top.fols.box.util.XDoubleLinked;
 import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
@@ -289,7 +289,7 @@ public class XFEExecute implements XStringFormat.VarManager {
 		int len = fun.getParamCount();
 		if (len == 1) {
 			Object obj = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext());
-			return XFEUtil.equals(obj, XStaticBaseType.Boolean_TRUE);
+			return XFEUtil.equals(obj, XStaticFixedValue.Boolean_TRUE);
 		} else if (len == 2) {
             Object obj = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext());
 			Object obj2 = this.getParamValue(execStatus, (ContentLinked<Code>) fun.getParamRoot().getNext().getNext());

@@ -7,13 +7,13 @@ import top.fols.box.util.xfe.executer.basemethod.XFEBaseMethod;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.util.XFEStackThrowMessageTool;
 import top.fols.box.util.xfe.util.XFEUtil;
-import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.statics.XStaticFixedValue;
 
 public class NEWBOOLEANARRAY extends XFEBaseMethod {
 	@Override
 	public Object executeProcess(XFEExecute.ExecuteStatus execStatus, XFEExecute xfeexecute, Object[] args) throws Throwable {
 		// TODO: Implement this method
-		Class cls = XStaticBaseType.boolean_class;
+		Class cls = XStaticFixedValue.boolean_class;
 		return Array.newInstance(cls, XFEUtil.tointArray(args));
 	}
 }

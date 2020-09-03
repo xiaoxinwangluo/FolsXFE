@@ -81,8 +81,8 @@ public class Main {
 		// XTiming xxxx = XTiming.newAndStart();
 		// for (int i = 0;i < 10000000;i++) {
 		//// Map map = new HashMap<>();
-		//// map.put("true", XStaticBaseType.Boolean_TRUE);
-		//// map.put("false", XStaticBaseType.Boolean_FALSE);
+		//// map.put("true", XStaticFixedValue.Boolean_TRUE);
+		//// map.put("false", XStaticFixedValue.Boolean_FALSE);
 		//// map.put(null, null);
 		// Method method = XReflectMatcher.defaultInstance.getMethod(ArrayListClass,
 		// "add", "hhh");

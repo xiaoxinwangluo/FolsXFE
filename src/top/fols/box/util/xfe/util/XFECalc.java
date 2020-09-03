@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import top.fols.box.lang.reflect.safety.XReflect;
-import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.statics.XStaticFixedValue;
 
 public class XFECalc {
 	
@@ -91,17 +91,17 @@ public class XFECalc {
 		if (hash5_ == keyHashCode) return hash5(x0, key, x1);//>>
 		if (hash6_ == keyHashCode) return hash6(x0, key, x1);//<<
 		if (hash7_ == keyHashCode) return hash7(x0, key, x1);//>>>
-		if (hash8_ == keyHashCode) return hash8(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//!=
-		if (hash9_ == keyHashCode) return hash9(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//==
+		if (hash8_ == keyHashCode) return hash8(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//!=
+		if (hash9_ == keyHashCode) return hash9(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//==
 		if (hash10_ == keyHashCode) return hash10(x0, key, x1);//+
 		if (hash11_ == keyHashCode) return hash11(x0, key, x1);//+
 		if (hash12_ == keyHashCode) return hash12(x0, key, x1);//*
 		if (hash13_ == keyHashCode) return hash13(x0, key, x1);///
 		if (hash14_ == keyHashCode) return hash14(x0, key, x1);//%
-		if (hash15_ == keyHashCode) return hash15(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//<
-		if (hash16_ == keyHashCode) return hash16(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//>
-		if (hash17_ == keyHashCode) return hash17(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//<=
-		if (hash18_ == keyHashCode) return hash18(x0, key, x1) ?XStaticBaseType.Boolean_TRUE: XStaticBaseType.Boolean_FALSE;//>=
+		if (hash15_ == keyHashCode) return hash15(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//<
+		if (hash16_ == keyHashCode) return hash16(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//>
+		if (hash17_ == keyHashCode) return hash17(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//<=
+		if (hash18_ == keyHashCode) return hash18(x0, key, x1) ?XStaticFixedValue.Boolean_TRUE: XStaticFixedValue.Boolean_FALSE;//>=
 		
 		throw new IllegalArgumentException("not found operating " + key);
 	}
