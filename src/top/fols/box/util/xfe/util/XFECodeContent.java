@@ -31,7 +31,7 @@ public abstract class XFECodeContent implements XInterfaceReleaseBufferable {
         }
 		this.filePath = filepath;
 
-		String fromatFilePath = XFile.normalizePathSeparator(filepath, separatorChar);
+		String fromatFilePath = XFile.normalizePath(XFile.toFileSystemSeparator(filepath, separatorChar), separatorChar);
 		this.fileExtensionName = XFile.getExtensionName(fromatFilePath, separator, extensionNameSeparatorChar);
 		this.fileName = XFile.getName(fromatFilePath, separator);
 
