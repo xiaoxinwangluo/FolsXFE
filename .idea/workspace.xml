@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c11cfe8b-de10-427a-b65d-aeb4703d60b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/libs/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/top.fols.box.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.util.xfe.jar" afterDir="false" />
-    </list>
+    <list default="true" id="c11cfe8b-de10-427a-b65d-aeb4703d60b1" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
