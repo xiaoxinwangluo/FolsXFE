@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import top.fols.box.io.os.XFile;
 import top.fols.box.lang.XString;
-import top.fols.box.time.XTiming;
+import top.fols.box.time.XTimeConsum;
 import top.fols.box.util.xfe.executer.XFEStack;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.XFEClassInstance;
@@ -78,7 +78,7 @@ public class Main {
 		// });
 		// System.out.println(list);
 		// Class ArrayListClass = ArrayList.class;
-		// XTiming xxxx = XTiming.newAndStart();
+		// XTimeConsum xxxx = XTimeConsum.newAndStart();
 		// for (int i = 0;i < 10000000;i++) {
 		//// Map map = new HashMap<>();
 		//// map.put("true", XStaticFixedValue.Boolean_TRUE);
@@ -110,7 +110,7 @@ public class Main {
 			// rundir = new File("/sdcard/_appprojects/x/FolsXFE3/");
 			File exampledir = new File(rundir, "example");
 			System.out.println(exampledir);
-			XTiming xtimingLoad;
+			XTimeConsum XTimeConsumLoad;
 			File codeDir = exampledir;
 
 			XFEDirCodeLoader dircode = new XFEDirCodeLoader(codeDir);
@@ -124,9 +124,9 @@ public class Main {
 
 
 
-			xtimingLoad = XTiming.newAndStart();
+			XTimeConsumLoad = XTimeConsum.newAndStart();
 			XFEClass xfeclass = xfeclassloader1.forName("xfe3main");
-			System.out.println("加载耗时: " + "xfeclass: " + xfeclass + " " + xtimingLoad.endAndGetEndLessStart());
+			System.out.println("加载耗时: " + "xfeclass: " + xfeclass + " " + XTimeConsumLoad.endAndGetEndLessStart());
 
 //	    String[] methodNames = xfeclass.listMethodName();
 //        for (int i = 0; i < methodNames.length; i++) {
@@ -171,7 +171,7 @@ public class Main {
 
 
 
-			XTiming timing = XTiming.newAndStart();
+			XTimeConsum timing = XTimeConsum.newAndStart();
 			result = xfeclassInstance.executeMethod(stack, "hscz", new Object[] { "大傻逼" , "大傻逼2"});
 			System.out.println("耗时: " + timing.endAndGetEndLessStart());
 
