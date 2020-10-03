@@ -2,6 +2,8 @@ package top.fols.box.util.xfe.executer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import top.fols.box.lang.XClass;
 import top.fols.box.util.XDoubleLinked;
 import top.fols.box.util.XStringJoiner;
 import top.fols.box.util.xfe.lang.XFEMethodCode;
@@ -218,7 +220,7 @@ public class XFEStack implements XFEStackInterface {
 
 		Throwable tT = this.getThrowJavaThrowableInstance();
 		if (null != tT) {
-			sb.append("java_throwable: ").append(tT.getClass().getCanonicalName())
+			sb.append("java_throwable: ").append(XClass.toAbsCanonicalName(tT.getClass()))
 				.append(XFEKeyWords.CODE_LINE_SEPARATOR_CHAR);
 		}
 

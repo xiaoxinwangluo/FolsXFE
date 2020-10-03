@@ -2,6 +2,7 @@ package top.fols.box.util.xfe.util;
 
 import java.io.PrintWriter;
 import top.fols.box.io.base.XCharArrayWriter;
+import top.fols.box.lang.XClass;
 import top.fols.box.util.XStringJoiner;
 import top.fols.box.util.xfe.lang.XFEClass;
 import top.fols.box.util.xfe.lang.keywords.XFEKeyWords;
@@ -30,10 +31,10 @@ public class XFEStackThrowMessageTool {
 		return null == cls ?null: cls.getName();
 	}
 	public static String getJavaClassName(Class<?> cls) {
-		return null == cls ?null: cls.getCanonicalName();
+		return null == cls ?null: XClass.toAbsCanonicalName(cls);
 	}
 	public static String getJavaClassName(Object cls) {
-		return null == cls ?null: cls.getClass().getCanonicalName();
+		return null == cls ?null: XClass.toAbsCanonicalName(cls.getClass());
 	}
 		
 	

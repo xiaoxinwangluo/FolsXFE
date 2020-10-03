@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
+import top.fols.box.lang.XClass;
 import top.fols.box.lang.reflect.safety.XReflect;
 import top.fols.box.statics.XStaticFixedValue;
 
@@ -124,7 +126,7 @@ public class XFECalc {
 		//	return ~((Float)x).floatValue();
 		else if (x1 instanceof Short)
 			return ~((Short)x1).shortValue();
-		throw new IllegalArgumentException("unknown operating: " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 	}
 	//&
 	static Object hash2(Object x0 , String key, Object x1) {
@@ -232,7 +234,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() & ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 	}
 
 	//|
@@ -341,7 +343,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() | ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -451,7 +453,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() ^ ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -544,7 +546,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() >> ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -636,7 +638,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() << ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -729,7 +731,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() >>> ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -874,7 +876,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() != ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1020,7 +1022,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() == ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1147,7 +1149,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() + ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1274,7 +1276,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() - ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1401,7 +1403,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() * ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1529,7 +1531,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() / ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1656,7 +1658,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() % ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1783,7 +1785,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() < ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -1910,7 +1912,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() > ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -2037,7 +2039,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() <= ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 
 	}
 
@@ -2163,7 +2165,7 @@ public class XFECalc {
 			else if (x1 instanceof Short)
 				return ((Short)x0).shortValue() >= ((Short)x1).shortValue();
 		}
-		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: x0.getClass().getCanonicalName()) + " " + key + " " + (x1 == null ?null: x1.getClass().getCanonicalName()));
+		throw new IllegalArgumentException("unknown operating: " + (x0 == null ?null: XClass.toAbsCanonicalName(x0.getClass())) + " " + key + " " + (x1 == null ?null: XClass.toAbsCanonicalName(x1.getClass())));
 	}
 }
 
